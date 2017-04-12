@@ -8,7 +8,8 @@ export function initialize( application ) {
       'Accept': 'application/vnd.api+json',
       'content-type': 'application/vnd.api+json;',
       'Authorization': 'Bearer ' + config.access_token
-    }
+    },
+    host: config.host
   });
   application.register('adapter:application', GoodsAdapter);
   application.register('serializer:application', GoodsSerializer);

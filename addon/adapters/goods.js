@@ -5,11 +5,8 @@ export default JSONAPIAdapter.extend({
 
   coalesceFindRequests: true,
 
-	// defaultSerializer: '-goods',
-
-	// host: 'https://api.goods.co.uk',
-  host: 'http://localhost:4000',
-
+  host: '',
+  
   pathForType() {
     return 'entries';
   },
