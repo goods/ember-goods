@@ -6,7 +6,7 @@ export default DS.Model.extend({
   insertedAt : DS.attr('date'),
   createdAt : DS.attr('date'),
   isArchived: DS.attr('boolean'),
-  isDeleted: DS.belongsTo('boolean'),
-  isPublished: DS.belongsTo('boolean'),
-  isHidden: DS.belongsTo('boolean')
+  isDeleted: DS.attr('boolean'),
+  isPublished: DS.attr('boolean'),
+  isHidden: DS.attr('boolean')
 });
