@@ -78,13 +78,6 @@ export default JSONAPIAdapter.extend({
   /**
    @override
    */
-  createRecord() {
-    throw new Ember.Error("You may not call 'createRecord' on a store.");
-  },
-
-  /**
-   @override
-   */
   updateRecord() {
     throw new Ember.Error("You may not call 'updateRecord' on a store.");
   },
