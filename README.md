@@ -24,8 +24,8 @@ ENV.APP.goods = {
 
 * `access_token`: Generate this access token in your Goods account and add it here.
 Create a shop, then go to Settings > Access tokens.
-Your Content group name in Goods must match the Ember model name. 
-The Content entry field reference is the dasherized name of the Ember model field. 
+Your `content group` name in Goods must match the Ember model name. 
+The `content entry` field reference is the dasherized name of the Ember model field. 
 
 
 ## Usage
@@ -54,7 +54,7 @@ import ContentEntry from 'ember-goods/models/content-entry';
 
 export default ContentEntry.extend({
   colour: DS.attr(),
-  block: DS.attr('string'),
+  block: DS.attr(),
   massToLowEarthOrbit: DS.attr()
 });
 ```
