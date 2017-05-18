@@ -18,7 +18,7 @@ export default JSONAPIAdapter.extend({
     let modelName = type.modelName;
 
     let query = {
-      content_group: Ember.String.camelize(modelName)
+      content_group_api_identifier: Ember.String.camelize(modelName)
     };
 
     const url = this.buildURL(modelName, null, null, 'findAll');
@@ -42,7 +42,7 @@ export default JSONAPIAdapter.extend({
     let modelName = type.modelName;
 
     query.filter = Ember.$.extend(query.filter, {
-      'content_group': Ember.String.camelize(modelName)
+      content_group_api_identifier: Ember.String.camelize(modelName)
     });
 
     if (this.sortQueryParams) {
