@@ -6,8 +6,24 @@ export default JSONAPIAdapter.extend({
   coalesceFindRequests: true,
 
   host: '',
+  modelWhitelist: [
+    'basket',
+    'basket-item',
+    'category',
+    'country',
+    'order',
+    'price',
+    'product-category',
+    'product-image',
+    'product',
+    'sku-image',
+    'sku',
+  ],
   
-  pathForType() {
+  pathForType(type) {
+    if (this.modelWhitelist.includes(type)) {
+      return this._super(...arguments);
+    }
     return 'entries';
   },
 
@@ -16,6 +32,10 @@ export default JSONAPIAdapter.extend({
    */
   findAll(store, type, sinceToken) {
     let modelName = type.modelName;
+
+    if (this.modelWhitelist.includes(type.modelName)) {
+      return this._super(...arguments);
+    }
 
     let query = {
       content_group_api_identifier: Ember.String.camelize(modelName)
@@ -30,7 +50,6 @@ export default JSONAPIAdapter.extend({
     if (this.sortQueryParams) {
       query = this.sortQueryParams(query);
     }
-
     return this.ajax(url, 'GET', {data: {filter: query}});
   },
 
@@ -40,6 +59,10 @@ export default JSONAPIAdapter.extend({
   query(store, type, query) {
 
     let modelName = type.modelName;
+
+    if (this.modelWhitelist.includes(type.modelName)) {
+      return this._super(...arguments);
+    }
 
     query.filter = Ember.$.extend(query.filter, {
       content_group_api_identifier: Ember.String.camelize(modelName)
@@ -78,15 +101,21 @@ export default JSONAPIAdapter.extend({
   /**
    @override
    */
-  updateRecord() {
-    throw new Ember.Error("You may not call 'updateRecord' on a store.");
+  updateRecord(store, type) {
+    if (this.modelWhitelist.includes(type.modelName)) {
+      return this._super(...arguments);
+    }
+    throw new Ember.Error("You may not call 'updateRecord' on a content entry.");
   },
 
   /**
    @override
    * */
-  deleteRecord() {
-    throw new Ember.Error("You may not call 'deleteRecord' on a store.");
+  deleteRecord(store, type) {
+    if (this.modelWhitelist.includes(type.modelName)) {
+      return this._super(...arguments);
+    }
+    throw new Ember.Error("You may not call 'deleteRecord' on a content entry.");
   },
 
 
