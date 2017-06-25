@@ -46,6 +46,10 @@ export default Service.extend({
     .then(this._reloadBasket.bind(this));
   },
 
+  saveBasketItem(basketItem) {
+    return basketItem.save();
+  },
+
   setBasketItemQuantity(basketItem, quantity) {
     set(basketItem, 'quantity', quantity);
   },
