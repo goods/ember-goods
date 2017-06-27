@@ -19,4 +19,6 @@ export default Model.extend({
   shippingRegion: attr('string'),
   shippingPostcode: attr('string'),
   shippingCountry: attr('string'),
+  total: attr('number', {defaultValue: 0}),
+  quantity: attr('number', {defaultValue: 0}),
 });
