@@ -2,6 +2,10 @@ import DS from 'ember-data';
 const { Model, belongsTo, attr, hasMany } = DS;
 
 export default Model.extend({
+  total: attr('number', {defaultValue: 0}),
+  quantity: attr('number', {defaultValue: 0}),
+  amountPaid: attr('number', {defaultValue: 0}),
+  balance: attr('number', {defaultValue: 0}),
   basket: belongsTo('basket'),
   name: attr('string'),
   emailAddress: attr('string'),
@@ -19,8 +23,7 @@ export default Model.extend({
   shippingRegion: attr('string'),
   shippingPostcode: attr('string'),
   shippingCountry: attr('string'),
-  total: attr('number', {defaultValue: 0}),
-  quantity: attr('number', {defaultValue: 0}),
-  orderPaymentMethods: hasMany('order-payment-method')
+  orderPaymentMethods: hasMany('order-payment-method'),
+  payments: hasMany('payment')
 
 });
