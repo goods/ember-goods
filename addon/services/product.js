@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { Service, get } = Ember;
+const { Service, get, isEmpty } = Ember;
 
 export default Service.extend({
 
@@ -9,5 +9,16 @@ export default Service.extend({
       return fieldHash;
     }, []);
   },
+
+  getProductFieldValue(product, fieldName) {
+
+    let field = get(product, 'productFields').find(field => 
+      get(field, 'name') === fieldName
+    );
+    if (isEmpty(field)) {
+      throw new Error(`Product field with the name ${fieldName} not found in Product with ID ${product.id}`);
+    }
+    return field.get('values.firstObject');
+  }
 
 });
