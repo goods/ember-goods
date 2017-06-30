@@ -10,15 +10,15 @@ export default Service.extend({
     }, []);
   },
 
-  getProductFieldValue(product, fieldName) {
+  getProductFieldValue(product, slug) {
 
     let field = get(product, 'productFields').find(field => 
-      get(field, 'name') === fieldName
+      get(field, 'slug') === slug
     );
     if (isEmpty(field)) {
-      throw new Error(`Product field with the name ${fieldName} not found in Product with ID ${product.id}`);
+      throw new Error(`Product field with the reference  ${slug} not found in product with ID ${product.id}`);
     }
-    return field.get('values.firstObject');
+    return field.get('values');
   }
 
 });
