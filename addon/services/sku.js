@@ -10,12 +10,12 @@ export default Service.extend({
     }, []);
   },
 
-  getSkuFieldValue(sku, fieldName) {
+  getSkuFieldValue(sku, slug) {
     let field = get(sku, 'skuFields').find(field => 
-      get(field, 'name') === fieldName
+      get(field, 'slug') === slug
     );
     if (isEmpty(field)) {
-      throw new Error(`SKU field with the name ${fieldName} not found in SKU with ID ${sku.id}`);
+      throw new Error(`SKU field with the reference ${slug} not found in SKU with ID ${sku.id}`);
     }
     return field.get('values.firstObject');
   }

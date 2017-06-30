@@ -1,8 +1,8 @@
 import Ember from 'ember';
-const { get, inject } = Ember;
+const { Helper, get, inject } = Ember;
 const { service } = inject;
 
-export default Ember.Helper.extend({
+export default Helper.extend({
 
   productService: service('product'),
 
