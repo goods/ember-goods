@@ -6,6 +6,7 @@ export default Model.extend({
   quantity: attr('number', {defaultValue: 0}),
   amountPaid: attr('number', {defaultValue: 0}),
   balance: attr('number', {defaultValue: 0}),
+  marketingOptIn: attr('boolean'),
   basket: belongsTo('basket'),
   name: attr('string'),
   emailAddress: attr('string'),
