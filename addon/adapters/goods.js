@@ -90,17 +90,32 @@ export default JSONAPIAdapter.extend({
   /**
    @override
    */
-  findMany: null,
+  findMany(store, type) {
+    if (this.modelWhitelist.includes(type.modelName)) {
+      return this._super(...arguments);
+    }
+    return null;
+  },
 
   /**
    @override
    */
-  findHasMany: null,
+  findHasMany(store, type) {
+    if (this.modelWhitelist.includes(type.modelName)) {
+      return this._super(...arguments);
+    }
+    return null;
+  },
 
   /**
    @override
    */
-  findBelongsTo: null,
+  findBelongsTo(store, type) {
+    if (this.modelWhitelist.includes(type.modelName)) {
+      return this._super(...arguments);
+    }
+    return null;
+  },
 
   /**
    @override
