@@ -1,3 +1,4 @@
+/* eslint no-console:0 */
 import Ember from 'ember';
 const { RSVP, Service, computed: {alias}, inject, isNone, get, set } = Ember;
 
@@ -21,18 +22,28 @@ export default Service.extend({
     .find('basket', basketId);
   },
 
-  createBasketItem(basketItems, sku, quantity) {
+  createBasketItem(basketItems, sku, quantity, metadata = null) {
     const store = get(this, 'store');
     let basketItem = store.createRecord('basketItem', {
       basket: null,
       quantity: quantity,
       sku: sku,
       price: get(sku, 'price'),
+      metadata: metadata
     });
     if (isNone(basketItems) === false) {
       basketItems.pushObject(basketItem);
     }
     return basketItem;
+  },
+
+  destroyBasketItems(basketItems, targetBasketItems) {
+    if (isNone(basketItems) === false) {
+      basketItems.removeObjects(targetBasketItems);
+    }
+
+    return RSVP.all(targetBasketItems.invoke("destroyRecord"))
+    .then(this._reloadBasket.bind(this));
   },
 
   destroyBasketItem(basketItems, basketItem) {
@@ -67,12 +78,13 @@ export default Service.extend({
     .then(this._reloadBasket.bind(this));
   },
 
+  createOrder(order) {
+    return order.save();
+  },
+
   _reloadBasket() {
     return get(this, 'basket').reload();
   },
 
-  createOrder(order) {
-    return order.save();
-  }
 
 });
