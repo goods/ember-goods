@@ -22,14 +22,15 @@ export default Service.extend({
     .find('basket', basketId);
   },
 
-  createBasketItem(basketItems, sku, quantity, metadata = null) {
+  createBasketItem(basketItems, sku, quantity, metadata = null, isHidden = false) {
     const store = get(this, 'store');
     let basketItem = store.createRecord('basketItem', {
       basket: null,
       quantity: quantity,
       sku: sku,
       price: get(sku, 'price'),
-      metadata: metadata
+      metadata: metadata,
+      isHidden: isHidden
     });
     if (isNone(basketItems) === false) {
       basketItems.pushObject(basketItem);
