@@ -6,5 +6,6 @@ export default Model.extend({
   sku: belongsTo("sku"),
   quantity: attr("number"),
   price: attr("number"),
+  isHidden: attr("boolean"),
   metadata: attr()
 });
