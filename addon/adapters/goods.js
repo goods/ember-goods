@@ -12,6 +12,7 @@ export default JSONAPIAdapter.extend({
     'category',
     'country',
     'order',
+    'order-line',
     'order-payment-method',
     'payment',
     'payment-method',
