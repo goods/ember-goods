@@ -25,6 +25,7 @@ export default Model.extend({
   shippingPostcode: attr('string'),
   shippingCountry: attr('string'),
   orderPaymentMethods: hasMany('order-payment-method'),
-  payments: hasMany('payment')
+  payments: hasMany('payment'),
+  orderLines: hasMany('order-line')
 
 });
