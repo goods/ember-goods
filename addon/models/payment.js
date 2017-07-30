@@ -8,6 +8,7 @@ export default Model.extend({
   token: attr('string'),
   cardNumber: attr('string'),
   cardholder: attr('string'),
+  cardType: attr('string'),
   validFrom: attr('string'),
   expiryDate: attr('string'),
   issueNumber: attr('string'),
