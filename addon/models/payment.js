@@ -6,6 +6,7 @@ export default Model.extend({
   order: belongsTo('order'),
   paymentMethod: belongsTo('payment-method'),
   token: attr('string'),
+  capture: attr('boolean', { defaultValue: true }),
   cardNumber: attr('string'),
   cardholder: attr('string'),
   cardType: attr('string'),
