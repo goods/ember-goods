@@ -1,35 +1,35 @@
-import Ember from 'ember';
-import JSONAPIAdapter from 'ember-data/adapters/json-api';
+import Ember from "ember";
+import JSONAPIAdapter from "ember-data/adapters/json-api";
 
 export default JSONAPIAdapter.extend({
-
   coalesceFindRequests: true,
 
-  host: '',
+  host: "",
   modelWhitelist: [
-    'basket',
-    'basket-item',
-    'category',
-    'country',
-    'order',
-    'order-line',
-    'order-payment-method',
-    'payment',
-    'payment-method',
-    'price',
-    'product-category',
-    'product-image',
-    'product',
-    'state',
-    'sku-image',
-    'sku',
+    "basket",
+    "basket-item",
+    "category",
+    "country",
+    "order",
+    "order-line",
+    "order-payment-method",
+    "payment",
+    "payment-method",
+    "price",
+    "product-category",
+    "product-image",
+    "product",
+    "shop-payment-method",
+    "state",
+    "sku-image",
+    "sku"
   ],
-  
+
   pathForType(type) {
     if (this.modelWhitelist.includes(type)) {
       return this._super(...arguments);
     }
-    return 'entries';
+    return "entries";
   },
 
   /**
@@ -46,7 +46,7 @@ export default JSONAPIAdapter.extend({
       content_group_api_identifier: Ember.String.camelize(modelName)
     };
 
-    const url = this.buildURL(modelName, null, null, 'findAll');
+    const url = this.buildURL(modelName, null, null, "findAll");
 
     if (sinceToken) {
       query.since = sinceToken;
@@ -55,14 +55,13 @@ export default JSONAPIAdapter.extend({
     if (this.sortQueryParams) {
       query = this.sortQueryParams(query);
     }
-    return this.ajax(url, 'GET', {data: {filter: query}});
+    return this.ajax(url, "GET", { data: { filter: query } });
   },
 
   // /**
   //  @override
   //  */
   query(store, type, query) {
-
     let modelName = type.modelName;
 
     if (this.modelWhitelist.includes(type.modelName)) {
@@ -77,16 +76,18 @@ export default JSONAPIAdapter.extend({
       query = this.sortQueryParams(query);
     }
 
-    let url = this.buildURL(modelName, null, null, 'query', query);
+    let url = this.buildURL(modelName, null, null, "query", query);
 
-    return this.ajax(url, 'GET', {data: query});
+    return this.ajax(url, "GET", { data: query });
   },
 
   /**
    @override
    * */
   queryRecord() {
-    throw new Ember.Error("You may not call 'queryRecord' on a store. Use 'query'.");
+    throw new Ember.Error(
+      "You may not call 'queryRecord' on a store. Use 'query'."
+    );
   },
   /**
    @override
@@ -125,7 +126,9 @@ export default JSONAPIAdapter.extend({
     if (this.modelWhitelist.includes(type.modelName)) {
       return this._super(...arguments);
     }
-    throw new Ember.Error("You may not call 'updateRecord' on a content entry.");
+    throw new Ember.Error(
+      "You may not call 'updateRecord' on a content entry."
+    );
   },
 
   /**
@@ -135,8 +138,8 @@ export default JSONAPIAdapter.extend({
     if (this.modelWhitelist.includes(type.modelName)) {
       return this._super(...arguments);
     }
-    throw new Ember.Error("You may not call 'deleteRecord' on a content entry.");
-  },
-
-
+    throw new Ember.Error(
+      "You may not call 'deleteRecord' on a content entry."
+    );
+  }
 });
