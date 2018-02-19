@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import DS from "ember-data";
 const { Model, belongsTo, attr } = DS;
 
 export default Model.extend({
@@ -8,4 +8,5 @@ export default Model.extend({
   metadata: attr(),
   order: belongsTo("order"),
   sku: belongsTo("sku"),
+  promotion: belongsTo("promotion")
 });
