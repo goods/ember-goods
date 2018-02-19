@@ -19,6 +19,7 @@ export default JSONAPIAdapter.extend({
     "product-category",
     "product-image",
     "product",
+    "promotion",
     "shop-payment-method",
     "state",
     "sku-image",
