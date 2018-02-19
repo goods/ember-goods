@@ -1,34 +1,38 @@
 /* eslint no-console:0 */
-import Ember from 'ember';
-const { RSVP, Service, computed: {alias}, inject, isNone, get, set } = Ember;
+import Ember from "ember";
+const { RSVP, Service, computed: { alias }, inject, isNone, get, set } = Ember;
 
 export default Service.extend({
-  
   store: inject.service(),
   basket: null,
 
-  basketItems: alias('basket.basketItems'),
-  total: alias('basket.total'),
-  quantity: alias('basket.quantity'),
+  basketItems: alias("basket.basketItems"),
+  total: alias("basket.total"),
+  quantity: alias("basket.quantity"),
 
   createBasket() {
-    return get(this, 'store')
-    .createRecord('basket')
-    .save();
+    return get(this, "store")
+      .createRecord("basket")
+      .save();
   },
 
   getBasket(basketId) {
-    return get(this, 'store')
-    .find('basket', basketId);
+    return get(this, "store").find("basket", basketId);
   },
 
-  createBasketItem(basketItems, sku, quantity, metadata = null, isHidden = false) {
-    const store = get(this, 'store');
-    let basketItem = store.createRecord('basketItem', {
+  createBasketItem(
+    basketItems,
+    sku,
+    quantity,
+    metadata = null,
+    isHidden = false
+  ) {
+    const store = get(this, "store");
+    let basketItem = store.createRecord("basketItem", {
       basket: null,
       quantity: quantity,
       sku: sku,
-      price: get(sku, 'price'),
+      price: get(sku, "price"),
       metadata: metadata,
       isHidden: isHidden
     });
@@ -43,19 +47,19 @@ export default Service.extend({
       basketItems.removeObjects(targetBasketItems);
     }
 
-    return RSVP.all(targetBasketItems.invoke("destroyRecord"))
-    .then(this._reloadBasket.bind(this));
+    return RSVP.all(targetBasketItems.invoke("destroyRecord")).then(
+      this._reloadBasket.bind(this)
+    );
   },
 
   destroyBasketItem(basketItems, basketItem) {
     if (isNone(basketItems) === false) {
       basketItems.removeObject(basketItem);
     }
-    if (basketItem.get('isDeleted')) {
+    if (basketItem.get("isDeleted")) {
       return;
     }
-    return basketItem.destroyRecord()
-    .then(this._reloadBasket.bind(this));
+    return basketItem.destroyRecord().then(this._reloadBasket.bind(this));
   },
 
   saveBasketItem(basketItem) {
@@ -63,20 +67,23 @@ export default Service.extend({
   },
 
   setBasketItemQuantity(basketItem, quantity) {
-    set(basketItem, 'quantity', quantity);
+    set(basketItem, "quantity", quantity);
   },
 
   addToBasket(basketItems) {
-    if (isNone(get(this, 'basket'))) {
-      console.error("There isn't a basket to add the items to. Create a basket instance and then set it on the basket service (preferably in an initializer) before adding items to it.");
+    if (isNone(get(this, "basket"))) {
+      console.error(
+        "There isn't a basket to add the items to. Create a basket instance and then set it on the basket service (preferably in an initializer) before adding items to it."
+      );
       return;
     }
     let unsavedBasketItems = basketItems
-    .filterBy('isNew')
-    .filterBy('isSaving', false);
-    unsavedBasketItems.setEach('basket', get(this, 'basket'));
-    return RSVP.all(unsavedBasketItems.invoke('save'))
-    .then(this._reloadBasket.bind(this));
+      .filterBy("isNew")
+      .filterBy("isSaving", false);
+    unsavedBasketItems.setEach("basket", get(this, "basket"));
+    return RSVP.all(unsavedBasketItems.invoke("save")).then(
+      this._reloadBasket.bind(this)
+    );
   },
 
   createOrder(order) {
@@ -84,8 +91,6 @@ export default Service.extend({
   },
 
   _reloadBasket() {
-    return get(this, 'basket').reload();
-  },
-
-
+    return get(this, "basket").reload();
+  }
 });
