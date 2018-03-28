@@ -1,9 +1,13 @@
 /* eslint no-console:0 */
-import Ember from "ember";
-const { RSVP, Service, computed: { alias }, inject, isNone, get, set } = Ember;
+import RSVP from 'rsvp';
+
+import Service, { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
+import { isNone } from '@ember/utils';
+import { set, get } from '@ember/object';
 
 export default Service.extend({
-  store: inject.service(),
+  store: service(),
   basket: null,
 
   basketItems: alias("basket.basketItems"),

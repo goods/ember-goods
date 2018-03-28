@@ -1,4 +1,6 @@
-import Ember from "ember";
+import EmberError from '@ember/error';
+import $ from 'jquery';
+import { camelize } from '@ember/string';
 import JSONAPIAdapter from "ember-data/adapters/json-api";
 
 export default JSONAPIAdapter.extend({
@@ -44,7 +46,7 @@ export default JSONAPIAdapter.extend({
     }
 
     let query = {
-      content_group_api_identifier: Ember.String.camelize(modelName)
+      content_group_api_identifier: camelize(modelName)
     };
 
     const url = this.buildURL(modelName, null, null, "findAll");
@@ -69,8 +71,8 @@ export default JSONAPIAdapter.extend({
       return this._super(...arguments);
     }
 
-    query.filter = Ember.$.extend(query.filter, {
-      content_group_api_identifier: Ember.String.camelize(modelName)
+    query.filter = $.extend(query.filter, {
+      content_group_api_identifier: camelize(modelName)
     });
 
     if (this.sortQueryParams) {
@@ -86,7 +88,7 @@ export default JSONAPIAdapter.extend({
    @override
    * */
   queryRecord() {
-    throw new Ember.Error(
+    throw new EmberError(
       "You may not call 'queryRecord' on a store. Use 'query'."
     );
   },
@@ -127,7 +129,7 @@ export default JSONAPIAdapter.extend({
     if (this.modelWhitelist.includes(type.modelName)) {
       return this._super(...arguments);
     }
-    throw new Ember.Error(
+    throw new EmberError(
       "You may not call 'updateRecord' on a content entry."
     );
   },
@@ -139,7 +141,7 @@ export default JSONAPIAdapter.extend({
     if (this.modelWhitelist.includes(type.modelName)) {
       return this._super(...arguments);
     }
-    throw new Ember.Error(
+    throw new EmberError(
       "You may not call 'deleteRecord' on a content entry."
     );
   }

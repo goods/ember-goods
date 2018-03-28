@@ -1,10 +1,11 @@
-import DS from 'ember-data';
-const { Model, attr, belongsTo, hasMany } = DS;
+import Model from "ember-data/model";
+import attr from "ember-data/attr";
+import { belongsTo, hasMany } from "ember-data/relationships";
 
 export default Model.extend({
-  stockQuantity: attr('number'),
-  price: attr('number'),
-  product: belongsTo('product'),
-  skuImages: hasMany('sku-image'),
-  skuFields: hasMany('sku-field'),
+  stockQuantity: attr("number"),
+  price: attr("number"),
+  product: belongsTo("product"),
+  skuImages: hasMany("sku-image"),
+  skuFields: hasMany("sku-field")
 });
