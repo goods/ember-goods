@@ -1,5 +1,6 @@
-import Ember from 'ember';
-const { Service, get, isEmpty } = Ember;
+import Service from '@ember/service';
+import { get } from '@ember/object';
+import { isEmpty } from '@ember/utils';
 
 export default Service.extend({
 
