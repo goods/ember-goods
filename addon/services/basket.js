@@ -1,6 +1,5 @@
 /* eslint no-console:0 */
 import Service, { inject as service } from "@ember/service";
-import { alias } from "@ember/object/computed";
 import { isNone } from "@ember/utils";
 import { set, get } from "@ember/object";
 import RSVP from "rsvp";
