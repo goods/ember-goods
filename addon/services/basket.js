@@ -1,10 +1,9 @@
 /* eslint no-console:0 */
-import RSVP from 'rsvp';
-
-import Service, { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
-import { isNone } from '@ember/utils';
-import { set, get } from '@ember/object';
+import Service, { inject as service } from "@ember/service";
+import { alias } from "@ember/object/computed";
+import { isNone } from "@ember/utils";
+import { set, get } from "@ember/object";
+import RSVP from "rsvp";
 
 export default Service.extend({
   store: service(),
@@ -41,24 +40,28 @@ export default Service.extend({
     return basketItem;
   },
 
-  destroyBasketItems(basketItems, targetBasketItems) {
+  async destroyBasketItems(basketItems, targetBasketItems) {
     if (isNone(basketItems) === false) {
       basketItems.removeObjects(targetBasketItems);
     }
 
-    return RSVP.all(targetBasketItems.invoke("destroyRecord")).then(
-      this._reloadBasket.bind(this)
-    );
+    let baskets = basketItems.mapBy("basket.content").uniq();
+
+    await RSVP.all(targetBasketItems.invoke("destroyRecord"));
+    await RSVP.all(baskets.invoke("reload"));
   },
 
-  destroyBasketItem(basketItems, basketItem) {
+  async destroyBasketItem(basketItems, basketItem) {
+    let basket = get(basketItem, "basket.content");
+
     if (isNone(basketItems) === false) {
       basketItems.removeObject(basketItem);
     }
     if (basketItem.get("isDeleted")) {
       return;
     }
-    return basketItem.destroyRecord().then(this._reloadBasket.bind(this));
+    await basketItem.destroyRecord();
+    await basket.reload();
   },
 
   saveBasketItem(basketItem) {
@@ -69,14 +72,14 @@ export default Service.extend({
     set(basketItem, "quantity", quantity);
   },
 
-  addToBasket(basketItems) {
+  async addToBasket(basketItems, basket) {
     let unsavedBasketItems = basketItems
       .filterBy("isNew")
       .filterBy("isSaving", false);
-    unsavedBasketItems.setEach("basket", get(this, "basket"));
-    return RSVP.all(unsavedBasketItems.invoke("save")).then(
-      this._reloadBasket.bind(this)
-    );
+    unsavedBasketItems.setEach("basket", basket);
+
+    await RSVP.all(unsavedBasketItems.invoke("save"));
+    await basket.reload();
   },
 
   createOrder(order) {
