@@ -8,11 +8,6 @@ import { set, get } from '@ember/object';
 
 export default Service.extend({
   store: service(),
-  basket: null,
-
-  basketItems: alias("basket.basketItems"),
-  total: alias("basket.total"),
-  quantity: alias("basket.quantity"),
 
   createBasket() {
     return get(this, "store")
@@ -75,12 +70,6 @@ export default Service.extend({
   },
 
   addToBasket(basketItems) {
-    if (isNone(get(this, "basket"))) {
-      console.error(
-        "There isn't a basket to add the items to. Create a basket instance and then set it on the basket service (preferably in an initializer) before adding items to it."
-      );
-      return;
-    }
     let unsavedBasketItems = basketItems
       .filterBy("isNew")
       .filterBy("isSaving", false);
@@ -92,9 +81,5 @@ export default Service.extend({
 
   createOrder(order) {
     return order.save();
-  },
-
-  _reloadBasket() {
-    return get(this, "basket").reload();
   }
 });
