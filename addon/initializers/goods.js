@@ -1,4 +1,5 @@
 import GoodsAdapter from "../adapters/goods";
+import ContentAdapter from "../adapters/content";
 import GoodsSerializer from "../serializers/goods";
 import GoodsService from "../services/goods";
 import BasketService from "../services/basket";
@@ -15,7 +16,17 @@ export function initialize(application) {
     },
     host: config.host
   });
-  application.register("adapter:application", GoodsAdapter);
+
+  ContentAdapter.reopen({
+    headers: {
+      Accept: "application/vnd.api+json",
+      "content-type": "application/vnd.api+json;",
+      Authorization: "Bearer " + config.access_token
+    },
+    host: config.host
+  });
+
+  application.register("adapter:application", ContentAdapter);
   application.register("serializer:application", GoodsSerializer);
 
   application.register("adapter:basket-item", GoodsAdapter);
