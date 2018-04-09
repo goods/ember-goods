@@ -2,6 +2,7 @@ import Service from "@ember/service";
 import { get } from "@ember/object";
 import { inject } from "@ember/service";
 import { alias } from "@ember/object/computed";
+import { isEmpty } from "@ember/utils";
 
 export default Service.extend({
   store: inject("store"),
@@ -86,5 +87,19 @@ export default Service.extend({
 
   getProductFieldValue(product, slug) {
     return get(this, "product").getProductFieldValue(product, slug);
+  },
+
+  getFieldValue(record, reference) {
+    let field = get(record, "skuFields").find(
+      field => get(field, "slug") === reference
+    );
+    if (isEmpty(field)) {
+      throw new Error(
+        `SKU field with the reference ${reference} not found in record with ID ${
+          record.id
+        }`
+      );
+    }
+    return field.get("values.firstObject");
   }
 });
