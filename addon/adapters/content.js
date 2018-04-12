@@ -1,7 +1,7 @@
 import EmberError from "@ember/error";
-import $ from "jquery";
 import { camelize } from "@ember/string";
 import JSONAPIAdapter from "ember-data/adapters/json-api";
+import { assign } from "@ember/polyfills";
 
 export default JSONAPIAdapter.extend({
   coalesceFindRequests: true,
@@ -71,7 +71,7 @@ export default JSONAPIAdapter.extend({
       return this._super(...arguments);
     }
 
-    query.filter = $.extend(query.filter, {
+    query.filter = assign({}, query.filter, {
       content_group_api_identifier: camelize(modelName)
     });
 
