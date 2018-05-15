@@ -13,6 +13,7 @@ export default Model.extend({
   emailAddress: attr("string"),
   phoneNumber: attr("string"),
   mobileNumber: attr("string"),
+  metadata: attr(),
   billingAddress1: attr("string"),
   billingAddress2: attr("string"),
   billingCity: attr("string"),
