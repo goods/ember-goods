@@ -1,5 +1,6 @@
 import EmberError from "@ember/error";
-import { camelize } from "@ember/string";
+import { dasherize } from "@ember/string";
+import { pluralize } from "ember-inflector";
 import JSONAPIAdapter from "ember-data/adapters/json-api";
 import { assign } from "@ember/polyfills";
 
@@ -46,7 +47,7 @@ export default JSONAPIAdapter.extend({
     }
 
     let query = {
-      content_group_api_identifier: camelize(modelName)
+      content_group_api_identifier: pluralize(dasherize(modelName))
     };
 
     const url = this.buildURL(modelName, null, null, "findAll");
@@ -72,7 +73,7 @@ export default JSONAPIAdapter.extend({
     }
 
     query.filter = assign({}, query.filter, {
-      content_group_api_identifier: camelize(modelName)
+      content_group_api_identifier: pluralize(dasherize(modelName))
     });
 
     if (this.sortQueryParams) {
