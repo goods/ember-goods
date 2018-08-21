@@ -101,5 +101,27 @@ export default Service.extend({
       );
     }
     return field.get("values.firstObject");
+  },
+
+  attributesToHash(attributes) {
+    return attributes.reduce((attributeHash, attribute) => {
+      //@ts-ignore
+      attributeHash[get(attribute, "slug")] = get(attribute, "values");
+      return attributeHash;
+    }, []);
+  },
+
+  getAttributeValue(attributes, identifier) {
+    let attribute = attributes.find(
+      attribute => get(attribute, "slug") === identifier
+    );
+
+    if (isEmpty(attribute)) {
+      throw new Error(
+        `Attribute with the reference ${identifier} not found in attribute list`
+      );
+    }
+
+    return get(attribute, "values");
   }
 });
