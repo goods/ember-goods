@@ -13,10 +13,16 @@
 /connect.lock
 /coverage/
 /libpeerconnection.log
+<<<<<<< HEAD
+npm-debug.log*
+yarn-error.log
+testem.log
+.DS_Store
+=======
 /npm-debug.log*
 /testem.log
 /yarn-error.log
-.DS_Store
+>>>>>>> f0c9f2b... message
 
 # ember-try
 /.node_modules.ember-try/

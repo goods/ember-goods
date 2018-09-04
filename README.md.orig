@@ -2,6 +2,7 @@
 
 This addon provides an adapter to use with the Goods platform (https://www.goods.co.uk).
 
+
 ## Installation
 
 ```
@@ -10,25 +11,26 @@ ember install ember-goods
 
 ## Configuration
 
+
 ```js
 // environment.js
 
 ENV.APP.goods = {
-  access_token: "xxxxxx"
-};
+    access_token: 'xxxxxx',
+}
 ```
 
 ### Configuration Parameters
 
-- `access_token`: Generate this access token in your Goods account and add it here.
-  Create a shop, then go to Settings > Access tokens.
-  Your `content group` name in Goods must match the Ember model name.
-  The `content entry` field reference is the dasherized name of the Ember model field.
+* `access_token`: Generate this access token in your Goods account and add it here.
+Create a shop, then go to Settings > Access tokens.
+Your `content group` name in Goods must match the Ember model name. 
+The `content entry` field reference is the dasherized name of the Ember model field. 
+
 
 ## Usage
 
 ### Models
-
 All models that use a Goods content entry should inherit the `content-entry` model. This contains default fields such as:
 
 ```js
@@ -42,15 +44,19 @@ isPublished: DS.belongsTo('boolean'),
 isHidden: DS.belongsTo('boolean')
 ```
 
-- `ember test` – Runs the test suite on the current Ember version
-- `ember test --server` – Runs the test suite in "watch mode"
-- `ember try:each` – Runs the test suite against multiple Ember versions
+<<<<<<< HEAD
+Example model:
+=======
+* `ember test` – Runs the test suite on the current Ember version
+* `ember test --server` – Runs the test suite in "watch mode"
+* `ember try:each` – Runs the test suite against multiple Ember versions
+>>>>>>> f0c9f2b... message
 
 ```js
 // models/spaceship.js
 
-import DS from "ember-data";
-import ContentEntry from "ember-goods/models/content-entry";
+import DS from 'ember-data';
+import ContentEntry from 'ember-goods/models/content-entry';
 
 export default ContentEntry.extend({
   colour: DS.attr(),
@@ -58,6 +64,7 @@ export default ContentEntry.extend({
   massToLowEarthOrbit: DS.attr()
 });
 ```
+
 
 Example Goods content group:
 
@@ -80,12 +87,12 @@ type: Number
 
 ## Running Tests
 
-- `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-- `ember test`
-- `ember test --server`
+* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
+* `ember test`
+* `ember test --server`
 
 ## Building
 
-- `ember build`
+* `ember build`
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
