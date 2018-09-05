@@ -77,7 +77,10 @@ export default Service.extend({
       .filterBy("isSaving", false);
     unsavedBasketItems.setEach("basket", basket);
 
-    await RSVP.all(unsavedBasketItems.invoke("save"));
+    await unsavedBasketItems.reduce(function(previous, basketItem) {
+      return previous.then(basketItem.save.bind(basketItem));
+    }, RSVP.resolve());
+
     await basket.reload();
   },
 
