@@ -2,7 +2,11 @@
 
 module.exports = {
   name: "ember-goods",
-  isDevelopingAddon: function() {
-    return true;
+  contentFor: function(type) {
+    if (type === "head") {
+      return '<link rel="preconnect" href="https://api.goods.co.uk">';
+    }
+
+    return "";
   }
 };
