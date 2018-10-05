@@ -1,6 +1,7 @@
 import Model from "ember-data/model";
 import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
+import { computed, get } from "@ember/object";
 
 export default Model.extend({
   name: attr("string"),
@@ -11,5 +12,12 @@ export default Model.extend({
   brand: belongsTo("brand"),
   productFields: hasMany("product-field"),
   productImages: hasMany("product-image"),
-  productCategories: hasMany("product-category")
+  productCategories: hasMany("product-category"),
+
+  attributes: computed("productFields.[]", function() {
+    return this.productFields.reduce((hash, attribute) => {
+      hash[get(attribute, "slug")] = get(attribute, "values");
+      return hash;
+    }, {});
+  })
 });
