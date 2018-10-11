@@ -5,7 +5,7 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "github:goods/ember-goods",
+  "repository": "goods-commerce/ember-goods",
   "license": "MIT",
   "author": "",
   "directories": {
