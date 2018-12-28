@@ -14,13 +14,13 @@ ember install ember-goods
 // environment.js
 
 ENV.APP.goods = {
-  access_token: "xxxxxx"
+  accessToken: "xxxxxx"
 };
 ```
 
 ### Configuration Parameters
 
-- `access_token`: Generate this access token in your Goods account and add it here.
+- `accessToken`: Generate this access token in your Goods account and add it here.
   Create a shop, then go to Settings > Access tokens.
   Your `content group` name in Goods must match the Ember model name.
   The `content entry` field reference is the dasherized name of the Ember model field.
