@@ -8,5 +8,9 @@ module.exports = {
     }
 
     return "";
+  },
+
+  isDevelopingAddon() {
+    return true;
   }
 };
