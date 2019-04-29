@@ -19,9 +19,6 @@ export default class User extends Model {
 
   @attr("string")
   shopRoleId!: string;
-
-  @attr("string")
-  shopId!: string;
 }
 
 declare module "ember-data/types/registries/model" {
