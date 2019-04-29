@@ -9,12 +9,16 @@ export default OAuth2PasswordGrant.extend({
   serverTokenEndpoint: `${config.APP.goods.host}/tokens`,
 
   authenticate(identification: any, password: any, scope = [], headers = {}) {
-    if (isEmpty(config.APP.goods.accessToken)) {
-      assert("Goods accessToken must be added to the environment config");
+    if (isEmpty(config.APP.goods.apiKey)) {
+      assert("Goods apiKey must be added to the environment config");
+    }
+    if (isEmpty(config.APP.goods.spaceId)) {
+      assert("Goods spaceId must be added to the environment config");
     }
 
     headers = {
-      Authorization: "Bearer " + config.APP.goods.accessToken
+      Authorization: "Bearer " + config.APP.goods.apiKey,
+      "Space-ID": config.APP.goods.spaceId
     };
 
     return this._super(identification, password, scope, headers);

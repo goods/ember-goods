@@ -42,8 +42,9 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
   authorize(xhr) {
     let { access_token } = this.get("session.data.authenticated");
     if (isNone(access_token)) {
-      access_token = config.APP.goods.accessToken;
+      access_token = config.APP.goods.apiKey;
     }
     xhr.setRequestHeader("Authorization", `Bearer ${access_token}`);
+    xhr.setRequestHeader("Space-ID", config.APP.goods.spaceId);
   }
 });
