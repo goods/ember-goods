@@ -8,6 +8,7 @@ export default JSONAPIAdapter.extend({
     "basket-item",
     "category",
     "country",
+    "field-schema",
     "order",
     "order-line",
     "order-payment-method",

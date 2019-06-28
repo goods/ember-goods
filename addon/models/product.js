@@ -13,6 +13,8 @@ export default Model.extend({
   productFields: hasMany("product-field"),
   productImages: hasMany("product-image"),
   productCategories: hasMany("product-category"),
+  schema: hasMany("field-schema"),
+  skuSchema: hasMany("field-schema"),
 
   attributes: computed("productFields.[]", function() {
     return this.productFields.reduce((hash, attribute) => {
