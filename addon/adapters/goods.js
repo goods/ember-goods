@@ -42,7 +42,17 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
   },
 
   authorize(xhr) {
+    //Support legacy access_token
+    if (!isNone(config.APP.goods.access_token)) {
+      xhr.setRequestHeader(
+        "Authorization",
+        `Bearer ${config.APP.goods.access_token}`
+      );
+      return;
+    }
+
     let { access_token } = this.get("session.data.authenticated");
+
     if (isNone(access_token)) {
       access_token = config.APP.goods.apiKey;
     }
