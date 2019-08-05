@@ -7,6 +7,7 @@ export default Model.extend({
   stockQuantity: attr("number"),
   product: belongsTo("product"),
   price: belongsTo("price"),
+  bom: belongsTo("bom", { async: false }),
   skuImages: hasMany("sku-image"),
   skuFields: hasMany("sku-field"),
 
