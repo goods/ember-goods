@@ -28,7 +28,7 @@
     "ember-cli-typescript": "^2.0.0-rc.2",
     "ember-decorators": "^5.1.4",
     "ember-get-config": "^0.2.4",
-    "ember-simple-auth": "^1.7.0"
+    "ember-simple-auth": "^1.9.2",
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
