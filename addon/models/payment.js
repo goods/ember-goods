@@ -14,5 +14,16 @@ export default Model.extend({
   validFrom: attr("string"),
   expiryDate: attr("string"),
   issueNumber: attr("string"),
-  cvv: attr("string")
+  cvv: attr("string"),
+  challengeUrl: attr("string"),
+  challengeRequest: attr(),
+  challengeResponse: attr(),
+  challengeCompletionUrl: attr("string"),
+  browserJavascriptEnabled: attr("boolean"),
+  browserJavaEnabled: attr("boolean"),
+  browserColorDepth: attr("string"),
+  browserScreenHeight: attr("string"),
+  browserScreenWidth: attr("string"),
+  browserTimezone: attr("string"),
+  browserLanguage: attr("string")
 });
