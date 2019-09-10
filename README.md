@@ -86,6 +86,26 @@ reference:mass-to-low-earth-orbit
 type: Number
 ```
 
+## 3D Secure / payment challenges
+
+There is a PaymentChallenge component available which handles rendering the payment challenge in an iframe.
+
+You will most likely want to render this component from within a modal. Simply pass it the payment record and it will handle the 3D secure.
+
+To handle completion of the 3D secure payment, you will need to create a route that breaks out of the iframe and point the settings for the payment type in Goods to this URL.
+
+```js
+import Route from "@ember/routing/route";
+
+export default class PaymentChallengeCompleted extends Route {
+  beforeModel() {
+    if (window.location !== window.top.location) {
+      parent.location.reload();
+    }
+  }
+}
+```
+
 ## Running Tests
 
 - `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
