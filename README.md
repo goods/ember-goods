@@ -90,14 +90,16 @@ type: Number
 
 There is a PaymentChallenge component available which handles rendering the payment challenge in an iframe.
 
-You will most likely want to render this component from within a modal. Simply pass it the payment record and it will handle the 3D secure.
+You will most likely want to render this component from within a modal. Simply pass it the payment record and it will handle the 3D secure iframe.
 
-To handle completion of the 3D secure payment, you will need to create a route that breaks out of the iframe and point the settings for the payment type in Goods to this URL.
+To handle completion of the 3D secure payment, you will need to set `payment.challengeSuccessUrl` and `payment.challengeFailedUrl` to URLs that will forward the user onto the completion page or show the error, and also allow you to breakout of the iframe.
+
+To breakout of the iframe, something like this in your route:
 
 ```js
 import Route from "@ember/routing/route";
 
-export default class PaymentChallengeCompleted extends Route {
+export default class Payment extends Route {
   beforeModel() {
     if (window.location !== window.top.location) {
       parent.location.reload();
