@@ -9,6 +9,7 @@ export default Model.extend({
   code: attr("string"),
   discount: attr("number"),
   metadata: attr(),
+  promotionApplicationMax: attr("number", { defaultValue: 0 }),
   basket: belongsTo("basket"),
   sku: belongsTo("sku"),
   promotion: belongsTo("promotion")
