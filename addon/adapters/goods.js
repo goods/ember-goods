@@ -13,6 +13,7 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     "brand",
     "category",
     "country",
+    "content-entry-operation",
     "order",
     "order-line",
     "order-payment-method",
