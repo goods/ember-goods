@@ -27,6 +27,7 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     "promotion",
     "shop-member",
     "shop-payment-method",
+    "shop-reset-token",
     "shop-role",
     "state",
     "sku-field",
