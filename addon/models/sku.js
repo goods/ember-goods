@@ -5,8 +5,7 @@ import { computed, get } from "@ember/object";
 
 export default Model.extend({
   stockQuantity: attr("number"),
-  price: attr("number"),
-  // price: belongsTo("price"),
+  price: belongsTo("price"),
   product: belongsTo("product"),
   bom: belongsTo("bom", { async: false }),
   skuImages: hasMany("sku-image"),
