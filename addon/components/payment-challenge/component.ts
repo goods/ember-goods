@@ -1,8 +1,8 @@
 import Component from "@ember/component";
 // @ts-ignore: Ignore import of compiled template
 import template from "./template";
-import { notEmpty } from "@ember-decorators/object/computed";
-import { computed } from "@ember-decorators/object";
+import { notEmpty } from "@ember/object/computed";
+import { computed } from "@ember/object";
 import { get } from "@ember/object";
 import { scheduleOnce } from "@ember/runloop";
 import { isNone } from "@ember/utils";
