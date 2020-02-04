@@ -1,7 +1,6 @@
-import Model from "ember-data/model";
-// import { attr } from "ember-data";
+import DS from "ember-data";
 
-export default class Shop extends Model {
+export default class Shop extends DS.Model {
   // normal class body definition here
 }
 
