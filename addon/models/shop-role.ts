@@ -1,10 +1,9 @@
-import Model from "ember-data/model";
-import { belongsTo, attr } from "@ember-decorators/data";
+import DS from "ember-data";
 import Shop from "./shop";
 
-export default class ShopRole extends Model {
-  @attr("string") name!: string;
-  @belongsTo("shop") shop!: Shop;
+export default class ShopRole extends DS.Model {
+  @DS.attr("string") name!: string;
+  @DS.belongsTo("shop") shop!: Shop;
 }
 
 declare module "ember-data/types/registries/model" {

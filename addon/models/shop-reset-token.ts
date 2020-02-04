@@ -1,11 +1,10 @@
-import Model from "ember-data/model";
-import { attr } from "@ember-decorators/data";
+import DS from "ember-data";
 
-export default class ShopResetToken extends Model {
-  @attr("string") guid!: string;
-  @attr("boolean") isUsed!: boolean;
-  @attr("boolean") hasExpired!: boolean;
-  @attr("string") email!: string;
+export default class ShopResetToken extends DS.Model {
+  @DS.attr("string") guid!: string;
+  @DS.attr("boolean") isUsed!: boolean;
+  @DS.attr("boolean") hasExpired!: boolean;
+  @DS.attr("string") email!: string;
 }
 
 declare module "ember-data/types/registries/model" {
