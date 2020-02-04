@@ -4,8 +4,9 @@ This addon provides an adapter to use with the Goods platform (https://www.goods
 
 ## Compatibility
 
-- Ember.js v2.18 or above
+- Ember.js v3.8 or above
 - Ember CLI v2.13 or above
+- Node.js v8 or above
 
 ## Installation
 
@@ -117,5 +118,11 @@ export default class Payment extends Route {
 ## Building
 
 - `ember build`
+
+## Contributing
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+## License
 
 For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
