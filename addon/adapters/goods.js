@@ -32,9 +32,10 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     "shop-role",
     "state",
     "sku-field",
+    "sku-field-stock",
     "sku-image",
     "sku",
-    "user"
+    "user",
   ],
 
   pathForType(type) {
@@ -61,5 +62,5 @@ export default JSONAPIAdapter.extend(DataAdapterMixin, {
     }
     xhr.setRequestHeader("Authorization", `Bearer ${access_token}`);
     xhr.setRequestHeader("Space-ID", config.APP.goods.spaceId);
-  }
+  },
 });
