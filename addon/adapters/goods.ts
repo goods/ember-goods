@@ -1,14 +1,17 @@
+//@ts-ignore
 import JSONAPIAdapter from "@ember-data/adapter/json-api";
+//@ts-ignore
 import DataAdapterMixin from "ember-simple-auth/mixins/data-adapter-mixin";
 import { isNone } from "@ember/utils";
+//@ts-ignore
 import config from "ember-get-config";
-import { computed } from "@ember/object";
+import { computed, get } from "@ember/object";
 import { inject } from "@ember/service";
 
 export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   DataAdapterMixin,
   {
-    pathForType(type) {
+    pathForType(type: any) {
       console.log(this.modelWhitelist);
       if (this.modelWhitelist.includes(type)) {
         return this._super(...arguments);
@@ -50,7 +53,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
     "user",
   ];
 
-  @inject session;
+  @inject session: any;
 
   @computed("session.data.authenticated.access_token")
   get headers() {
@@ -61,7 +64,8 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
       };
     }
 
-    let { access_token } = this.get("session.data.authenticated");
+    //@ts-ignore
+    let { access_token } = get(this, "session.data.authenticated");
 
     if (isNone(access_token)) {
       access_token = config.APP.goods.apiKey;
@@ -70,30 +74,5 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
       Authorization: `Bearer ${access_token}`,
       "Space-ID": config.APP.goods.spaceId,
     };
-
-    // if (this.session.isAuthenticated) {
-    //   headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
-    // }
-
-    // return headers;
   }
-
-  // headers: computed("session.data.authenticated.access_token", function() {
-  //   //Support legacy access_token
-  //   if (!isNone(config.APP.goods.access_token)) {
-  //     return {
-  //       Authorization: `Bearer ${config.APP.goods.access_token}`
-  //     };
-  //   }
-
-  //   let { access_token } = this.get("session.data.authenticated");
-
-  //   if (isNone(access_token)) {
-  //     access_token = config.APP.goods.apiKey;
-  //   }
-  //   return {
-  //     Authorization: `Bearer ${access_token}`,
-  //     "Space-ID": config.APP.goods.spaceId
-  //   };
-  // })
 }
