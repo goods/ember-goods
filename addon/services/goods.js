@@ -1,23 +1,24 @@
 import Service from "@ember/service";
-import { get } from "@ember/object";
+import { get, set } from "@ember/object";
 import { inject } from "@ember/service";
 import { alias } from "@ember/object/computed";
 import { isEmpty } from "@ember/utils";
+import { isNone } from "@ember/utils";
+import RSVP from "rsvp";
 
 export default Service.extend({
   store: inject("store"),
-  basket: inject("basket"),
   product: inject("product"),
   sku: inject("sku"),
 
   basketItems: alias("basket.basketItems"),
 
   createBasket() {
-    return get(this, "basket").createBasket();
+    return get(this, "store").createRecord("basket").save();
   },
 
-  getBasket(basketId) {
-    return get(this, "basket").getBasket(basketId);
+  async getBasket(basketId) {
+    return await get(this, "store").find("basket", basketId);
   },
 
   createBasketItem(
@@ -27,40 +28,59 @@ export default Service.extend({
     metadata = null,
     isHidden = false
   ) {
-    return get(this, "basket").createBasketItem(
-      basketItems,
-      sku,
-      quantity,
-      metadata,
-      isHidden
-    );
+    const store = get(this, "store");
+    let basketItem = store.createRecord("basketItem", {
+      basket: null,
+      quantity: quantity,
+      sku: sku,
+      price: get(sku, "price"),
+      metadata: metadata,
+      isHidden: isHidden,
+    });
+    if (isNone(basketItems) === false) {
+      basketItems.pushObject(basketItem);
+    }
+    return basketItem;
   },
 
-  destroyBasketItems(basketItems, targetBasketItems) {
-    return get(this, "basket").destroyBasketItems(
-      basketItems,
-      targetBasketItems
-    );
+  async destroyBasketItems(basketItems, targetBasketItems) {
+    if (isNone(basketItems) === false) {
+      basketItems.removeObjects(targetBasketItems);
+    }
+
+    let baskets = basketItems.mapBy("basket.content").uniq();
+
+    await RSVP.all(targetBasketItems.invoke("destroyRecord"));
+    await RSVP.all(baskets.invoke("reload"));
   },
 
   destroyBasketItem(basketItems, basketItem) {
-    return get(this, "basket").destroyBasketItem(basketItems, basketItem);
+    return this.destroyBasketItem(basketItems, basketItem);
   },
 
   saveBasketItem(basketItem) {
-    return get(this, "basket").saveBasketItem(basketItem);
+    return basketItem.save();
   },
 
   setBasketItemQuantity(basketItem, quantity) {
-    return get(this, "basket").setBasketItemQuantity(basketItem, quantity);
+    set(basketItem, "quantity", quantity);
   },
 
-  addToBasket(basketItems, basket) {
-    return get(this, "basket").addToBasket(basketItems, basket);
+  async addToBasket(basketItems, basket) {
+    let unsavedBasketItems = basketItems
+      .filterBy("isNew")
+      .filterBy("isSaving", false);
+    unsavedBasketItems.setEach("basket", basket);
+
+    await unsavedBasketItems.reduce(function (previous, basketItem) {
+      return previous.then(basketItem.save.bind(basketItem));
+    }, RSVP.resolve());
+
+    await basket.reload();
   },
 
   createOrder(order) {
-    return get(this, "basket").createOrder(order);
+    return order.save();
   },
 
   createPayment(order) {
@@ -70,7 +90,7 @@ export default Service.extend({
       amount: get(orderPaymentMethod, "maxPayableAmount"),
       order: order,
       shopPaymentMethod: get(orderPaymentMethod, "shopPaymentMethod"),
-      token: ""
+      token: "",
     });
   },
 
@@ -91,13 +111,11 @@ export default Service.extend({
 
   getFieldValue(record, reference) {
     let field = get(record, "skuFields").find(
-      field => get(field, "slug") === reference
+      (field) => get(field, "slug") === reference
     );
     if (isEmpty(field)) {
       throw new Error(
-        `SKU field with the reference ${reference} not found in record with ID ${
-          record.id
-        }`
+        `SKU field with the reference ${reference} not found in record with ID ${record.id}`
       );
     }
     return field.get("values.firstObject");
@@ -113,7 +131,7 @@ export default Service.extend({
 
   getAttributeValue(attributes, identifier) {
     let attribute = attributes.find(
-      attribute => get(attribute, "slug") === identifier
+      (attribute) => get(attribute, "slug") === identifier
     );
 
     if (isEmpty(attribute)) {
@@ -123,5 +141,5 @@ export default Service.extend({
     }
 
     return get(attribute, "values");
-  }
+  },
 });
