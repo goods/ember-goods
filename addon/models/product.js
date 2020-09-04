@@ -1,9 +1,9 @@
-import Model from "ember-data/model";
+import DS from "ember-data";
 import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 import { computed, get } from "@ember/object";
 
-export default Model.extend({
+export default DS.Model.extend({
   name: attr("string"),
   summary: attr("string"),
   description: attr("string"),
@@ -16,10 +16,10 @@ export default Model.extend({
   schema: hasMany("field-schema"),
   skuSchema: hasMany("field-schema"),
 
-  attributes: computed("productFields.[]", function() {
+  attributes: computed("productFields.[]", function () {
     return this.productFields.reduce((hash, attribute) => {
       hash[get(attribute, "slug")] = get(attribute, "values");
       return hash;
     }, {});
-  })
+  }),
 });

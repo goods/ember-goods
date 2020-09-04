@@ -1,8 +1,8 @@
-import Model from "ember-data/model";
+import DS from "ember-data";
 import attr from "ember-data/attr";
 import { belongsTo, hasMany } from "ember-data/relationships";
 
-export default Model.extend({
+export default DS.Model.extend({
   total: attr("number", { defaultValue: 0 }),
   quantity: attr("number", { defaultValue: 0 }),
   amountPaid: attr("number", { defaultValue: 0 }),
@@ -29,5 +29,5 @@ export default Model.extend({
   shippingCountry: attr("string"),
   orderPaymentMethods: hasMany("order-payment-method"),
   payments: hasMany("payment"),
-  orderLines: hasMany("order-line")
+  orderLines: hasMany("order-line"),
 });

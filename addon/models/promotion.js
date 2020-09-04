@@ -1,10 +1,10 @@
-import Model from "ember-data/model";
+import DS from "ember-data";
 import attr from "ember-data/attr";
 
-export default Model.extend({
+export default DS.Model.extend({
   name: attr("string"),
   description: attr("string"),
   code: attr("string"),
   startTime: attr("string"),
-  finishTime: attr("string")
+  finishTime: attr("string"),
 });

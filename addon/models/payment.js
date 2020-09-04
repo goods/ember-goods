@@ -1,8 +1,8 @@
-import Model from "ember-data/model";
+import DS from "ember-data";
 import attr from "ember-data/attr";
 import { belongsTo } from "ember-data/relationships";
 
-export default Model.extend({
+export default DS.Model.extend({
   amount: attr("number"),
   order: belongsTo("order"),
   shopPaymentMethod: belongsTo("shop-payment-method"),
@@ -26,5 +26,5 @@ export default Model.extend({
   browserScreenHeight: attr("string"),
   browserScreenWidth: attr("string"),
   browserTimezone: attr("string"),
-  browserLanguage: attr("string")
+  browserLanguage: attr("string"),
 });

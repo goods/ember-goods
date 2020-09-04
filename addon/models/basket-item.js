@@ -1,8 +1,8 @@
-import Model from "ember-data/model";
+import DS from "ember-data";
 import attr from "ember-data/attr";
 import { belongsTo } from "ember-data/relationships";
 
-export default Model.extend({
+export default DS.Model.extend({
   quantity: attr("number"),
   price: attr("number"),
   isHidden: attr("boolean"),
@@ -12,5 +12,5 @@ export default Model.extend({
   promotionApplicationMax: attr("number", { defaultValue: 0 }),
   basket: belongsTo("basket"),
   sku: belongsTo("sku"),
-  promotion: belongsTo("promotion")
+  promotion: belongsTo("promotion"),
 });

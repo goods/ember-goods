@@ -1,10 +1,10 @@
-import Model from "ember-data/model";
+import DS from "ember-data";
 import attr from "ember-data/attr";
 
-export default Model.extend({
+export default DS.Model.extend({
   name: attr("string"),
   alpha2: attr("string"),
   alpha3: attr("string"),
   continent: attr("string"),
-  currencyCode: attr("string")
+  currencyCode: attr("string"),
 });

@@ -1,7 +1,7 @@
-import Model from "ember-data/model";
+import DS from "ember-data";
 import { belongsTo } from "ember-data/relationships";
 
-export default Model.extend({
+export default DS.Model.extend({
   product: belongsTo("product"),
-  category: belongsTo("category")
+  category: belongsTo("category"),
 });
