@@ -8,8 +8,6 @@ import RSVP from "rsvp";
 
 export default Service.extend({
   store: inject("store"),
-  product: inject("product"),
-  sku: inject("sku"),
 
   basketItems: alias("basket.basketItems"),
 
@@ -99,14 +97,6 @@ export default Service.extend({
       fieldHash[get(field, "slug")] = get(field, "values");
       return fieldHash;
     }, []);
-  },
-
-  getSkuFieldValue(sku, slug) {
-    return get(this, "sku").getSkuFieldValue(sku, slug);
-  },
-
-  getProductFieldValue(product, slug) {
-    return get(this, "product").getProductFieldValue(product, slug);
   },
 
   getFieldValue(record, reference) {
