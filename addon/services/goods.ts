@@ -5,28 +5,33 @@ import { alias } from "@ember/object/computed";
 import { isEmpty } from "@ember/utils";
 import { isNone } from "@ember/utils";
 import RSVP from "rsvp";
+import Basket from "../models/basket";
+import BasketItem from "../models/basket-item";
+import Order from "../models/order";
+import Payment from "../models/payment";
+import Sku from "../models/sku";
 
-export default Service.extend({
-  store: inject("store"),
+export default class Goods extends Service {
+  @inject store: any;
 
-  basketItems: alias("basket.basketItems"),
+  @alias("basket.basketItems") basketItems!: BasketItem[];
 
-  createBasket() {
-    return get(this, "store").createRecord("basket").save();
-  },
+  async createBasket(): Promise<Basket> {
+    return this.store.createRecord("basket").save();
+  }
 
-  async getBasket(basketId) {
-    return await get(this, "store").find("basket", basketId);
-  },
+  async getBasket(basketId: string): Promise<Basket | null> {
+    return await this.store.find("basket", basketId);
+  }
 
   createBasketItem(
-    basketItems,
-    sku,
-    quantity,
-    metadata = null,
-    isHidden = false
-  ) {
-    const store = get(this, "store");
+    basketItems: BasketItem[],
+    sku: Sku,
+    quantity: number,
+    metadata: any = null,
+    isHidden: boolean = false
+  ): BasketItem {
+    const store = this.store;
     let basketItem = store.createRecord("basketItem", {
       basket: null,
       quantity: quantity,
@@ -36,53 +41,62 @@ export default Service.extend({
       isHidden: isHidden,
     });
     if (isNone(basketItems) === false) {
+      //@ts-ignore
       basketItems.pushObject(basketItem);
     }
     return basketItem;
-  },
+  }
 
-  async destroyBasketItems(basketItems, targetBasketItems) {
+  async destroyBasketItems(
+    basketItems: BasketItem[],
+    targetBasketItems: BasketItem[]
+  ): Promise<void> {
     if (isNone(basketItems) === false) {
+      //@ts-ignore
       basketItems.removeObjects(targetBasketItems);
     }
 
+    //@ts-ignore
     let baskets = basketItems.mapBy("basket.content").uniq();
 
+    //@ts-ignore
     await RSVP.all(targetBasketItems.invoke("destroyRecord"));
     await RSVP.all(baskets.invoke("reload"));
-  },
+  }
 
-  destroyBasketItem(basketItems, basketItem) {
-    return this.destroyBasketItem(basketItems, basketItem);
-  },
-
-  saveBasketItem(basketItem) {
+  async saveBasketItem(basketItem: BasketItem): Promise<BasketItem> {
     return basketItem.save();
-  },
+  }
 
-  setBasketItemQuantity(basketItem, quantity) {
+  setBasketItemQuantity(basketItem: BasketItem, quantity: number): void {
     set(basketItem, "quantity", quantity);
-  },
+  }
 
-  async addToBasket(basketItems, basket) {
+  async addToBasket(basketItems: BasketItem[], basket: Basket): Promise<void> {
     let unsavedBasketItems = basketItems
+      //@ts-ignore
       .filterBy("isNew")
       .filterBy("isSaving", false);
     unsavedBasketItems.setEach("basket", basket);
 
-    await unsavedBasketItems.reduce(function (previous, basketItem) {
+    await unsavedBasketItems.reduce(function (
+      previous: any,
+      basketItem: BasketItem
+    ) {
       return previous.then(basketItem.save.bind(basketItem));
-    }, RSVP.resolve());
+    },
+    RSVP.resolve());
 
     await basket.reload();
-  },
+  }
 
-  createOrder(order) {
+  async createOrder(order: Order): Promise<Order> {
     return order.save();
-  },
+  }
 
-  createPayment(order) {
-    const store = get(this, "store");
+  createPayment(order: Order): Payment {
+    const store = this.store;
+    //@ts-ignore
     const orderPaymentMethod = get(order, "orderPaymentMethods.firstObject");
     return store.createRecord("payment", {
       amount: get(orderPaymentMethod, "maxPayableAmount"),
@@ -90,18 +104,18 @@ export default Service.extend({
       shopPaymentMethod: get(orderPaymentMethod, "shopPaymentMethod"),
       token: "",
     });
-  },
+  }
 
-  fieldsToHash(fields) {
-    return fields.reduce((fieldHash, field) => {
+  fieldsToHash(fields: any): any {
+    return fields.reduce((fieldHash: any, field: any) => {
       fieldHash[get(field, "slug")] = get(field, "values");
       return fieldHash;
     }, []);
-  },
+  }
 
-  getFieldValue(record, reference) {
+  getFieldValue(record: any, reference: string): any {
     let field = get(record, "skuFields").find(
-      (field) => get(field, "slug") === reference
+      (field: any) => get(field, "slug") === reference
     );
     if (isEmpty(field)) {
       throw new Error(
@@ -109,19 +123,19 @@ export default Service.extend({
       );
     }
     return field.get("values.firstObject");
-  },
+  }
 
-  attributesToHash(attributes) {
-    return attributes.reduce((attributeHash, attribute) => {
+  attributesToHash(attributes: any): any {
+    return attributes.reduce((attributeHash: any, attribute: any) => {
       //@ts-ignore
       attributeHash[get(attribute, "slug")] = get(attribute, "values");
       return attributeHash;
     }, []);
-  },
+  }
 
-  getAttributeValue(attributes, identifier) {
+  getAttributeValue(attributes: any, identifier: string): any {
     let attribute = attributes.find(
-      (attribute) => get(attribute, "slug") === identifier
+      (attribute: any) => get(attribute, "slug") === identifier
     );
 
     if (isEmpty(attribute)) {
@@ -131,5 +145,11 @@ export default Service.extend({
     }
 
     return get(attribute, "values");
-  },
-});
+  }
+}
+
+declare module "@ember/service" {
+  interface Registry {
+    goods: Goods;
+  }
+}
