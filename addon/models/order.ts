@@ -28,10 +28,11 @@ export default class Order extends DS.Model {
   @DS.attr("string") shippingRegion!: string;
   @DS.attr("string") shippingPostcode!: string;
   @DS.attr("string") shippingCountry!: string;
-  @DS.belongsTo("basket") basket: Basket;
-  @DS.hasMany("order-payment-method") orderPaymentMethods: OrderPaymentMethod[];
-  @DS.hasMany("payment") payments: Payment[];
-  @DS.hasMany("order-line") orderLines: OrderLine[];
+  @DS.belongsTo("basket") basket!: Basket;
+  @DS.hasMany("order-payment-method")
+  orderPaymentMethods!: OrderPaymentMethod[];
+  @DS.hasMany("payment") payments!: Payment[];
+  @DS.hasMany("order-line") orderLines!: OrderLine[];
 }
 
 declare module "ember-data/types/registries/model" {

@@ -22,7 +22,7 @@ export default class Product extends DS.Model {
 
   @computed("productFields.[]")
   get attributes(): any {
-    return this.productFields.reduce((hash, attribute) => {
+    return this.productFields.reduce((hash: any, attribute: any) => {
       hash[get(attribute, "slug")] = get(attribute, "values");
       return hash;
     }, {});

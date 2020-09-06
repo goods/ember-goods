@@ -6,7 +6,7 @@ export default class SkuImage extends DS.Model {
   @DS.attr("string") originalUrl!: string;
   @DS.attr("string") thumbUrl!: string;
   @DS.attr("string") thumbLargeUrl!: string;
-  @DS.belongsTo("sku") sku: Sku;
+  @DS.belongsTo("sku") sku!: Sku;
 }
 
 declare module "ember-data/types/registries/model" {

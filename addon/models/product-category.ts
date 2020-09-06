@@ -3,8 +3,8 @@ import Product from "./product";
 import Category from "./category";
 
 export default class ProductCategory extends DS.Model {
-  @DS.belongsTo("product") product: Product;
-  @DS.belongsTo("category") category: Category;
+  @DS.belongsTo("product") product!: Product;
+  @DS.belongsTo("category") category!: Category;
 }
 
 declare module "ember-data/types/registries/model" {
