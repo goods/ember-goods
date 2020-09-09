@@ -16,15 +16,15 @@ export default class Goods extends Service {
 
   @alias("basket.basketItems") basketItems!: BasketItem[];
 
-  async createBasket(): Promise<Basket> {
+  public async createBasket(): Promise<Basket> {
     return this.store.createRecord("basket").save();
   }
 
-  async getBasket(basketId: string): Promise<Basket | null> {
+  public async getBasket(basketId: string): Promise<Basket | null> {
     return await this.store.find("basket", basketId);
   }
 
-  createBasketItem(
+  public createBasketItem(
     basketItems: BasketItem[],
     sku: Sku,
     quantity: number,
@@ -47,7 +47,14 @@ export default class Goods extends Service {
     return basketItem;
   }
 
-  async destroyBasketItems(
+  public destroyBasketItem(
+    basketItems: BasketItem[],
+    targetBasketItem: BasketItem
+  ): Promise<void> {
+    return this.destroyBasketItems(basketItems, [targetBasketItem]);
+  }
+
+  public async destroyBasketItems(
     basketItems: BasketItem[],
     targetBasketItems: BasketItem[]
   ): Promise<void> {
@@ -64,15 +71,18 @@ export default class Goods extends Service {
     await RSVP.all(baskets.invoke("reload"));
   }
 
-  async saveBasketItem(basketItem: BasketItem): Promise<BasketItem> {
+  public async saveBasketItem(basketItem: BasketItem): Promise<BasketItem> {
     return basketItem.save();
   }
 
-  setBasketItemQuantity(basketItem: BasketItem, quantity: number): void {
+  public setBasketItemQuantity(basketItem: BasketItem, quantity: number): void {
     set(basketItem, "quantity", quantity);
   }
 
-  async addToBasket(basketItems: BasketItem[], basket: Basket): Promise<void> {
+  public async addToBasket(
+    basketItems: BasketItem[],
+    basket: Basket
+  ): Promise<void> {
     let unsavedBasketItems = basketItems
       //@ts-ignore
       .filterBy("isNew")
@@ -90,11 +100,11 @@ export default class Goods extends Service {
     await basket.reload();
   }
 
-  async createOrder(order: Order): Promise<Order> {
+  public async createOrder(order: Order): Promise<Order> {
     return order.save();
   }
 
-  createPayment(order: Order): Payment {
+  public createPayment(order: Order): Payment {
     const store = this.store;
     //@ts-ignore
     const orderPaymentMethod = get(order, "orderPaymentMethods.firstObject");
@@ -106,14 +116,14 @@ export default class Goods extends Service {
     });
   }
 
-  fieldsToHash(fields: any): any {
+  public fieldsToHash(fields: any): any {
     return fields.reduce((fieldHash: any, field: any) => {
       fieldHash[get(field, "slug")] = get(field, "values");
       return fieldHash;
     }, []);
   }
 
-  getFieldValue(record: any, reference: string): any {
+  public getFieldValue(record: any, reference: string): any {
     let field = get(record, "skuFields").find(
       (field: any) => get(field, "slug") === reference
     );
@@ -125,7 +135,7 @@ export default class Goods extends Service {
     return field.get("values.firstObject");
   }
 
-  attributesToHash(attributes: any): any {
+  public attributesToHash(attributes: any): any {
     return attributes.reduce((attributeHash: any, attribute: any) => {
       //@ts-ignore
       attributeHash[get(attribute, "slug")] = get(attribute, "values");
@@ -133,7 +143,7 @@ export default class Goods extends Service {
     }, []);
   }
 
-  getAttributeValue(attributes: any, identifier: string): any {
+  public getAttributeValue(attributes: any, identifier: string): any {
     let attribute = attributes.find(
       (attribute: any) => get(attribute, "slug") === identifier
     );
