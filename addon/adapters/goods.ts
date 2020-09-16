@@ -25,6 +25,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   modelWhitelist = [
     "basket",
     "basket-item",
+    "basket-rule-validation",
     "brand",
     "category",
     "country",
