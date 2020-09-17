@@ -8,6 +8,7 @@ export default class BasketRuleValidation extends DS.Model {
   @DS.belongsTo("basket-item") triggerBasketItem!: BasketItem;
   @DS.belongsTo("basket") basket!: Basket;
   @DS.belongsTo("basket-rule") rule!: BasketRule;
+  @DS.attr() errorMessages!: any;
 }
 
 declare module "ember-data/types/registries/model" {
