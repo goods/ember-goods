@@ -6,6 +6,7 @@ import ProductField from "./product-field";
 import ProductImage from "./product-image";
 import ProductCategory from "./product-category";
 import FieldSchema from "./field-schema";
+import ShopProductPaymentMethod from "./shop-product-payment-method";
 
 export default class Product extends DS.Model {
   @DS.attr("string") name!: string;
@@ -17,6 +18,8 @@ export default class Product extends DS.Model {
   @DS.hasMany("product-field") productFields!: ProductField[];
   @DS.hasMany("product-image") productImages!: ProductImage[];
   @DS.hasMany("product-category") productCategories!: ProductCategory[];
+  @DS.hasMany("shop-product-payment-method")
+  shopProductPaymentMethods!: ShopProductPaymentMethod[];
   @DS.hasMany("field-schema") schema!: FieldSchema[];
   @DS.hasMany("field-schema") skuSchema!: FieldSchema[];
 
