@@ -7,6 +7,7 @@ export default class Basket extends DS.Model {
   @DS.attr("number") discount!: number;
   @DS.attr("number") balance!: number;
   @DS.attr("number") quantity!: number;
+  @DS.attr() metadata!: any;
   @DS.hasMany("basket-item") basketItems!: BasketItem[];
   @DS.hasMany("basket-rule-validation")
   ruleValidations!: BasketRuleValidation[];
