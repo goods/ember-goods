@@ -1,6 +1,7 @@
 .goods-payment-challenge-frame {
-  width: 250px;
-  height: 400px;
+  width: 420px;
+  height: 420px;
   border: 0;
   box-shadow: none;
+  display: block;
 }
