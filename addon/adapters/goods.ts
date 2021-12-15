@@ -12,10 +12,18 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   DataAdapterMixin,
   {
     pathForType(type: any) {
-      if (this.modelWhitelist.includes(type)) {
-        return this._super(...arguments);
+      let prefix = "";
+
+      if (config.APP.goods.apiV2) {
+        prefix += "api/";
       }
-      return "content/" + this._super(...arguments);
+
+      let schema = this.store.modelFor(type);
+      if (schema.isContentEntry === true) {
+        prefix += "content/";
+      }
+
+      return prefix + this._super(...arguments);
     },
   }
 ) {
@@ -53,7 +61,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
     "user",
   ];
 
-  @inject session: any;
+  @inject declare session: any;
 
   @computed("session.data.authenticated.access_token")
   get headers() {
