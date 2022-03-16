@@ -10,11 +10,52 @@ import BasketItem from "../models/basket-item";
 import Order from "../models/order";
 import Payment from "../models/payment";
 import Sku from "../models/sku";
+import GoodsCommerce from "./goods-commerce";
+import { Store } from "@ember-data/store";
+import config from "ember-get-config";
+import { all } from "rsvp";
+import Session from "./session";
+import { v4 } from "ember-uuid";
 
 export default class Goods extends Service {
-  @inject store: any;
+  @inject declare session: Session;
+  @inject declare store: Store;
 
-  @alias("basket.basketItems") basketItems!: BasketItem[];
+  @inject("goods-commerce") declare commerce: GoodsCommerce;
+
+  @alias("basket.basketItems") declare basketItems: BasketItem[];
+
+  /**
+   *
+   */
+  async initialize() {
+    let commerce = Object.assign(
+      {},
+      { enabled: false },
+      config.APP.goods.commerce
+    );
+
+    let promises: Promise<any>[] = [];
+    if (commerce.enabled == true) {
+      promises.push(this.commerce.initialize());
+    }
+
+    //@ts-ignore
+    let sessionId = this.session.get("data.sessionId");
+
+    if (isNone(sessionId)) {
+      let uuid = v4();
+      //@ts-ignore
+      this.session.set("data.sessionId", uuid);
+    }
+
+    await all(promises);
+  }
+
+  get sessionId() {
+    //@ts-ignore
+    return this.session.get("data.sessionId");
+  }
 
   public async createBasket(): Promise<Basket> {
     return this.store.createRecord("basket").save();
