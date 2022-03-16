@@ -11,13 +11,13 @@ export function initialize(appInstance: ApplicationInstance): void {
   let invalidatedRoute = config.APP.goods.signedOutRoute;
 
   if (isPresent(authenticatedRoute)) {
-    session.on("authenticationSucceeded", function() {
+    session.on("authenticationSucceeded", function () {
       applicationRoute.transitionTo(authenticatedRoute);
     });
   }
 
   if (isPresent(invalidatedRoute)) {
-    session.on("invalidationSucceeded", function() {
+    session.on("invalidationSucceeded", function () {
       applicationRoute.transitionTo(invalidatedRoute);
     });
   }
@@ -26,5 +26,5 @@ export function initialize(appInstance: ApplicationInstance): void {
 export default {
   initialize,
   name: "session-events",
-  after: "ember-simple-auth"
+  after: "ember-simple-auth",
 };
