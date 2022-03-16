@@ -1,35 +1,23 @@
 import DS from "ember-data";
-import { computed, get } from "@ember/object";
 import Brand from "./brand";
 import Sku from "./sku";
-import ProductField from "./product-field";
-import ProductImage from "./product-image";
 import ProductCategory from "./product-category";
-import FieldSchema from "./field-schema";
 import ShopProductPaymentMethod from "./shop-product-payment-method";
 
 export default class Product extends DS.Model {
-  @DS.attr("string") name!: string;
-  @DS.attr("string") summary!: string;
-  @DS.attr("string") description!: string;
-  @DS.attr("string") slug!: string;
-  @DS.belongsTo("brand") brand!: Brand;
-  @DS.hasMany("sku") skus!: Sku[];
-  @DS.hasMany("product-field") productFields!: ProductField[];
-  @DS.hasMany("product-image") productImages!: ProductImage[];
-  @DS.hasMany("product-category") productCategories!: ProductCategory[];
+  @DS.attr("string") declare name: string;
+  @DS.attr("string") declare summary: string;
+  @DS.attr("string") declare description: string;
+  @DS.attr("string") declare slug: string;
+  @DS.attr("string") declare skuName: string;
+  @DS.belongsTo("brand") declare brand: Brand;
+  @DS.hasMany("sku") declare skus: Sku[];
+  @DS.hasMany("product-category") declare productCategories: ProductCategory[];
   @DS.hasMany("shop-product-payment-method")
-  shopProductPaymentMethods!: ShopProductPaymentMethod[];
-  @DS.hasMany("field-schema") schema!: FieldSchema[];
-  @DS.hasMany("field-schema") skuSchema!: FieldSchema[];
-
-  @computed("productFields.[]")
-  get attributes(): any {
-    return this.productFields.reduce((hash: any, attribute: any) => {
-      hash[get(attribute, "slug")] = get(attribute, "values");
-      return hash;
-    }, {});
-  }
+  declare shopProductPaymentMethods: ShopProductPaymentMethod[];
+  @DS.attr() declare attrs: any;
+  @DS.attr() declare schema: any;
+  @DS.attr() declare skuSchema: any;
 }
 
 declare module "ember-data/types/registries/model" {
