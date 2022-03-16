@@ -30,37 +30,6 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   coalesceFindRequests = true;
   host = config.APP.goods.host;
 
-  modelWhitelist = [
-    "basket",
-    "basket-item",
-    "basket-rule-validation",
-    "brand",
-    "category",
-    "country",
-    "content-entry-operation",
-    "order",
-    "order-line",
-    "order-payment-method",
-    "payment",
-    "payment-method",
-    "price",
-    "product-category",
-    "product-field",
-    "product-image",
-    "product",
-    "promotion",
-    "shop-member",
-    "shop-password-change",
-    "shop-payment-method",
-    "shop-reset-token",
-    "shop-role",
-    "state",
-    "sku-field",
-    "sku-image",
-    "sku",
-    "user",
-  ];
-
   @inject declare session: any;
 
   @computed("session.data.authenticated.access_token")
