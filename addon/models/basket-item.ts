@@ -13,7 +13,7 @@ export default class BasketItem extends DS.Model {
   @DS.attr("number", { defaultValue: 0 }) promotionApplicationMax!: number;
   @DS.belongsTo("basket") basket!: Basket;
   @DS.belongsTo("sku") sku!: Sku;
-  @DS.belongsTo("promotion") promotion!: Promotion;
+  @DS.belongsTo("promotion", { async: false }) promotion!: Promotion;
 }
 
 declare module "ember-data/types/registries/model" {
