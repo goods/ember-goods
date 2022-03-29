@@ -12,6 +12,13 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   DataAdapterMixin,
   {
     pathForType(type: any) {
+      if (
+        config.APP.goods.useModelWhitelist &&
+        this.modelWhitelist.includes(type)
+      ) {
+        return this._super(...arguments);
+      }
+
       let prefix = "";
 
       if (config.APP.goods.apiV2) {
