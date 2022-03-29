@@ -2,6 +2,7 @@ import DS from "ember-data";
 import Basket from "./basket";
 import Sku from "./sku";
 import Promotion from "./promotion";
+import QuoteLine from "./quote-line";
 
 export default class BasketItem extends DS.Model {
   @DS.attr("number") quantity!: number;
@@ -12,6 +13,7 @@ export default class BasketItem extends DS.Model {
   @DS.attr() metadata!: any;
   @DS.attr("number", { defaultValue: 0 }) promotionApplicationMax!: number;
   @DS.belongsTo("basket") basket!: Basket;
+  @DS.belongsTo("quote-line") quoteLine!: QuoteLine;
   @DS.belongsTo("sku") sku!: Sku;
   @DS.belongsTo("promotion") promotion!: Promotion;
 }
