@@ -57,6 +57,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
     "product-image",
     "product",
     "promotion",
+    "quote",
     "shop-member",
     "shop-password-change",
     "shop-payment-method",
