@@ -1,6 +1,7 @@
 import DS from "ember-data";
+//@ts-ignore
 import { EmbeddedRecordsMixin } from "@ember-data/serializer/rest";
-
+//@ts-ignore
 export default class Quote extends DS.JSONAPISerializer.extend(
   EmbeddedRecordsMixin
 ) {
