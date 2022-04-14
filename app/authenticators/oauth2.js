@@ -1,1 +1,1 @@
-export { default } from "ember-goods/authenticators/oauth2";
+export { default } from 'ember-goods/authenticators/oauth2';
