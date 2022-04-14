@@ -1,1 +1,1 @@
-export { default, initialize } from "ember-goods/instance-initializers/goods";
+export { default, initialize } from 'ember-goods/instance-initializers/goods';
