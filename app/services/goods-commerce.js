@@ -1,1 +1,1 @@
-export { default } from "ember-goods/services/goods-commerce";
+export { default } from 'ember-goods/services/goods-commerce';

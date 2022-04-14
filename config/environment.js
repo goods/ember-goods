@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-module.exports = function(environment, appConfig) {
-  appConfig["APP"]["goods"] = {
-    host: "https://api.goods.co.uk" || appConfig["goods"]["host"]
+module.exports = function (environment, appConfig) {
+  appConfig['APP']['goods'] = {
+    host: 'https://api.goods.co.uk' || appConfig['goods']['host'],
   };
   return {};
 };

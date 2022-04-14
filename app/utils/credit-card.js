@@ -1,1 +1,1 @@
-export { creditCardType } from "ember-goods/utils/credit-card";
+export { creditCardType } from 'ember-goods/utils/credit-card';
