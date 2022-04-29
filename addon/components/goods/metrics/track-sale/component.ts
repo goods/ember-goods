@@ -1,16 +1,17 @@
 import Component from '@glimmer/component';
 import Order from 'ember-goods/models/order';
+import config from 'ember-get-config';
 import { isPresent } from '@ember/utils';
 import { inject } from '@ember/service';
 import moment from 'moment';
 import GoodsCommerce from 'ember-goods/services/goods-commerce';
 
-interface GoodsOrderCompletionArgs {
+interface GoodsMetricsTrackSaleArgs {
   metrics: any;
   order: Order;
 }
 
-export default class GoodsOrderCompletion extends Component<GoodsOrderCompletionArgs> {
+export default class GoodsMetricsTrackSale extends Component<GoodsMetricsTrackSaleArgs> {
   /**
    *
    */
@@ -19,14 +20,22 @@ export default class GoodsOrderCompletion extends Component<GoodsOrderCompletion
   /**
    *
    */
-  async trackSale() {
-    let actionField = {
-      id: this.args.order.get('id'),
-      // affiliation: 'ORGANISATION_NAME',
-      revenue: this.args.order.get('total') / 100,
-      tax: '0',
-      shipping: '0',
-    };
+  trackSale() {
+    let metrics = config.APP.goods.commerce.metrics;
+
+    if (metrics.includes('gtm')) {
+      this.gtmTrackSale(this.args.order);
+    }
+  }
+
+  /**
+   *
+   * @param order
+   */
+  gtmTrackSale(order: Order) {
+    //@ts-ignore
+    let dataLayer = window['dataLayer'] || [];
+
     let products: Array<any> = [];
     this.args.order.get('orderLines').forEach((orderLine) => {
       let sku = orderLine.get('sku');
@@ -52,11 +61,18 @@ export default class GoodsOrderCompletion extends Component<GoodsOrderCompletion
         dimension2: sku.get('attrs').sessionStartTime,
       });
     });
-    this.args.metrics.trackEvent({
-      event: 'ecommerce',
+
+    dataLayer.push({ ecommerce: null });
+    dataLayer.push({
       ecommerce: {
         purchase: {
-          actionField,
+          actionField: {
+            id: order.get('id'),
+            affiliation: 'Online Store',
+            revenue: order.get('total') / 100,
+            tax: '0',
+            shipping: '0',
+          },
           products,
         },
       },
