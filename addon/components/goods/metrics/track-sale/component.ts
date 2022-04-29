@@ -64,6 +64,7 @@ export default class GoodsMetricsTrackSale extends Component<GoodsMetricsTrackSa
 
     dataLayer.push({ ecommerce: null });
     dataLayer.push({
+      event: 'ecommerce',
       ecommerce: {
         purchase: {
           actionField: {
