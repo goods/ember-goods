@@ -35,6 +35,8 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
     },
   }
 ) {
+  @inject declare session: any;
+
   coalesceFindRequests = true;
   host = config.APP.goods.host;
 
@@ -69,8 +71,6 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
     "sku",
     "user",
   ];
-
-  @inject declare session: any;
 
   @computed("session.data.authenticated.access_token")
   get headers() {
