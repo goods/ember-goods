@@ -16,31 +16,51 @@ import config from 'ember-get-config';
 import { all } from 'rsvp';
 import Session from './session';
 import { v4 } from 'ember-uuid';
+import GoodsMetrics from './goods-metrics';
 
 export default class Goods extends Service {
   @inject declare session: Session;
   @inject declare store: Store;
 
   @inject('goods-commerce') declare commerce: GoodsCommerce;
+  @inject('goods-metrics') declare metrics: GoodsMetrics;
 
   @alias('basket.basketItems') declare basketItems: BasketItem[];
+
+  /**
+   * Default commerce config
+   */
+  commerceConfig: any = Object.assign(
+    {},
+    {
+      enabled: false,
+      metrics: [],
+    },
+    config.APP.goods.commerce
+  );
+
+  /**
+   * Default metrics config
+   */
+  metricsConfig: any = Object.assign(
+    {},
+    {
+      enabled: false,
+    },
+    config.APP.goods.metrics
+  );
 
   /**
    *
    */
   async initialize() {
-    let commerce = Object.assign(
-      {},
-      {
-        enabled: false,
-        metrics: [],
-      },
-      config.APP.goods.commerce
-    );
-
     let promises: Promise<any>[] = [];
-    if (commerce.enabled == true) {
+    if (this.commerceConfig.enabled == true) {
       promises.push(this.commerce.initialize());
+    }
+
+    if (this.metricsConfig.enabled == true) {
+      promises.push(this.metrics.initialize());
     }
 
     //@ts-ignore
@@ -61,11 +81,13 @@ export default class Goods extends Service {
   }
 
   public async createBasket(): Promise<Basket> {
-    return this.store.createRecord('basket').save();
+    return await this.store.createRecord('basket').save();
   }
 
   public async getBasket(basketId: string): Promise<Basket | null> {
-    return await this.store.find('basket', basketId);
+    return await this.store.findRecord('basket', basketId, {
+      include: 'basketItems.sku.product.brand',
+    });
   }
 
   public createBasketItem(
@@ -91,7 +113,7 @@ export default class Goods extends Service {
     return basketItem;
   }
 
-  public destroyBasketItem(
+  public async destroyBasketItem(
     basketItems: BasketItem[],
     targetBasketItem: BasketItem
   ): Promise<void> {
@@ -99,20 +121,30 @@ export default class Goods extends Service {
   }
 
   public async destroyBasketItems(
-    basketItems: BasketItem[],
+    _basketItems: BasketItem[],
     targetBasketItems: BasketItem[]
   ): Promise<void> {
-    if (isNone(basketItems) === false) {
-      //@ts-ignore
-      basketItems.removeObjects(targetBasketItems);
-    }
-
     //@ts-ignore
-    let baskets = basketItems.mapBy('basket.content').uniq();
+    let baskets = targetBasketItems.mapBy('basket.content').uniq();
 
-    //@ts-ignore
-    await RSVP.all(targetBasketItems.invoke('destroyRecord'));
+    this.metrics.trackRemoveFromBasket(targetBasketItems);
+
+    await all(
+      targetBasketItems.map((basketItem) => {
+        basketItem.deleteRecord();
+        return basketItem.save();
+      })
+    );
+
     await RSVP.all(baskets.invoke('reload'));
+  }
+
+  public async removePromotion(
+    basket: Basket,
+    promotionLine: BasketItem
+  ): Promise<void> {
+    await promotionLine.destroyRecord();
+    await basket.reload();
   }
 
   public async saveBasketItem(basketItem: BasketItem): Promise<BasketItem> {
@@ -140,6 +172,10 @@ export default class Goods extends Service {
       return previous.then(basketItem.save.bind(basketItem));
     },
     RSVP.resolve());
+
+    if (this.metricsConfig.enabled) {
+      this.metrics.trackAddToBasket(unsavedBasketItems);
+    }
 
     await basket.reload();
   }
