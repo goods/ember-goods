@@ -65,6 +65,15 @@ export default class GoodsCommerce extends Service {
   }
 
   /**
+   * Format currency to a string
+   * @param value
+   * @returns
+   */
+  formatCurrency(value: number) {
+    return (value / 100).toFixed(2).toString();
+  }
+
+  /**
    * Build the SKU name.
    *
    * @param attributes
