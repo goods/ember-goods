@@ -7,7 +7,7 @@ module('Unit | Model | quote', function (hooks) {
 
   // Replace this with your real tests.
   test('it exists', function (assert) {
-    let store = this.owner.lookup('service:store');
+    let store: any = this.owner.lookup('service:store');
     let model = run(() => store.createRecord('quote', {}));
     assert.ok(model);
   });

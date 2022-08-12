@@ -11,11 +11,15 @@ import Order from '../models/order';
 import Payment from '../models/payment';
 import Sku from '../models/sku';
 import GoodsCommerce from './goods-commerce';
+//@ts-ignore
 import { Store } from '@ember-data/store';
+//@ts-ignore
 import config from 'ember-get-config';
 import { all } from 'rsvp';
 import Session from './session';
+//@ts-ignore
 import { v4 } from 'ember-uuid';
+//@ts-ignore
 import GoodsMetrics from './goods-metrics';
 
 export default class Goods extends Service {

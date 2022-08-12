@@ -3,9 +3,11 @@ import { inject } from '@ember/service';
 import { isNone, isEmpty } from '@ember/utils';
 import Session from './session';
 import { get } from '@ember/object';
+//@ts-ignore
 import Store from '@ember-data/store';
 import Basket from 'ember-goods/models/basket';
 import { tracked } from '@glimmer/tracking';
+//@ts-ignore
 import config from 'ember-get-config';
 import BasketItem from 'ember-goods/models/basket-item';
 import Country from 'ember-goods/models/country';
@@ -241,6 +243,7 @@ export default class GoodsCommerce extends Service {
 
     let orderPaymentMethod = order
       .get('orderPaymentMethods')
+      //@ts-ignore
       .findBy('shopPaymentMethod.paymentMethod.name', paymentMethodName);
 
     const browserDate = new Date();

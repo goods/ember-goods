@@ -7,14 +7,14 @@ module('Unit | Serializer | quote', function (hooks) {
 
   // Replace this with your real tests.
   test('it exists', function (assert) {
-    let store = this.owner.lookup('service:store');
+    let store: any = this.owner.lookup('service:store');
     let serializer = store.serializerFor('quote');
 
     assert.ok(serializer);
   });
 
   test('it serializes records', function (assert) {
-    let store = this.owner.lookup('service:store');
+    let store: any = this.owner.lookup('service:store');
     let record = run(() => store.createRecord('quote', {}));
 
     let serializedRecord = record.serialize();

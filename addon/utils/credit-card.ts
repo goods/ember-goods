@@ -1,4 +1,4 @@
-var types = {};
+var types: any = {};
 var VISA = 'visa';
 var MASTERCARD = 'mastercard';
 var AMERICAN_EXPRESS = 'amex';
@@ -19,13 +19,15 @@ var testOrder = [
   DISCOVER,
   JCB,
   UNIONPAY,
-  MAESTRO
+  MAESTRO,
 ];
 
-function clone(x) {
+function clone(x: any) {
   var prefixPattern, exactPattern, dupe;
 
-  if (!x) { return null; }
+  if (!x) {
+    return null;
+  }
 
   prefixPattern = x.prefixPattern.source;
   exactPattern = x.exactPattern.source;
@@ -45,8 +47,8 @@ types[VISA] = {
   lengths: [16, 18, 19],
   code: {
     name: CVV,
-    size: 3
-  }
+    size: 3,
+  },
 };
 
 types[MASTERCARD] = {
@@ -58,8 +60,8 @@ types[MASTERCARD] = {
   lengths: [16],
   code: {
     name: CVC,
-    size: 3
-  }
+    size: 3,
+  },
 };
 
 types[AMERICAN_EXPRESS] = {
@@ -72,8 +74,8 @@ types[AMERICAN_EXPRESS] = {
   lengths: [15],
   code: {
     name: CID,
-    size: 4
-  }
+    size: 4,
+  },
 };
 
 types[DINERS_CLUB] = {
@@ -85,8 +87,8 @@ types[DINERS_CLUB] = {
   lengths: [14, 16, 19],
   code: {
     name: CVV,
-    size: 3
-  }
+    size: 3,
+  },
 };
 
 types[DISCOVER] = {
@@ -98,8 +100,8 @@ types[DISCOVER] = {
   lengths: [16, 19],
   code: {
     name: CID,
-    size: 3
-  }
+    size: 3,
+  },
 };
 
 types[JCB] = {
@@ -111,23 +113,24 @@ types[JCB] = {
   lengths: [16],
   code: {
     name: CVV,
-    size: 3
-  }
+    size: 3,
+  },
 };
 
 types[UNIONPAY] = {
   niceType: 'UnionPay',
   type: UNIONPAY,
-  prefixPattern: /^((6|62|62\d|(621(?!83|88|98|99))|622(?!06)|627[02,06,07]|628(?!0|1)|629[1,2])|622018)$/,
-  exactPattern: /^(((620|(621(?!83|88|98|99))|622(?!06|018)|62[3-6]|627[02,06,07]|628(?!0|1)|629[1,2]))\d*|622018\d{12})$/,
+  prefixPattern:
+    /^((6|62|62\d|(621(?!83|88|98|99))|622(?!06)|627[02,06,07]|628(?!0|1)|629[1,2])|622018)$/,
+  exactPattern:
+    /^(((620|(621(?!83|88|98|99))|622(?!06|018)|62[3-6]|627[02,06,07]|628(?!0|1)|629[1,2]))\d*|622018\d{12})$/,
   gaps: [4, 8, 12],
   lengths: [16, 17, 18, 19],
   code: {
     name: CVN,
-    size: 3
-  }
+    size: 3,
+  },
 };
-
 types[MAESTRO] = {
   niceType: 'Maestro',
   type: MAESTRO,
@@ -137,11 +140,11 @@ types[MAESTRO] = {
   lengths: [12, 13, 14, 15, 16, 17, 18, 19],
   code: {
     name: CVC,
-    size: 3
-  }
+    size: 3,
+  },
 };
 
-creditCardType.getTypeInfo = function (type) {
+creditCardType.getTypeInfo = function (type: any) {
   return clone(types[type]);
 };
 
@@ -153,13 +156,10 @@ creditCardType.types = {
   DISCOVER: DISCOVER,
   JCB: JCB,
   UNIONPAY: UNIONPAY,
-  MAESTRO: MAESTRO
+  MAESTRO: MAESTRO,
 };
 
-
-
-export function creditCardType(cardNumber) {
-
+export function creditCardType(cardNumber: any) {
   var type, value, i;
   var prefixResults = [];
   var exactResults = [];
@@ -173,6 +173,7 @@ export function creditCardType(cardNumber) {
 
   for (i = 0; i < testOrder.length; i++) {
     type = testOrder[i];
+    //@ts-ignore
     value = types[type];
 
     if (cardNumber.length === 0) {
@@ -181,12 +182,10 @@ export function creditCardType(cardNumber) {
     }
     if (value.exactPattern.test(cardNumber)) {
       exactResults.push(value.type);
-    } 
-    else if (value.prefixPattern.test(cardNumber)) {
+    } else if (value.prefixPattern.test(cardNumber)) {
       prefixResults.push(value.type);
     }
   }
   return exactResults.length ? exactResults : prefixResults;
 }
 export default creditCardType;
-

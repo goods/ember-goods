@@ -1,8 +1,10 @@
 import Component from '@glimmer/component';
 import Order from 'ember-goods/models/order';
+//@ts-ignore
 import config from 'ember-get-config';
 import { isPresent } from '@ember/utils';
 import { inject } from '@ember/service';
+//@ts-ignore
 import moment from 'moment';
 import GoodsCommerce from 'ember-goods/services/goods-commerce';
 

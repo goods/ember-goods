@@ -6,6 +6,7 @@ import { computed } from '@ember/object';
 import { get } from '@ember/object';
 import { scheduleOnce } from '@ember/runloop';
 import { isNone } from '@ember/utils';
+//@ts-ignore
 import { layout } from '@ember-decorators/component';
 
 @layout(template)

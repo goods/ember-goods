@@ -27,7 +27,8 @@ export default class GoodsMetrics extends Service {
   dataLayer = window['dataLayer'] || [];
 
   get env() {
-    return getOwner(this).resolveRegistration('config:environment');
+    let owner: any = getOwner(this);
+    return owner.resolveRegistration('config:environment');
   }
 
   get isTest() {

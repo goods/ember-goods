@@ -1,23 +1,23 @@
-import ApplicationInstance from "@ember/application/instance";
+import ApplicationInstance from '@ember/application/instance';
 //@ts-ignore
-import config from "ember-get-config";
-import { isPresent } from "@ember/utils";
+import config from 'ember-get-config';
+import { isPresent } from '@ember/utils';
 
 export function initialize(appInstance: ApplicationInstance): void {
-  const applicationRoute = appInstance.lookup("route:application");
-  const session = appInstance.lookup("service:session");
+  const applicationRoute: any = appInstance.lookup('route:application');
+  const session: any = appInstance.lookup('service:session');
 
   let authenticatedRoute = config.APP.goods.signedInRoute;
   let invalidatedRoute = config.APP.goods.signedOutRoute;
 
   if (isPresent(authenticatedRoute)) {
-    session.on("authenticationSucceeded", function () {
+    session.on('authenticationSucceeded', function () {
       applicationRoute.transitionTo(authenticatedRoute);
     });
   }
 
   if (isPresent(invalidatedRoute)) {
-    session.on("invalidationSucceeded", function () {
+    session.on('invalidationSucceeded', function () {
       applicationRoute.transitionTo(invalidatedRoute);
     });
   }
@@ -25,6 +25,6 @@ export function initialize(appInstance: ApplicationInstance): void {
 
 export default {
   initialize,
-  name: "session-events",
-  after: "ember-simple-auth",
+  name: 'session-events',
+  after: 'ember-simple-auth',
 };
