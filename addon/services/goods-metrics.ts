@@ -44,6 +44,7 @@ export default class GoodsMetrics extends Service {
    * @param products
    */
   trackProductListView({ listName, listId, products }: ProductListParams) {
+    this.resetDataLayer();
     if (this.goods.metricsConfig.enabled == false) {
       if (this.isTest == false) {
         console.error(ERROR_DISABLED);
@@ -75,6 +76,7 @@ export default class GoodsMetrics extends Service {
    * @param product
    */
   trackProductView(product: Product) {
+    this.resetDataLayer();
     if (this.goods.metricsConfig.enabled == false) {
       if (this.isTest == false) {
         console.error(ERROR_DISABLED);
@@ -112,6 +114,7 @@ export default class GoodsMetrics extends Service {
     }
 
     try {
+      this.resetDataLayer();
       let items = basketItems.map((basketItem) => {
         let sku = basketItem.get('sku');
         let product = sku.get('product');
@@ -162,6 +165,7 @@ export default class GoodsMetrics extends Service {
     }
 
     try {
+      this.resetDataLayer();
       let items = basketItems.map((basketItem) => {
         let sku = basketItem.get('sku');
         let product = sku.get('product');
@@ -213,6 +217,8 @@ export default class GoodsMetrics extends Service {
     }
 
     try {
+      this.resetDataLayer();
+
       let sku = basketItem.get('sku');
       let product = sku.get('product');
 
@@ -252,6 +258,8 @@ export default class GoodsMetrics extends Service {
     }
 
     try {
+      this.resetDataLayer();
+
       let items = basket.get('basketItems').map((basketItem) => {
         let sku = basketItem.get('sku');
         let product = sku.get('product');
@@ -305,6 +313,8 @@ export default class GoodsMetrics extends Service {
     }
 
     try {
+      this.resetDataLayer();
+
       let items = order.get('orderLines').map((orderLine) => {
         let sku = orderLine.get('sku');
         let product = sku.get('product');
@@ -322,9 +332,6 @@ export default class GoodsMetrics extends Service {
         };
       });
 
-      //Clear previous messages
-      this.dataLayer.push({ ecommerce: null });
-
       //Push this purchase event
       this.dataLayer.push({
         event: 'purchase',
@@ -338,6 +345,12 @@ export default class GoodsMetrics extends Service {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  resetDataLayer() {
+    this.dataLayer.push(function () {
+      this.reset();
+    });
   }
 }
 
