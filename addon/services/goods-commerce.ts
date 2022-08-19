@@ -71,8 +71,8 @@ export default class GoodsCommerce extends Service {
    * @param value
    * @returns
    */
-  formatCurrency(value: number) {
-    return (value / 100).toFixed(2).toString();
+  formatCurrency(value: number): number {
+    return parseFloat((value / 100).toFixed(2));
   }
 
   /**
