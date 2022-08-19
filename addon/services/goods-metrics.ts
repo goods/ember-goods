@@ -325,12 +325,10 @@ export default class GoodsMetrics extends Service {
       this.dataLayer.push({
         event: 'purchase',
         ecommerce: {
-          purchase: {
-            transaction_id: order.get('id'),
-            value: this.commerce.formatCurrency(order.get('total')),
-            currency: 'GBP',
-            items,
-          },
+          transaction_id: order.get('id'),
+          value: this.commerce.formatCurrency(order.get('total')),
+          currency: 'GBP',
+          items,
         },
       });
     } catch (e) {
