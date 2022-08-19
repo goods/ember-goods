@@ -322,6 +322,10 @@ export default class GoodsMetrics extends Service {
         };
       });
 
+      //Clear previous messages
+      this.dataLayer.push({ ecommerce: null });
+
+      //Push this purchase event
       this.dataLayer.push({
         event: 'purchase',
         ecommerce: {
