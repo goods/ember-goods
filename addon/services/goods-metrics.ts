@@ -349,6 +349,7 @@ export default class GoodsMetrics extends Service {
 
   resetDataLayer() {
     this.dataLayer.push(function () {
+      //@ts-ignore
       this.reset();
     });
   }
