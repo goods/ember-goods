@@ -40,6 +40,25 @@ export default class GoodsMetrics extends Service {
   }
 
   /**
+   * Track an event
+   * @param products
+   */
+  trackEvent(eventName: string, params: any = {}) {
+    this.resetDataLayer();
+    if (this.goods.metricsConfig.enabled == false) {
+      if (this.isTest == false) {
+        console.error(ERROR_DISABLED);
+      }
+      return;
+    }
+
+    this.dataLayer.push({
+      event: eventName,
+      params,
+    });
+  }
+
+  /**
    * Track a product list view
    * @param products
    */
