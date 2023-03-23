@@ -159,6 +159,7 @@ export default class GoodsCommerce extends Service {
         'order_payment_methods.shop_payment_method.payment_method',
         'payments',
         'order_lines.sku.product.brand',
+        'order_lines.promotion',
       ].join(','),
     });
 
