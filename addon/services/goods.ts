@@ -21,6 +21,7 @@ import Session from './session';
 import { v4 } from 'ember-uuid';
 //@ts-ignore
 import GoodsMetrics from './goods-metrics';
+import GoodsTickets from './goods-tickets';
 
 export default class Goods extends Service {
   @inject declare session: Session;
@@ -28,6 +29,7 @@ export default class Goods extends Service {
 
   @inject('goods-commerce') declare commerce: GoodsCommerce;
   @inject('goods-metrics') declare metrics: GoodsMetrics;
+  @inject('goods-tickets') declare tickets: GoodsTickets;
 
   @alias('basket.basketItems') declare basketItems: BasketItem[];
 
