@@ -30,12 +30,17 @@
     "postpack": "ember ts:clean"
   },
   "dependencies": {
+    "ember-auto-import": "^2.4.2",
     "ember-cli-babel": "^7.26.11",
     "ember-cli-htmlbars": "^6.0.1",
+    "ember-cli-moment-shim": "^3.8.0",
     "ember-cli-typescript": "^4.0.0",
+    "ember-css-modules": "^1.6.2",
     "ember-get-config": "^0.2.4",
+    "ember-moment": "^10.0.0",
     "ember-simple-auth": "^3.0.0",
-    "ember-uuid": "^2.1.0"
+    "ember-uuid": "^2.1.0",
+    "postcss-functions": "^3.0.0"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
@@ -64,7 +69,6 @@
     "ember-export-application-global": "^2.0.1",
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-moment": "^10.0.0",
     "ember-page-title": "^6.2.2",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.2",
