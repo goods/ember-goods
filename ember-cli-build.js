@@ -4,7 +4,13 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function (defaults) {
   let app = new EmberAddon(defaults, {
-    // Add options here
+    cssModules: {
+      headerModules: [
+        'ember-goods/styles/global',
+        'ember-goods/styles/palette',
+        'ember-goods/styles/typography',
+      ],
+    },
   });
 
   /*
