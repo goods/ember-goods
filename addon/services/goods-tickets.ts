@@ -4,7 +4,7 @@ import { inject } from '@ember/service';
 import GoodsCommerce from './goods-commerce';
 import Sku from 'ember-goods/models/sku';
 import Product from 'ember-goods/models/product';
-import { Visitor } from '../../types';
+import { Visitor } from 'tickets';
 
 export default class GoodsTickets extends Service {
   /**
