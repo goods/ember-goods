@@ -14,6 +14,9 @@ import Country from 'ember-goods/models/country';
 import State from 'ember-goods/models/state';
 import Order from 'ember-goods/models/order';
 import Goods from './goods';
+import Sku from 'ember-goods/models/sku';
+import Payment from 'ember-goods/models/payment';
+import OrderPaymentMethod from 'ember-goods/models/order-payment-method';
 
 export default class GoodsCommerce extends Service {
   /**
@@ -248,7 +251,7 @@ export default class GoodsCommerce extends Service {
 
   /**
    *
-   * @returns Promise<Basket> A promise that resolves to a new unpersisted basket
+   * @returns An unpersisted order
    */
   createOrder(attrs: any): Order {
     let basketMetadata = this.basket?.get('metadata') ?? {};
@@ -271,16 +274,16 @@ export default class GoodsCommerce extends Service {
   }
 
   /**
-   * Creates and returns an unsaved payment for an order
+   * Create a payment for the given payment method. Does not persist the payment.
    *
-   * Order must have the following data included:
-   *  - order_payment_methods.shop_payment_method.payment_method
-   *
-   * @param basket
+   * @param order
+   * @param paymentMethodName
+   * @param attrs
+   * @returns
    */
-  createPayment(
+  createPaymentForPaymentMethod(
     order: Order,
-    paymentMethodName: string = 'Sagepay Direct',
+    paymentMethodName: string,
     attrs: any = {}
   ) {
     if (isEmpty(order.get('orderPaymentMethods'))) {
@@ -319,6 +322,52 @@ export default class GoodsCommerce extends Service {
     payment.setProperties(paymentAttrs);
 
     return payment;
+  }
+
+  /**
+   * Creates and returns a payment for an order
+   *
+   * @param basket
+   */
+  async createPayment(order: Order, attrs: any = {}): Promise<Payment> {
+    const browserDate = new Date();
+    let browserTimezone = browserDate.getTimezoneOffset();
+
+    let paymentAttrs = Object.assign(
+      {
+        amount: order.get('balance'),
+        order: order,
+        shopPaymentMethod: null,
+        token: '',
+        challengeCompletionUrl: '',
+        browserJavascriptEnabled: true,
+        browserJavaEnabled: navigator.javaEnabled,
+        browserColorDepth: screen.colorDepth,
+        browserScreenHeight: screen.height,
+        browserScreenWidth: screen.width,
+        browserTimezone: browserTimezone,
+        browserLanguage: navigator.language,
+      },
+      attrs
+    );
+
+    let payment = this.store.createRecord('payment');
+    payment.setProperties(paymentAttrs);
+
+    await payment.save();
+
+    return payment;
+  }
+
+  /**
+   *
+   * @param order
+   * @returns
+   */
+  async loadOrderPaymentMethods(order: Order): Promise<OrderPaymentMethod[]> {
+    return await this.store.query('order-payment-method', {
+      filter: { order: order.get('id') },
+    });
   }
 
   /**
