@@ -1,0 +1,27 @@
+<div local-class="datepicker">
+  <Asm::Ui::Calendar 
+    local-class="datepicker {{if @isLoading "is-loading"}}"
+    @daysMetadata={{@days}}
+    @mode="single"
+    @center={{@center}}
+    @onChangeCenter={{@onChangeCenter}}
+  >
+    <:day as |day|>
+      <button
+        local-class="day-option {{if day.metadata.isSelected "is-selected"}}"
+        type="button"
+        disabled={{not (eq day.metadata.status "available")}}
+        {{on "click" (fn @onSelect day)}}
+      >
+        <span local-class="date">
+          {{moment-format day.date "D"}}
+        </span>
+        <span local-class="price">
+          {{#if (eq day.metadata.status "available")}}
+            {{goods-format-currency day.metadata.price}} 
+          {{/if}}
+        </span>
+      </button>
+    </:day>
+  </Asm::Ui::Calendar>
+</div>

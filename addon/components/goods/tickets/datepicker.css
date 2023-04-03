@@ -1,0 +1,41 @@
+.datepicker {
+  font-family: var(--gd-typography-ui);
+}
+
+.day-option {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #EFEFEF;
+  border-radius: 5px;
+  box-shadow: rgb(0 0 0 / 4%) 0px 2px 5px;;
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  font-family: var(--gd-typography-ui);
+  overflow: hidden;
+  padding: 10px 0;
+  margin: 1px;
+}
+
+.day-option:disabled {
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  box-shadow: none;
+}
+
+.is-loading .day-option .date {
+  color: #f0f0f0;
+}
+
+.date {
+  font-weight: 500;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+
+.price {
+  color: #DC5132;
+  height: 11px;
+  font-size: 11px;
+  line-height: 12px;
+}
