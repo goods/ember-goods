@@ -34,6 +34,11 @@ export default class GoodsCommerce extends Service {
   /**
    *
    */
+  @inject declare fastboot: any;
+
+  /**
+   *
+   */
   @tracked basket: Basket | null = null;
 
   /**
@@ -131,10 +136,15 @@ export default class GoodsCommerce extends Service {
 
     return skuName;
   }
+
   /**
    * Initialize the commerce service by creating a basket
    */
   async initialize() {
+    if (this.fastboot.get('isFastBoot')) {
+      return;
+    }
+
     this.basket = await this.loadSessionBasket();
 
     if (isNone(this.basket)) {
