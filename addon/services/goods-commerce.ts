@@ -95,6 +95,43 @@ export default class GoodsCommerce extends Service {
   }
 
   /**
+   * Build the variant name. Expects the `price` and 'product' relationships to
+   * be populated.
+   *
+   * @param attributes
+   * @param template
+   * @returns
+   */
+  getVariantName(sku: Sku): string {
+    let attrs = sku.get('attrs');
+    let product = sku.get('product');
+    let productAttrs = product.get('attrs');
+    let skuName = product.get('skuName');
+
+    let regex = new RegExp(`{{id}}`, 'gi');
+    skuName = skuName.replace(regex, sku.get('id'));
+
+    // Replace sku attrs
+    skuName = Object.keys(attrs).reduce((title, key) => {
+      let regex = new RegExp(`{{${key}}}`, 'gi');
+      let value = attrs[key];
+      if (key === 'sessionStartTime') {
+        value = attrs[key][0];
+        value = value.substring(0, value.length - 3);
+      }
+      return title.replace(regex, value);
+    }, skuName);
+
+    // Replace product attrs
+    skuName = Object.keys(productAttrs).reduce((title, key) => {
+      let regex = new RegExp(`{{product.${key}}}`, 'gi');
+      let value = productAttrs[key];
+      return title.replace(regex, value);
+    }, skuName);
+
+    return skuName;
+  }
+  /**
    * Initialize the commerce service by creating a basket
    */
   async initialize() {
