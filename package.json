@@ -24,9 +24,7 @@
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
     "test:ember-compatibility": "ember try:each",
-    "prepublishOnly": "ember ts:precompile",
     "postpublish": "ember ts:clean",
-    "prepack": "ember ts:precompile",
     "postpack": "ember ts:clean"
   },
   "dependencies": {
@@ -54,9 +52,7 @@
     "@glimmer/tracking": "^1.0.4",
     "@types/ember": "^3.16.0",
     "@types/ember-data": "^3.16.3",
-    "@types/ember-qunit": "^5.0.0",
     "@types/ember-resolver": "^5.0.9",
-    "@types/ember__test-helpers": "^2.8.0",
     "@types/qunit": "^2.19.2",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
