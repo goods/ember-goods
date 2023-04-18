@@ -1,0 +1,225 @@
+<div local-class="day-planner" ...attributes>
+  <a id="day-planner" />
+
+  {{#if @errors}}
+    {{#if this.hasOutOfStockError}}
+      <div local-class="error-message">
+        We're sorry, some of the tickets you have selected have now sold out. Please select a different date or time for your visit and/or experience.
+      </div>
+    {{else}}
+      <div local-class="error-message">
+        There seems to have been an error when trying to add to basket. Please try again or refresh the page and select a different date or time for you visit.
+      </div>
+    {{/if}}
+  {{/if}}
+
+  <div local-class="selections">
+    {{#if (includes this.selectionState (w "tickets" "date" "customization"))}}
+      <button class="goods--tickets--day-planner--selection-pane" local-class="selection-pane" type="button" {{on "click" (fn (mut this.selectionState) "visitors")}}>
+        <div local-class="selection-pane-info">
+          <div local-class="selection-pane-label">
+            Visitors
+          </div>
+          <div local-class="selection-pane-value">
+            {{this.totalTicketTypeQuantity}} guests
+          </div>
+        </div>
+        <div local-class="selection-pane-action">
+          Change
+        </div>
+      </button>
+    {{/if}}
+
+    {{#if (includes this.selectionState (w "date" "customization"))}}
+      <button class="goods--tickets--day-planner--selection-pane" local-class="selection-pane" type="button" {{on "click" (fn (mut this.selectionState) "tickets")}}>
+        <div local-class="selection-pane-info">
+          <div local-class="selection-pane-label">
+            Tickets and experiences
+          </div>
+          <div local-class="selection-pane-value selection-pane-tickets">
+            {{#each this.selection.entryTickets as |ticket|}}
+              <div local-class="selection-pane-ticket">
+                <img src={{ticket.product.attrs.cardHeroImage.originalUrl}} alt={{ticket.product.name}} local-class="selection-pane-ticket-img" />
+                <div local-class="selection-pane-ticket-name">
+                  {{ticket.product.name}}
+                </div>
+              </div>
+            {{/each}}
+            {{#each this.selection.experienceTickets as |ticket|}}
+              <div local-class="selection-pane-ticket">
+                <img src={{ticket.product.attrs.cardHeroImage.originalUrl}} alt={{ticket.product.name}} local-class="selection-pane-ticket-img" />
+                <div local-class="selection-pane-ticket-name">
+                  {{ticket.product.name}}
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+        <div local-class="selection-pane-action">
+          Change
+        </div>
+      </button>
+    {{/if}}
+
+    {{#if (includes this.selectionState (w "customization"))}}
+      <button class="goods--tickets--day-planner--selection-pane" local-class="selection-pane" type="button" {{on "click" (fn (mut this.selectionState) "date")}}>
+        <div local-class="selection-pane-info">
+          <div local-class="selection-pane-label">
+            Date
+          </div>
+          <div local-class="selection-pane-value">
+            {{moment-format this.selection.date "Do MMMM YYYY"}}
+          </div>
+        </div>
+        <div local-class="selection-pane-action">
+          Change
+        </div>
+      </button>
+    {{/if}}
+
+  </div>
+
+  {{#if (eq this.selectionState "visitors")}}
+    <Asm::Ui::Pane local-class="ticket-types-pane">
+
+      <h3 local-class="ticket-types-heading">
+        {{@dayPlanner.ticketTypesHeading}}
+      </h3>
+
+      <Goods::Tickets::Input::Visitors
+        local-class="visitors"
+        @options={{this.ticketTypeOptions}}
+        @maxQuantity={{this.maxQuantity}}
+        @minQuantity={{this.minQuantity}}
+        @onIncrement={{this.onIncrementTicketType}}
+        @onDecrement={{this.onDecrementTicketType}}
+      />
+      <Asm::Ui::Button
+        local-class="continue-btn"
+        @label="Continue"
+        @appearance="strong"
+        @size="large"
+        @isDisabled={{not this.canMoveToTickets}}
+        @onClick={{this.onSelectTicketTypes}}
+      />
+    </Asm::Ui::Pane>
+  {{/if}}
+
+  
+  {{#if (eq this.selectionState "tickets")}}
+    <section local-class="tickets-section">
+      <Asm::Ui::Pane local-class="entry-tickets-pane">
+        <h3 local-class="entry-tickets-heading">
+          {{@dayPlanner.entryTicketsHeading}}
+        </h3>
+
+        {{#if @dayPlanner.entryTicketsIntroduction}}
+          <div local-class="entry-tickets-introduction">
+            {{@dayPlanner.entryTicketsIntroduction}}
+          </div>
+        {{/if}}
+
+        <Goods::Tickets::Input::Tickets
+          local-class="entry-tickets"
+          @isLoading={{this.entryTicketsData.isLoading}}
+          @mode="single"
+          @canEditTicketTypes={{false}}
+          @productIdentifiers={{this.entryTicketIdentifiers}}
+          @defaultSelectedTypes={{this.selection.ticketTypeOptions}}
+          @selected={{this.selection.entryTickets}}
+          @ticketDetailsComponent={{@ticketDetailsComponent}}
+          @onSelect={{fn (mut this.selection.entryTickets)}}
+          @onIncrementType={{this.onIncrementTicketOptionType}}
+          @onDecrementType={{this.onDecrementTicketOptionType}}
+        />
+      </Asm::Ui::Pane>
+      
+      <Asm::Ui::Pane local-class="experience-tickets-pane">
+        <h3 local-class="experience-tickets-heading">
+          {{@dayPlanner.experienceTicketsHeading}}
+        </h3>
+        {{#if @dayPlanner.experienceTicketsIntroduction}}
+          <div local-class="experience-tickets-introduction">
+            {{@dayPlanner.experienceTicketsIntroduction}}
+          </div>
+        {{/if}}
+        <Goods::Tickets::Input::Tickets
+          local-class="experience-tickets"
+          @mode="multiple"
+          @canEditTicketTypes={{true}}
+          @isLoading={{this.experienceTicketsData.isLoading}}
+          @productIdentifiers={{this.experienceIdentifiers}}
+          @defaultSelectedTypes={{this.selection.ticketTypeOptions}}
+          @selected={{this.selection.experienceTickets}}
+          @ticketDetailsComponent={{@ticketDetailsComponent}}
+          @onSelect={{fn (mut this.selection.experienceTickets)}}
+          @onIncrementType={{this.onIncrementTicketOptionType}}
+          @onDecrementType={{this.onDecrementTicketOptionType}}
+        />
+      </Asm::Ui::Pane>
+
+      <Asm::Ui::Button
+        local-class="continue-btn"
+        @isDisabled={{not this.canMoveToDate}}
+        @label="Continue"
+        @appearance="strong"
+        @size="large"
+        @onClick={{this.onSelectTickets}}
+      />
+    </section>
+  {{/if}}
+
+  {{#if (eq this.selectionState "date")}}  
+    <Asm::Ui::Pane local-class="price-calendar-pane">
+      <h3 local-class="price-calendar-heading">
+        {{@dayPlanner.priceCalendarHeading}}
+      </h3>
+      {{#if @dayPlanner.priceCalendarIntroduction}}
+        <div local-class="price-calendar-introduction">
+          {{@dayPlanner.priceCalendarIntroduction}}
+        </div>
+      {{/if}}
+      <Goods::Tickets::Input::PriceCalendar
+        @startDate={{moment @dayPlanner.priceCalendarStart}}
+        @finishDate={{moment @dayPlanner.priceCalendarFinish}}
+        @selectedTickets={{this.selectedTickets}}
+        @onSelect={{this.onSelectDate}}
+      />
+    </Asm::Ui::Pane>
+  {{/if}}
+  
+  {{#if (eq this.selectionState "customization")}}
+    {{#if this.selection.experienceTickets.length}}
+      <section local-class="customization-section">
+        <h3 local-class="customization-heading">
+          Extra information
+        </h3>
+        {{#each this.selection.experienceTickets as |ticket|}}
+          <Asm::Ui::Pane local-class="customization-pane">
+            <Goods::Tickets::DayPlanner::TicketCustomization
+              @entryTickets={{this.selection.entryTickets}}
+              @ticket={{ticket}}
+              @date={{this.selection.date}}
+              @selectedSession={{ticket.session}}
+              @onSelectSession={{this.onSelectSession}}
+            />
+          </Asm::Ui::Pane>
+        {{/each}}
+      </section>
+    {{/if}}
+  {{/if}}
+
+  {{#if this.showSummary}}
+    <Asm::Ui::Pane local-class="summary-pane">
+      <Goods::Tickets::DayPlanner::Summary
+        @selectedTickets={{this.selectedTickets}}
+        @selectedEntryTickets={{this.selection.entryTickets}}
+        @selectedExperienceTickets={{this.selection.experienceTickets}}
+        @selectedDate={{this.selection.date}}
+        @isAddingToBasket={{@isAddingToBasket}}
+        @onAddToBasket={{this.onAddToBasket}}
+      />
+    </Asm::Ui::Pane>
+  {{/if}}
+
+</div>

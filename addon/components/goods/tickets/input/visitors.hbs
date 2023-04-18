@@ -1,0 +1,17 @@
+{{#if this.isLoading}}
+{{else}}
+  <div local-class="visitors-input" ...attributes>
+    <div local-class="visitors">
+      {{#each @options as |ticketTypeOption|}}
+        <Goods::Tickets::Input::Visitor
+          local-class="visitor"
+          @ticketTypeOption={{ticketTypeOption}}
+          @canIncrement={{fn this.canIncrement ticketTypeOption}}
+          @canDecrement={{fn this.canDecrement ticketTypeOption}}
+          @onIncrement={{@onIncrement}}
+          @onDecrement={{@onDecrement}}
+        />
+      {{/each}}
+    </div>
+  </div>
+{{/if}}

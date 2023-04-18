@@ -1,0 +1,27 @@
+<div local-class="variant-metadata" ...attributes>
+  {{#each @ticket.ticketTypeOptions as |ticketTypeOption|}}
+    {{#if ticketTypeOption.ticketType.metadata}}
+      <div local-class="metadata">
+        <div local-class="heading">
+          {{ticketTypeOption.ticketType.metadata.instructions}}
+        </div>
+        {{#let ticketTypeOption.ticketType.metadata.root as |root|}}
+          {{#each (get ticketTypeOption.metadata root) as |item index|}}
+            <div local-class="item">
+              <div local-class="item-name">
+                {{ticketTypeOption.ticketType.metadata.itemName}} {{add index 1}}
+              </div>
+              {{#each ticketTypeOption.ticketType.metadata.fields as |field|}}
+                <Goods::Tickets::Input::VariantMetadata::Field
+                  local-class="field"
+                  @field={{field}}
+                  @item={{item}}
+                />
+              {{/each}}
+            </div>
+          {{/each}}
+        {{/let}}
+      </div>
+    {{/if}}
+  {{/each}}
+</div>

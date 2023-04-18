@@ -37,7 +37,7 @@ export default class GoodsCommerce extends Service {
   /**
    *
    */
-  @inject declare fastboot: any;
+  // @inject declare fastboot: any;
 
   /**
    *
@@ -144,9 +144,9 @@ export default class GoodsCommerce extends Service {
    * Initialize the commerce service by creating a basket
    */
   async initialize() {
-    if (this.fastboot.get('isFastBoot')) {
-      return;
-    }
+    // if (this.fastboot.get('isFastBoot')) {
+    //   return;
+    // }
 
     this.basket = await this.loadSessionBasket();
 

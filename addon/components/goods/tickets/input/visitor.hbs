@@ -1,0 +1,46 @@
+<div class="goods--tickets--input--ticket-type" local-class="visitor-select" ...attributes>
+  <div local-class="visitor">
+    <div local-class="name">
+      {{@ticketTypeOption.name}}
+    </div>
+    <div local-class="price">
+      {{#if @ticketTypeOption.priceLabel}}
+        {{@ticketTypeOption.priceLabel}}
+      {{else if @ticketTypeOption.price}}
+        {{format-currency @ticketTypeOption.price}}
+      {{/if}}
+    </div>
+    {{#if @ticketTypeOption.description}}
+      <div local-class="description">
+        {{@ticketTypeOption.attrs.description}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div local-class="quantity">
+    <button 
+      disabled={{this.cannotDecrement}} 
+      local-class="decrement-btn"
+      type="button"
+      {{on "click" (fn this.onDecrement @ticketTypeOption)}} 
+    >
+      {{svg-jar "minus-1" height="20px" width="20px"}}
+    </button>
+    
+    <div 
+      local-class="quantity-value {{if (eq @ticketTypeOption.quantity 0) "is-zero"}}"
+    >
+      {{@ticketTypeOption.quantity}}
+    </div>
+    
+    <button 
+      disabled={{this.cannotIncrement}} 
+      local-class="increment-btn"
+      type="button"
+      {{on "click" (fn this.onIncrement @ticketTypeOption)}} 
+    >
+      {{svg-jar "plus-1" height="20px" width="20px"}}
+    </button>
+  
+  </div>
+</div>

@@ -1,0 +1,17 @@
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: scl(1);
+}
+
+.total {
+  display: flex;
+}
+
+.total-label {
+  flex: 1 1 auto;
+}
+
+.total-value {
+  flex: 0 0 auto;
+}

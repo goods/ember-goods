@@ -1,0 +1,126 @@
+.error-message {
+  border: 1px solid var(--gd-error--border-color);
+  border-radius: scl(0.5);
+  color: var(--gd-error--color);
+  font-weight: 700;
+  margin-top: scl(4);
+  padding: scl(2);
+}
+
+.selections {
+  margin: scl(2) 0;
+  display: flex;
+  flex-direction: column;
+  gap: scl(2);
+}
+
+.selection-pane {
+  align-items: flex-start;
+  background: white;
+  border: 0;
+  border-radius: scl(0.5);
+  box-shadow: none;
+  color: var(--gd-text--default);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: scl(1);
+  padding: scl(1) scl(1.5);
+  text-align: left;
+  width: 100%;
+}
+
+.selection-pane-info {
+  flex: 1 1 auto;
+}
+
+.selection-pane-action {
+  color: var(--gd-text--link);
+  flex: 0 0 auto;
+  font-size: 14px;
+}
+
+.selection-pane-label {
+  font-size: 14px;
+  line-height: scl(3);
+}
+
+.selection-pane-value {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: scl(3);
+}
+
+.selection-pane-tickets {
+  display: flex;
+  flex-direction: column;
+  gap: scl(0.5);
+}
+
+.selection-pane-ticket {
+  align-items: center;
+  display: flex;
+  gap: scl(1);
+}
+
+.selection-pane-ticket-img {
+  flex: 0 0 auto;
+  border-radius: 3px;
+  overflow: hidden;
+  height: scl(2);
+  width: scl(2);
+  object-fit: cover;
+}
+
+.selection-pane-ticket-name {
+  flex: 1 1 auto;
+}
+
+.ticket-types-pane {
+  display: flex;
+  flex-direction: column;
+  gap: scl(2);
+  padding: scl(2) scl(1);
+}
+
+.price-calendar-heading,
+.experience-tickets-heading,
+.entry-tickets-heading,
+.ticket-types-heading {
+  line-height: 1em;
+  margin: 0;
+}
+
+.price-calendar-introduction,
+.experience-tickets-introduction,
+.entry-tickets-introduction,
+.ticket-types-introduction {
+  color: var(--gd-text--muted);
+  font-size: 15px;
+  line-height: scl(2);
+  margin-top: scl(-1);
+}
+
+.price-calendar-pane,
+.entry-tickets-pane,
+.experience-tickets-pane {
+  display: flex;
+  flex-direction: column;
+  padding: scl(2) scl(1);
+  gap: scl(2);
+}
+
+.tickets-section {
+  display: flex;
+  flex-direction: column;
+  gap: scl(2);
+}
+
+.summary-pane {
+  margin-top: scl(2);
+  padding: scl(2) scl(1);
+}
+
+.customization-pane {
+  padding: scl(2) scl(1.5);
+}

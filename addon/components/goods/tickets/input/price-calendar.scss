@@ -1,0 +1,99 @@
+.datepicker {
+  font-family: var(--gd-typography-ui);
+}
+
+.datepicker :global(.ui-calendar-weeks) {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.datepicker :global(.ui-calendar-week) {
+  display: flex;
+  gap: 1px;
+}
+
+.day-option {
+  align-items: center;
+  background: #ffa656;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  font-family: var(--gd-typography-ui);
+  overflow: hidden;
+  padding: 10px 0;
+}
+
+.day-option:disabled {
+  background: #ffffff;
+  box-shadow: none;
+  cursor: default;
+}
+
+.is-loading .day-option .date {
+  color: #f0f0f0;
+}
+
+.date {
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+
+.day-option:disabled .date {
+  color: #555;
+}
+
+.price {
+  color: white;
+  height: scl(1);
+  font-size: scl(1);
+  line-height: scl(1);
+}
+
+.key {
+  display: flex;
+  flex-direction: column;
+  margin-top: scl(3);
+  gap: scl(0.5);
+}
+
+.key-item {
+  align-items: center;
+  display: flex;
+  gap: scl(1);
+}
+
+.key-label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: scl(2);
+}
+
+.key-message {
+  text-align: left;
+}
+
+.key-colour {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  height: scl(2);
+  width: scl(2);
+  border-radius: 3px;
+}
+
+.price-band-peak {
+  background: red;
+}
+
+.price-band-off-peak {
+  background: orange;
+}
+
+.price-band-standard {
+  background: grey;
+}

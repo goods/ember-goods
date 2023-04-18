@@ -1,0 +1,69 @@
+{{#if this.isLoadingTicketTypes}}
+{{else}}
+  <div class="goods--tickets--input--ticket" local-class="ticket {{if @isSelected "is-selected"}}">
+    <div local-class="ticket-details" {{on "click" (fn @onSelect this.ticketOption)}}>
+      <div local-class="ticket-image">
+        <img src={{@product.attrs.cardHeroImage.originalUrl}} alt={{@product.name}} />
+      </div>
+      <div local-class="ticket-information">
+        <div local-class="ticket-name">
+          {{@product.name}}
+        </div>
+      </div>
+      <div local-class="ticket-selection">
+        {{#if (eq this.mode "single")}}
+          <div local-class="ticket-checkbox {{if @isSelected "is-selected"}}">
+            {{#if @isSelected}}
+              {{svg-jar "checkmark-1" local-class="ticket-checkbox-icon"}}
+            {{/if}}
+          </div>
+        {{else}}
+          <div local-class="ticket-checkbox {{if @isSelected "is-selected" "has-label"}}">
+            {{#if @isSelected}}
+              {{svg-jar "checkmark-1" local-class="ticket-checkbox-icon"}}
+            {{else}}
+              Add
+            {{/if}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+    {{#if @product.attrs.warningLabel}}
+      <div local-class="warning">
+        {{svg-jar "exclamation-point-2" local-class="warning-icon"}}
+        <span local-class="warning-label">{{@product.attrs.warningLabel}}</span>
+      </div>
+    {{/if}}
+    {{#if (and @isSelected @canEditTicketTypes)}}
+      <div local-class="edit-ticket-types">
+        <Goods::Tickets::Input::Visitors
+          @options={{this.ticketOption.ticketTypeOptions}}
+          @maxQuantity=32
+          @minQuantity=0
+          @onIncrement={{fn @onIncrementType this.ticketOption}}
+          @onDecrement={{fn @onDecrementType this.ticketOption}}
+        />
+      </div>
+    {{/if}}
+    <div local-class="ticket-summary">
+      {{@product.summary}}
+    </div>
+    {{#if @ticketDetailsComponent}}
+      <div local-class="view-details">
+        <button
+          local-class="view-details-btn"
+          type="button"
+          {{on "click" (fn (mut this.isShowingDetails) (not this.isShowingDetails))}}
+        >
+          View details
+        </button>
+        {{component 
+          @ticketDetailsComponent 
+          product=@product
+          isShowing=this.isShowingDetails
+          onClose=(fn (mut this.isShowingDetails) false)
+        }}
+      </div>
+    {{/if}}
+  </div>
+{{/if}}

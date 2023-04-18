@@ -1,0 +1,42 @@
+<div class="goods--tickets--input--price-calendar" local-class="datepicker">
+  <Asm::Ui::Calendar 
+    local-class="datepicker {{if this.isLoading "is-loading"}}"
+    @isLoading={{this.isLoading}}
+    @daysMetadata={{this.days}}
+    @mode="single"
+    @center={{this.calendarCenter}}
+    @onChangeCenter={{this.onChangeCenter}}
+  >
+    <:day as |day|>
+      <button
+        class="goods--tickets--input--price-calendar--day-option {{if day.metadata.priceBand (concat "price-band-" day.metadata.priceBand)}}"
+        local-class="day-option {{if day.metadata.isSelected "is-selected"}} {{if day.metadata.priceBand (concat "price-band-" day.metadata.priceBand)}}"
+        type="button"
+        disabled={{not (eq day.metadata.status "available")}}
+        {{on "click" (fn @onSelect day)}}
+      >
+        <span local-class="date">
+          {{moment-format day.date "D"}}
+        </span>
+        <span local-class="price">
+          {{#if (eq day.metadata.status "available")}}
+            {{goods-format-currency day.metadata.price}} 
+          {{/if}}
+        </span>
+      </button>
+    </:day>
+  </Asm::Ui::Calendar>
+  <div local-class="key">
+    {{#if this.isLoading}}
+    {{else}}
+      {{#each this.calendarKeys as |calendarKey|}}
+        <div class="goods--tickets--input--price-calendar--key-item" local-class="key-item">
+          <i class="price-band-{{calendarKey.cssClass}}" local-class="price-band-{{calendarKey.cssClass}} key-colour"></i>
+          <div local-class="key-label">
+            {{calendarKey.label}}
+          </div>
+        </div>
+      {{/each}}
+    {{/if}}
+  </div>
+</div>
