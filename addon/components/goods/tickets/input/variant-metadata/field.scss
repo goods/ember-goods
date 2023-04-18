@@ -1,0 +1,15 @@
+.text-input,
+.select {
+  display: block;
+  width: 100%;
+}
+
+.select :global(.ui-select-trigger),
+.select :global(.ui-select-trigger) button {
+  display: block;
+  width: 100%;
+}
+
+.select :global(.ui-select-trigger) button > span {
+  justify-content: left;
+}

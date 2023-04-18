@@ -1,0 +1,20 @@
+ <div 
+  class="goods--tickets--input--sessions"
+  local-class="sessions" 
+  ...attributes
+>
+  {{#each this.sessions as |session|}}
+    <button 
+      class="goods--tickets--input--sessions--session"
+      local-class="session-btn {{if (eq @selected.startTime session.startTime) "is-selected"}}"
+      type="button"
+      disabled={{not session.selectable}}
+      {{on "click" (fn @onSelect session)}}
+    >
+      {{format-session-time session.startTime}}
+      {{#if this.showFinishTime}}
+        - {{format-session-time session.finishTime}}
+      {{/if}}
+    </button>
+  {{/each}}
+</div>

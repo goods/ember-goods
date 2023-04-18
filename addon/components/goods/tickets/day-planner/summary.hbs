@@ -1,0 +1,24 @@
+<div local-class="summary">
+  <div local-class="total">
+    <div local-class="total-label">
+      Total
+    </div>
+    <div local-class="total-value">
+      {{#if this.canAddToBasket}}
+        {{goods-format-currency this.totalPrice}}
+      {{else}}
+        -
+      {{/if}}
+    </div>
+  </div>
+
+  <Asm::Ui::Button
+    local-class="actions-btn"
+    @isDisabled={{not this.canAddToBasket}}
+    @isLoading={{this.isAddingToBasket}}
+    @appearance="strong"
+    @size="large"
+    @label="Add to basket"
+    @onClick={{this.onAddToBasket}}
+  />
+</div>

@@ -1,0 +1,13 @@
+.metadata {
+  border-top: 1px solid var(--gd-border--muted);
+  display: flex;
+  flex-direction: column;
+  padding-top: scl(1.5);
+  gap: scl(2);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: scl(1);
+}

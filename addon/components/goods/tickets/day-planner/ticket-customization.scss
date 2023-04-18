@@ -1,0 +1,41 @@
+.ticket {
+  flex: 1 1 0%;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  line-height: scl(2.5);
+  font-weight: 300;
+  gap: scl(2);
+  padding: 0;
+  text-align: left;
+}
+
+.ticket-details {
+  display: flex;
+  gap: scl(1);
+  width: 100%;
+}
+
+.ticket-image {
+  border-radius: 3px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  height: scl(6);
+  width: scl(6);
+}
+
+.ticket-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.ticket-information {
+  flex: 1 1 auto;
+}
+.ticket-name {
+  font-weight: 500;
+}

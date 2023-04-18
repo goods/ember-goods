@@ -1,0 +1,27 @@
+.sessions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: scl(1);
+}
+
+.session-btn {
+  background: transparent;
+  border: 1px solid var(--gd-button--bg);
+  box-shadow: none;
+  border-radius: 5px;
+  color: var(--gd-button--bg);
+  display: flex;
+  justify-content: center;
+  padding: scl(0.5);
+}
+
+.session-btn.is-selected {
+  background: var(--gd-button--bg);
+  color: var(--gd-button--color);
+}
+
+.session-btn:disabled {
+  border: 1px solid var(--gd-button--bg--disabled);
+  background: var(--gd-button--bg--disabled);
+  color: var(--gd-button--color--disabled);
+}

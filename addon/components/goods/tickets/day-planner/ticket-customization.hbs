@@ -1,0 +1,32 @@
+{{#if this.isLoading}}
+{{else}}
+  <div local-class="ticket">
+    <div local-class="ticket-details">
+      <div local-class="ticket-image">
+        <img src={{@ticket.product.attrs.cardHeroImage.originalUrl}} alt={{@this.product.name}} />
+      </div>
+      <div local-class="ticket-information">
+        <div local-class="ticket-name">
+          {{@ticket.product.name}}
+        </div>
+      </div>
+    </div>
+
+    <Goods::Tickets::Input::Sessions
+      local-class="sessions"
+      @ticket={{@ticket}}
+      @date={{@date}}
+      @rangeStartTime={{this.rangeStartTime}}
+      @selected={{@selectedSession}}
+      @onSelect={{fn @onSelectSession @ticket}}
+    />
+
+    {{#if this.showMetadata}}
+      <Goods::Tickets::Input::VariantMetadata
+        local-class="variant-metadata"
+        @ticket={{@ticket}}
+      />
+    {{/if}}
+  
+  </div>
+{{/if}}

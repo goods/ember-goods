@@ -1,0 +1,59 @@
+.visitor-select {
+  border: 1px solid var(--gd-border--default);
+  display: flex;
+  padding: scl(1);
+}
+
+.visitor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.quantity {
+  align-items: center;
+  display: flex;
+  flex: 0;
+  gap: scl(1);
+}
+
+.decrement-btn,
+.increment-btn {
+  align-items: center;
+  background: var(--gd-button--bg);
+  border: 0;
+  box-shadow: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: scl(4.5);
+  width: scl(4.5);
+}
+
+.decrement-btn:disabled,
+.increment-btn:disabled {
+  background: var(--gd-button--bg--disabled);
+  cursor: default;
+}
+
+.increment-btn svg,
+.decrement-btn svg {
+  fill: var(--gd-button--color);
+}
+
+.increment-btn:disabled svg,
+.decrement-btn:disabled svg {
+  fill: var(--gd-button--color--disabled);
+}
+.quantity-value {
+  color: var(--gd-text--default);
+  font-weight: 500;
+  line-height: scl(3);
+  text-align: center;
+  width: scl(3);
+}
+
+.is-zero {
+  color: var(--gd-text--muted);
+}

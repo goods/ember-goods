@@ -1,0 +1,20 @@
+{{#if this.isLoading}}
+{{else}}
+  <div local-class="tickets">
+    {{#each this.products as |product|}}
+      <Goods::Tickets::Input::Ticket
+        local-class="ticket"
+        @mode={{this.mode}}
+        @canEditTicketTypes={{this.canEditTicketTypes}}
+        @product={{product}}
+        @defaultSelectedTypes={{@defaultSelectedTypes}}
+        @selectedTypes={{get-ticket-type-options @selected product.id}}
+        @isSelected={{includes product.id this.selectedIds}}
+        @onSelect={{this.onSelect}}
+        @ticketDetailsComponent={{@ticketDetailsComponent}}
+        @onIncrementType={{@onIncrementType}}
+        @onDecrementType={{@onDecrementType}}
+      />
+    {{/each}}
+  </div>
+{{/if}}

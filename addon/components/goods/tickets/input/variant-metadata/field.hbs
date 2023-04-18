@@ -1,0 +1,27 @@
+<div local-class="field">
+  {{#if (eq @field.inputType "Short text")}}
+    <Asm::Ui::TextInput
+      class="goods--tickets--variant-metadata--field--text-input"
+      local-class="text-input"
+      @placeholder={{@field.name}}
+      @value={{get @item @field.slug}}
+      @onUpdate={{fn (mut (get @item @field.slug))}}
+    />
+  {{/if}}
+  {{#if (eq @field.inputType "Select")}}
+    <Asm::Ui::Select 
+      class="goods--tickets--variant-metadata--field--select"
+      local-class="select"
+      @placeholder={{@field.name}}
+      @value={{get @item @field.slug}} 
+      @onChange={{action (mut (get @item @field.slug))}} 
+      as |Select|
+    >
+      {{#each this.options as |option|}}
+        <Select.Option @value={{option}}>{{option}}</Select.Option>
+      {{/each}}
+    </Asm::Ui::Select>
+  {{/if}}
+
+  
+</div>
