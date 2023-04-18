@@ -1,0 +1,123 @@
+// Primary
+$blue: #3369cc;
+$yellow: #fdb813;
+$red: #f4422e;
+
+// Neutrals
+$black: #231f20;
+$dark-grey: #425563;
+$mid-grey: #768692;
+$pale-grey: #e8edee;
+$white: #ffffff;
+
+:root {
+  // Primary
+  --gd-primary: var(--gd-blue-900);
+
+  // Borders
+  --gd-border--muted: var(--gd-pale-grey-600);
+  --gd-border--default: var(--gd-mid-grey-500);
+
+  // Typography
+  --gd-text--default: var(--gd-dark-grey);
+  --gd-text--muted: var(--gd-mid-grey);
+  --gd-text--light: var(--gd-mid-grey-600);
+  --gd-text--link: var(--gd-primary);
+
+  // Buttons
+  --gd-button--bg: var(--gd-primary);
+  --gd-button--color: var(--gd-white);
+  --gd-button--bg--disabled: var(--gd-pale-grey-900);
+  --gd-button--color--disabled: var(--gd-mid-grey-900);
+  --gd-button--focus-shadow-colour: rgba(67, 91, 200, 0.14);
+
+  // Labels
+  --gd-label--bg--warning: var(--gd-yellow-200);
+  --gd-label--color--warning: var(--gd-yellow-900);
+  --gd-label--icon-color--warning: var(--gd-yellow-900);
+
+  // Error messages
+  --gd-error--border-color: var(--gd-red-700);
+  --gd-error--color: var(--gd-red-900);
+
+  // Base colours
+
+  --gd-white: #{$white};
+
+  --gd-black: #{$black};
+  --gd-black-100: #{mix($black, white, 10%)};
+  --gd-black-200: #{mix($black, white, 20%)};
+  --gd-black-300: #{mix($black, white, 30%)};
+  --gd-black-400: #{mix($black, white, 40%)};
+  --gd-black-500: #{mix($black, white, 50%)};
+  --gd-black-600: #{mix($black, white, 60%)};
+  --gd-black-700: #{mix($black, white, 70%)};
+  --gd-black-800: #{mix($black, white, 80%)};
+  --gd-black-900: #{mix($black, white, 90%)};
+
+  --gd-dark-grey: #{$dark-grey};
+  --gd-dark-grey-100: #{mix($dark-grey, white, 10%)};
+  --gd-dark-grey-200: #{mix($dark-grey, white, 20%)};
+  --gd-dark-grey-300: #{mix($dark-grey, white, 30%)};
+  --gd-dark-grey-400: #{mix($dark-grey, white, 40%)};
+  --gd-dark-grey-500: #{mix($dark-grey, white, 50%)};
+  --gd-dark-grey-600: #{mix($dark-grey, white, 60%)};
+  --gd-dark-grey-700: #{mix($dark-grey, white, 70%)};
+  --gd-dark-grey-800: #{mix($dark-grey, white, 80%)};
+  --gd-dark-grey-900: #{mix($dark-grey, white, 90%)};
+
+  --gd-mid-grey: #{$mid-grey};
+  --gd-mid-grey-100: #{mix($mid-grey, white, 10%)};
+  --gd-mid-grey-200: #{mix($mid-grey, white, 20%)};
+  --gd-mid-grey-300: #{mix($mid-grey, white, 30%)};
+  --gd-mid-grey-400: #{mix($mid-grey, white, 40%)};
+  --gd-mid-grey-500: #{mix($mid-grey, white, 50%)};
+  --gd-mid-grey-600: #{mix($mid-grey, white, 60%)};
+  --gd-mid-grey-700: #{mix($mid-grey, white, 70%)};
+  --gd-mid-grey-800: #{mix($mid-grey, white, 80%)};
+  --gd-mid-grey-900: #{mix($mid-grey, white, 90%)};
+
+  --gd-pale-grey: #{$pale-grey};
+  --gd-pale-grey-100: #{mix($pale-grey, white, 10%)};
+  --gd-pale-grey-200: #{mix($pale-grey, white, 20%)};
+  --gd-pale-grey-300: #{mix($pale-grey, white, 30%)};
+  --gd-pale-grey-400: #{mix($pale-grey, white, 40%)};
+  --gd-pale-grey-500: #{mix($pale-grey, white, 50%)};
+  --gd-pale-grey-600: #{mix($pale-grey, white, 60%)};
+  --gd-pale-grey-700: #{mix($pale-grey, white, 70%)};
+  --gd-pale-grey-800: #{mix($pale-grey, white, 80%)};
+  --gd-pale-grey-900: #{mix($pale-grey, white, 90%)};
+
+  --gd-blue: #{$blue};
+  --gd-blue-100: #{mix($blue, white, 10%)};
+  --gd-blue-200: #{mix($blue, white, 20%)};
+  --gd-blue-300: #{mix($blue, white, 30%)};
+  --gd-blue-400: #{mix($blue, white, 40%)};
+  --gd-blue-500: #{mix($blue, white, 50%)};
+  --gd-blue-600: #{mix($blue, white, 60%)};
+  --gd-blue-700: #{mix($blue, white, 70%)};
+  --gd-blue-800: #{mix($blue, white, 80%)};
+  --gd-blue-900: #{mix($blue, white, 90%)};
+
+  --gd-yellow: #{$yellow};
+  --gd-yellow-100: #{mix($yellow, white, 10%)};
+  --gd-yellow-200: #{mix($yellow, white, 20%)};
+  --gd-yellow-300: #{mix($yellow, white, 30%)};
+  --gd-yellow-400: #{mix($yellow, white, 40%)};
+  --gd-yellow-500: #{mix($yellow, white, 50%)};
+  --gd-yellow-600: #{mix($yellow, white, 60%)};
+  --gd-yellow-700: #{mix($yellow, white, 70%)};
+  --gd-yellow-800: #{mix($yellow, white, 80%)};
+  --gd-yellow-900: #{mix($yellow, white, 90%)};
+
+  --gd-red: #{$red};
+  --gd-red-100: #{mix($red, white, 10%)};
+  --gd-red-200: #{mix($red, white, 20%)};
+  --gd-red-300: #{mix($red, white, 30%)};
+  --gd-red-400: #{mix($red, white, 40%)};
+  --gd-red-500: #{mix($red, white, 50%)};
+  --gd-red-600: #{mix($red, white, 60%)};
+  --gd-red-700: #{mix($red, white, 70%)};
+  --gd-red-800: #{mix($red, white, 80%)};
+  --gd-red-900: #{mix($red, white, 90%)};
+}

@@ -1,0 +1,15 @@
+:root {
+  --ea-colour-link: var(--gd-button--bg);
+  --ea-button--strong--bg-color: var(--gd-button--bg);
+  --ea-button--strong--bg-color--active: var(--gd-button--bg);
+  --ea-focus-shadow-colour: var(--gd-focus-shadow-colour);
+  --ea-colour-border-highlight: var(--gd-button--bg);
+}
+
+.goods-payment-challenge-frame {
+  width: 420px;
+  height: 420px;
+  border: 0;
+  box-shadow: none;
+  display: block;
+}
