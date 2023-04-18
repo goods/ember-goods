@@ -6005,10 +6005,10 @@ ember-animated@^1.0.4:
     assert-never "^1.2.1"
     ember-element-helper "^0.5.0 || ^0.6.0"
 
-ember-assembly@0.17.1:
-  version "0.17.1"
-  resolved "https://registry.yarnpkg.com/ember-assembly/-/ember-assembly-0.17.1.tgz#efc302c826492406cefdb6fd002ba9194030101c"
-  integrity sha512-2lPv7uPdkshyLuZI4ORyV/U1q5sOqEg0gw8W2BGbJZ6NwOYUGRgsoz5OVRu3SbSPgLEujEo4h+IRyaiwr2VEXQ==
+ember-assembly@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/ember-assembly/-/ember-assembly-1.0.6.tgz#de584bc029f7e67404d5e45eec5792e1a63cb378"
+  integrity sha512-r0ifs9POBx2K+fUAsAHgkREJKJEkbruxOrkW2Bk6w/rkf3+ppMuBa9znUh8/wAKpyOPpkqzuYvkiqVNDkc4IZg==
   dependencies:
     ember-animated "^1.0.4"
     ember-auto-import "^2.4.2"
@@ -6016,16 +6016,16 @@ ember-assembly@0.17.1:
     ember-cli-babel "^7.26.10"
     ember-cli-htmlbars "^6.1.0"
     ember-cli-moment-shim "^3.8.0"
-    ember-cli-typescript "^5.1.1"
+    ember-cli-typescript "^5.2.1"
     ember-concurrency "^1.3.0"
     ember-concurrency-decorators "2.0.1"
     ember-css-modules "^1.2.1"
     ember-decorators "^6.1.1"
-    ember-moment "^9.0.1"
+    ember-moment "^10.0.0"
     ember-svg-jar "^2.2.3"
     postcss-functions "^3.0.0"
 
-ember-auto-import@^1.10.1, ember-auto-import@^1.11.3:
+ember-auto-import@^1.11.3:
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-1.12.2.tgz#cc7298ee5c0654b0249267de68fb27a2861c3579"
   integrity sha512-gLqML2k77AuUiXxWNon1FSzuG1DV7PEPpCLCU5aJvf6fdL6rmFfElsZRh+8ELEB/qP9dT+LHjNEunVzd2dYc8A==
@@ -6252,7 +6252,7 @@ ember-cli-htmlbars@^4.0.0, ember-cli-htmlbars@^4.3.1:
     strip-bom "^4.0.0"
     walk-sync "^2.0.2"
 
-ember-cli-htmlbars@^5.3.1, ember-cli-htmlbars@^5.7.1:
+ember-cli-htmlbars@^5.7.1:
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-5.7.2.tgz#e0cd2fb3c20d85fe4c3e228e6f0590ee1c645ba8"
   integrity sha512-Uj6R+3TtBV5RZoJY14oZn/sNPnc+UgmC8nb5rI4P3fR/gYoyTFIZSXiIM7zl++IpMoIrocxOrgt+mhonKphgGg==
@@ -6471,7 +6471,7 @@ ember-cli-typescript@^4.0.0, ember-cli-typescript@^4.1.0, ember-cli-typescript@^
     stagehand "^1.0.0"
     walk-sync "^2.2.0"
 
-ember-cli-typescript@^5.0.0, ember-cli-typescript@^5.1.0, ember-cli-typescript@^5.1.1:
+ember-cli-typescript@^5.0.0, ember-cli-typescript@^5.1.0, ember-cli-typescript@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-5.2.1.tgz#553030f1ce3e8958b8e4fc34909acd1218cb35f2"
   integrity sha512-qqp5TAIuPHxHiGXJKL+78Euyhy0zSKQMovPh8sJpN/ZBYx0H90pONufHR3anaMcp1snVfx4B+mb9+7ijOik8ZA==
@@ -6871,17 +6871,6 @@ ember-moment@^10.0.0:
   integrity sha512-vpnWVn3QfVBVP0MUnOkFI8fqqjskTh2LxOxyBaaRY7Smbcymq3b8wVB9GSNRasmyaclQVGY8jZsqi5ue7O2TUw==
   dependencies:
     "@embroider/addon-shim" "^0.50.2"
-
-ember-moment@^9.0.1:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/ember-moment/-/ember-moment-9.0.1.tgz#fcf06cb8ef07c8d0108820c1639778590d613b38"
-  integrity sha512-mwcj2g/37pIQua3uTpJWu/zpcnyvbgg9YmkKR6nhtY7FXBaGSIU3aeG95VAoPcfET9DazkPOyqxVB+Dcd5BP5g==
-  dependencies:
-    ember-auto-import "^1.10.1"
-    ember-cli-babel "^7.23.0"
-    ember-cli-htmlbars "^5.3.1"
-    moment "^2.29.1"
-    moment-timezone "^0.5.33"
 
 ember-page-title@^6.2.2:
   version "6.2.2"
@@ -11083,14 +11072,7 @@ moment-timezone@^0.5.13:
   dependencies:
     moment "^2.29.4"
 
-moment-timezone@^0.5.33:
-  version "0.5.43"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.43.tgz#3dd7f3d0c67f78c23cd1906b9b2137a09b3c4790"
-  integrity sha512-72j3aNyuIsDxdF1i7CEgV2FfxM1r6aaqJyLB2vwb33mXYyoyLly+F1zbWqhA3/bVIoJ4szlUoMbUnVdid32NUQ==
-  dependencies:
-    moment "^2.29.4"
-
-moment@^2.19.3, moment@^2.29.1, moment@^2.29.4:
+moment@^2.19.3, moment@^2.29.4:
   version "2.29.4"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
