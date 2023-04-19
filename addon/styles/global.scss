@@ -6,7 +6,7 @@
   --ea-colour-border-highlight: var(--gd-button--bg);
 }
 
-.goods-payment-challenge-frame {
+:global(.goods-payment-challenge-frame) {
   width: 420px;
   height: 420px;
   border: 0;
