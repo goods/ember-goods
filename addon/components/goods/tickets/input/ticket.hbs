@@ -12,9 +12,11 @@
       </div>
       <div local-class="ticket-selection">
         {{#if (eq this.mode "single")}}
-          <div local-class="ticket-checkbox {{if @isSelected "is-selected"}}">
+          <div local-class="ticket-checkbox {{if @isSelected "is-selected" "has-label"}}">
             {{#if @isSelected}}
               {{svg-jar "checkmark-1" local-class="ticket-checkbox-icon"}}
+            {{else}}
+              Select
             {{/if}}
           </div>
         {{else}}
