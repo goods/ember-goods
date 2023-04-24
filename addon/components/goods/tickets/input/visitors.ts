@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
+import { action, get } from '@ember/object';
 import { TicketTypeOption } from './visitor';
 
 const DEFAULT_MAX_QUANTITY = 32;
@@ -20,7 +20,7 @@ export default class GoodsTicketsInputVisitors extends Component<GoodsTicketsInp
   get totalQuantity(): number {
     return this.args.options.reduce(
       (total: number, ticketTypeOption: TicketTypeOption) =>
-        total + ticketTypeOption.quantity,
+        total + get(ticketTypeOption, 'quantity'),
       0
     );
   }

@@ -40,7 +40,7 @@
       <div local-class="edit-ticket-types">
         <Goods::Tickets::Input::Visitors
           @options={{this.ticketOption.ticketTypeOptions}}
-          @maxQuantity=32
+          @maxQuantity={{this.totalTicketTypes}}
           @minQuantity=0
           @onIncrement={{fn @onIncrementType this.ticketOption}}
           @onDecrement={{fn @onDecrementType this.ticketOption}}

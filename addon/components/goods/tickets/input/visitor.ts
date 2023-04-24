@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { action, get } from '@ember/object';
+import { isNone } from '@ember/utils';
 import TicketType from 'ember-goods/models/ticket-type';
 
 export interface TicketTypeOption {
@@ -31,10 +32,14 @@ export default class GoodsTicketsInputVisitor extends Component<GoodsTicketsInpu
       return false;
     }
 
-    return (
-      get(this.args.ticketTypeOption, 'quantity') + 1 <=
-      this.args.ticketTypeOption.max
-    );
+    if (!isNone(this.args.ticketTypeOption.max)) {
+      return (
+        get(this.args.ticketTypeOption, 'quantity') + 1 <=
+        this.args.ticketTypeOption.max
+      );
+    }
+
+    return true;
   }
 
   /**

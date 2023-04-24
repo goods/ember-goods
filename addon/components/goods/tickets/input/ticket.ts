@@ -9,6 +9,13 @@ import { inject } from '@ember/service';
 import TicketType from 'ember-goods/models/ticket-type';
 import GoodsTickets from 'ember-goods/services/goods-tickets';
 
+//Controls how the maximum quantity of ticket types is limited.
+export type ConstraintMode =
+  // Limit each ticket type to the default or matched quantity value.
+  | 'matched-quantity'
+  // Limit the maximum quantity of ticket types to the total quantity of ticket types
+  | 'total-quantity';
+
 export interface TicketOption {
   product: Product;
   ticketTypeOptions: TicketTypeOption[];
@@ -18,6 +25,7 @@ export interface TicketOption {
 interface GoodsTicketsInputTicketArgs {
   product: Product;
   mode: SelectionMode;
+  constraintMode?: ConstraintMode;
   canEditTicketTypes: boolean;
   selected: TicketOption;
   defaultSelectedTypes: TicketTypeOption[];
@@ -54,6 +62,13 @@ export default class GoodsTicketsInputTicket extends Component<GoodsTicketsInput
    */
   get mode(): SelectionMode {
     return this.args.mode ?? 'single';
+  }
+
+  /**
+   *
+   */
+  get constraintMode(): ConstraintMode {
+    return this.args.constraintMode ?? 'total-quantity';
   }
 
   /**
@@ -108,9 +123,11 @@ export default class GoodsTicketsInputTicket extends Component<GoodsTicketsInput
     }
 
     //Limit to the initial quantities
-    options.forEach((option) => {
-      option.max = option.quantity;
-    });
+    if (this.constraintMode == 'matched-quantity') {
+      options.forEach((option) => {
+        option.max = option.quantity;
+      });
+    }
 
     //Override with the set quantities
     options = options.map((option) => {
