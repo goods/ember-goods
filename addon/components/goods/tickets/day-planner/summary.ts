@@ -225,7 +225,7 @@ export default class GoodsTicketsDayPlannerSummary extends Component<GoodsTicket
    */
   get totalPrice(): number {
     return this.basketLines.reduce((total: number, line: any) => {
-      return total + line.sku.get('price') * line.quantity;
+      return total + line.sku.get('price').get('value') * line.quantity;
     }, 0);
   }
 

@@ -210,7 +210,7 @@ export default class GoodsTickets extends Service {
         throw `Attempted to get total price but visitor with the name '${visitor.name}' was not found in the list of SKUs`;
       }
 
-      return price + sku.get('price') * visitor.quantity;
+      return price + sku.get('price').get('value') * visitor.quantity;
     }, 0);
   }
 
