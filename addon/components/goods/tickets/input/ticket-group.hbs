@@ -1,0 +1,44 @@
+<div class="goods--tickets--input--ticket-group" local-class="ticket-group-input" ...attributes>
+  <div local-class="ticket-group">
+    <div local-class="name">
+      {{@ticketGroup.name}}
+    </div>
+    <div local-class="price">
+      {{#if @ticketGroup.priceLabel}}
+        {{@ticketGroup.priceLabel}}
+      {{/if}}
+    </div>
+    {{#if @ticketGroup.description}}
+      <div local-class="description">
+        {{@ticketGroup.description}}
+      </div>
+    {{/if}}
+  </div>
+
+  <div local-class="quantity">
+    <button 
+      disabled={{this.cannotDecrement}} 
+      local-class="decrement-btn"
+      type="button"
+      {{on "click" this.onDecrement}} 
+    >
+      {{svg-jar "minus-1" height="20px" width="20px"}}
+    </button>
+    
+    <div 
+      local-class="quantity-value {{if (eq @quantity 0) "is-zero"}}"
+    >
+      {{@quantity}}
+    </div>
+    
+    <button 
+      disabled={{this.cannotIncrement}} 
+      local-class="increment-btn"
+      type="button"
+      {{on "click" this.onIncrement}} 
+    >
+      {{svg-jar "plus-1" height="20px" width="20px"}}
+    </button>
+  
+  </div>
+</div>
