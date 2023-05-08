@@ -1,18 +1,15 @@
-import { attr, belongsTo } from '@ember-data/model';
-import ContentEntry from './content-entry';
-import DayPlanner from './day-planner';
-import Product from './product';
-import VariantMetadata from './variant-metadata';
+import DS from 'ember-data';
 
-export default class TicketType extends ContentEntry {
-  @attr('string') declare price: string;
-  @attr('string') declare priceLabel: string;
-  @attr('number', { defaultValue: 32 }) declare max: number;
-  @attr('number', { defaultValue: 0 }) declare min: number;
-  @belongsTo('variant-metadata', { async: false })
-  declare metadata: VariantMetadata;
-  @belongsTo('product', { async: false }) declare product: Product;
-  @belongsTo('day-planner', { async: false }) declare dayPlanner: DayPlanner;
+const DEFAULT_MAX = 9999;
+const DEFAULT_MIN = 0;
+
+export default class TicketType extends DS.Model {
+  @DS.attr('string') declare name: string;
+  @DS.attr('string') declare slug: string;
+  @DS.attr('number', { defaultValue: DEFAULT_MAX }) declare maxQuantity: number;
+  @DS.attr('number', { defaultValue: DEFAULT_MIN }) declare minQuantity: number;
+  @DS.attr() declare attrs: any;
+  @DS.hasMany('ticket-group', { async: false }) declare ticketGroups: any;
 }
 
 declare module 'ember-data/types/registries/model' {
