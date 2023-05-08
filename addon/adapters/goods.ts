@@ -1,12 +1,12 @@
 //@ts-ignore
-import JSONAPIAdapter from "@ember-data/adapter/json-api";
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 //@ts-ignore
-import DataAdapterMixin from "ember-simple-auth/mixins/data-adapter-mixin";
-import { isNone } from "@ember/utils";
+import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import { isNone } from '@ember/utils';
 //@ts-ignore
-import config from "ember-get-config";
-import { computed, get } from "@ember/object";
-import { inject } from "@ember/service";
+import config from 'ember-get-config';
+import { computed, get } from '@ember/object';
+import { inject } from '@ember/service';
 
 export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   DataAdapterMixin,
@@ -16,19 +16,23 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
         if (this.modelWhitelist.includes(type)) {
           return this._super(...arguments);
         } else {
-          return "content/" + this._super(...arguments);
+          return 'content/' + this._super(...arguments);
         }
       }
 
-      let prefix = "";
+      let prefix = '';
 
       if (config.APP.goods.apiV2) {
-        prefix += "api/";
+        prefix += 'api/';
+
+        if (this.ticketModels.includes(type)) {
+          prefix += 'tickets/';
+        }
       }
 
       let schema = this.store.modelFor(type);
       if (schema.isContentEntry === true) {
-        prefix += "content/";
+        prefix += 'content/';
       }
 
       return prefix + this._super(...arguments);
@@ -40,39 +44,41 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   coalesceFindRequests = true;
   host = config.APP.goods.host;
 
+  ticketModels = ['ticket-group', 'ticket-type'];
+
   modelWhitelist = [
-    "basket",
-    "basket-item",
-    "basket-rule-validation",
-    "brand",
-    "category",
-    "country",
-    "content-entry-operation",
-    "order",
-    "order-line",
-    "order-payment-method",
-    "payment",
-    "payment-method",
-    "price",
-    "product-category",
-    "product-field",
-    "product-image",
-    "product",
-    "promotion",
-    "quote",
-    "shop-member",
-    "shop-password-change",
-    "shop-payment-method",
-    "shop-reset-token",
-    "shop-role",
-    "state",
-    "sku-field",
-    "sku-image",
-    "sku",
-    "user",
+    'basket',
+    'basket-item',
+    'basket-rule-validation',
+    'brand',
+    'category',
+    'country',
+    'content-entry-operation',
+    'order',
+    'order-line',
+    'order-payment-method',
+    'payment',
+    'payment-method',
+    'price',
+    'product-category',
+    'product-field',
+    'product-image',
+    'product',
+    'promotion',
+    'quote',
+    'shop-member',
+    'shop-password-change',
+    'shop-payment-method',
+    'shop-reset-token',
+    'shop-role',
+    'state',
+    'sku-field',
+    'sku-image',
+    'sku',
+    'user',
   ];
 
-  @computed("session.data.authenticated.access_token")
+  @computed('session.data.authenticated.access_token')
   get headers() {
     //Support legacy access_token
     if (!isNone(config.APP.goods.access_token)) {
@@ -82,14 +88,14 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
     }
 
     //@ts-ignore
-    let { access_token } = get(this, "session.data.authenticated");
+    let { access_token } = get(this, 'session.data.authenticated');
 
     if (isNone(access_token)) {
       access_token = config.APP.goods.apiKey;
     }
     return {
       Authorization: `Bearer ${access_token}`,
-      "Space-ID": config.APP.goods.spaceId,
+      'Space-ID': config.APP.goods.spaceId,
     };
   }
 }
