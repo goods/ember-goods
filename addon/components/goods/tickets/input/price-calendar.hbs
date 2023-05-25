@@ -9,11 +9,11 @@
   >
     <:day as |day|>
       <button
-        class="goods--tickets--input--price-calendar--day-option {{if day.metadata.priceBand (concat "price-band-" day.metadata.priceBand)}}"
-        local-class="day-option {{if day.metadata.isSelected "is-selected"}} {{if day.metadata.priceBand (concat "price-band-" day.metadata.priceBand)}}"
+        class="goods--tickets--input--price-calendar--day-option {{day.metadata.cssClasses}}"
+        local-class="day-option {{if day.metadata.isSelected "is-selected"}} {{local-class day.metadata.cssClasses}}"
         type="button"
         disabled={{not (eq day.metadata.status "available")}}
-        {{on "click" (fn @onSelect day)}}
+        {{on "click" (fn this.onSelect day)}}
       >
         <span local-class="date">
           {{moment-format day.date "D"}}
@@ -31,7 +31,7 @@
     {{else}}
       {{#each this.calendarKeys as |calendarKey|}}
         <div class="goods--tickets--input--price-calendar--key-item" local-class="key-item">
-          <i class="price-band-{{calendarKey.cssClass}}" local-class="price-band-{{calendarKey.cssClass}} key-colour"></i>
+          <i class="{{calendarKey.cssClass}}" local-class="{{calendarKey.cssClass}} key-colour"></i>
           <div local-class="key-label">
             {{calendarKey.label}}
           </div>
@@ -40,3 +40,27 @@
     {{/if}}
   </div>
 </div>
+
+{{#if this.isShowingConfirmation}}
+  <Asm::Ui::Modal
+    @wrapperClass={{@confirmationModalCssClass}}
+  >
+    <:header-title>
+      {{this.selectedDay.metadata.ticketPackage.confirmationHeading}}
+    </:header-title>
+    <:body>
+      <WysiwygField @content={{this.selectedDay.metadata.ticketPackage.confirmationMessage}} />
+    </:body>
+    <:footer-actions>
+      <Asm::Ui::Button
+        @label="Cancel"
+        @onClick={{fn (mut this.isShowingConfirmation) false}}
+      />
+      <Asm::Ui::Button
+        @appearance="strong"
+        @label="Continue"
+        @onClick={{fn @onSelect this.selectedDay}}
+      />
+    </:footer-actions>
+  </Asm::Ui::Modal>
+{{/if}}
