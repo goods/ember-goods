@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-get */
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 //@ts-ignore
@@ -11,6 +12,7 @@ import { TicketOption } from './input/ticket';
 import GoodsTickets from 'ember-goods/services/goods-tickets';
 import { inject } from '@ember/service';
 import { isNone } from '@ember/utils';
+import { TicketPackage } from './input/price-calendar';
 
 interface GoodsTicketsDayPlannerArgs {
   dayPlanner: DayPlanner;
@@ -53,7 +55,7 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
    * A tracked object that represents the current selection and tracks changes
    * to the selection across the day planner states.
    */
-  selection: Selection = new TrackedObject({
+  selection: Selection = new TrackedObject<Selection>({
     ticketTypeOptions: [],
     date: null,
     entryTickets: [],
@@ -133,6 +135,44 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
     return get(this, 'selection.entryTickets').concat(
       get(this, 'selection.experienceTickets')
     );
+  }
+
+  /**
+   *
+   */
+  get ticketPackages(): TicketPackage[] {
+    let ticketPackages: any = [];
+    if (get(this, 'selection.experienceTickets.length') > 0) {
+      ticketPackages.push({
+        id: 'all-tickets',
+        ticketOptions: get(this, 'selection.entryTickets').concat(
+          get(this, 'selection.experienceTickets')
+        ),
+        cssClasses: ['all-tickets'],
+        keyLabel: this.args.dayPlanner.get('entireSelectionCalendarKeyLabel'),
+      });
+      ticketPackages.push({
+        id: 'entry-tickets',
+        ticketOptions: get(this, 'selection.entryTickets'),
+        cssClasses: ['entry-tickets'],
+        keyLabel: this.args.dayPlanner.get('onlyEntryTicketsCalendarKeyLabel'),
+        confirmationHeading: this.args.dayPlanner.get(
+          'onlyEntryTicketsConfirmationHeading'
+        ),
+        confirmationMessage: this.args.dayPlanner.get(
+          'onlyEntryTicketsConfirmationMessage'
+        ),
+      });
+    } else {
+      ticketPackages.push({
+        id: 'all-tickets',
+        ticketOptions: get(this, 'selection.entryTickets').concat(
+          get(this, 'selection.experienceTickets')
+        ),
+        cssClasses: ['all-tickets'],
+      });
+    }
+    return ticketPackages;
   }
 
   /**
@@ -332,8 +372,11 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
    * @param date
    */
   @action
-  onSelectDate(date: any): void {
-    this.selection.date = date.date;
+  onSelectDate(day: any): void {
+    if (day.metadata.ticketPackage.id == 'entry-tickets') {
+      this.selection.experienceTickets = [];
+    }
+    this.selection.date = day.date;
     this.selectionState = SelectionState.Customization;
     this.scrollTo('day-planner');
   }

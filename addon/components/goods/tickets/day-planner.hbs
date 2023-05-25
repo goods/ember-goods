@@ -182,7 +182,9 @@
       <Goods::Tickets::Input::PriceCalendar
         @startDate={{moment @dayPlanner.priceCalendarStart}}
         @finishDate={{moment @dayPlanner.priceCalendarFinish}}
-        @selectedTickets={{this.selectedTickets}}
+        @packages={{this.ticketPackages}}
+        @confirmationModalCssClass={{@confirmationModalCssClass}}
+        @calendarKeyType="packages"
         @onSelect={{this.onSelectDate}}
       />
     </Asm::Ui::Pane>

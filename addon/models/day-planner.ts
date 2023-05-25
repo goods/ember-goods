@@ -23,6 +23,10 @@ export default class DayPlanner extends ContentEntry {
   @attr('string') declare priceCalendarIntroduction: string;
   @attr('string') declare priceCalendarStart: string;
   @attr('string') declare priceCalendarFinish: string;
+  @attr('string') declare entireSelectionCalendarKeyLabel: string;
+  @attr('string') declare onlyEntryTicketsCalendarKeyLabel: string;
+  @attr('string') declare onlyEntryTicketsConfirmationHeading: string;
+  @attr('string') declare onlyEntryTicketsConfirmationMessage: string;
 }
 
 declare module 'ember-data/types/registries/model' {
