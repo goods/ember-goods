@@ -164,8 +164,11 @@ export default class GoodsTickets extends Service {
    * @param visitors
    * @returns
    */
-  hasCapacity(skus: Sku[], visitors: any): boolean {
+  hasCapacity(skus: Sku[], visitors: any, startTime = '00:00:00'): boolean {
     let sessions = this.groupBySession(skus);
+    if (isNone(startTime)) {
+      startTime = '00:00:00';
+    }
 
     return sessions.any((session: any) => {
       if (isNone(session.startTime) && isNone(session.finishTime)) {
@@ -181,6 +184,8 @@ export default class GoodsTickets extends Service {
           }
           return true;
         });
+      } else if (session.startTime < startTime) {
+        return false;
       } else {
         //Check by session total
         let requiredQuantity = visitors.reduce(
