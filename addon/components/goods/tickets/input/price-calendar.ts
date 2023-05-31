@@ -14,6 +14,7 @@ import Sku from 'ember-goods/models/sku';
 
 export interface TicketPackage {
   ticketOptions: TicketOption[];
+  startTime?: string;
   confirmationHeading?: string;
   confirmationMessage?: string;
   cssClasses?: string[];
@@ -207,9 +208,11 @@ export default class GoodsTicketsInputPriceCalendar extends Component<GoodsTicke
               if (isNone(productGroup)) {
                 return false;
               }
+
               return this.goods.tickets.hasCapacity(
                 productGroup.skus,
-                ticketOption.ticketTypeOptions
+                ticketOption.ticketTypeOptions,
+                ticketPackage.startTime
               );
             }
           );

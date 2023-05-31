@@ -140,6 +140,20 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
   /**
    *
    */
+  get entryTime(): string {
+    return get(this, 'selection.entryTickets')
+      .mapBy('product.attrs.entryTime')
+      .reduce((a: string, b: string) => {
+        if (a > b) {
+          return a;
+        }
+        return b;
+      }, '00:00:00');
+  }
+
+  /**
+   *
+   */
   get ticketPackages(): TicketPackage[] {
     let ticketPackages: any = [];
     if (get(this, 'selection.experienceTickets.length') > 0) {
@@ -149,6 +163,7 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
           get(this, 'selection.experienceTickets')
         ),
         cssClasses: ['all-tickets'],
+        startTime: this.entryTime,
         keyLabel: this.args.dayPlanner.get('entireSelectionCalendarKeyLabel'),
       });
       ticketPackages.push({
