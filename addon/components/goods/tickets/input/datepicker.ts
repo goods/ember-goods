@@ -1,13 +1,13 @@
 import Component from '@glimmer/component';
-import { VisitDay } from 'ember-goods/services/goods-tickets';
+import Timeslot from 'ember-goods/models/timeslot-option';
 import { Moment } from 'moment';
 
 interface GoodsTicketsDatepickerArgs {
   isLoading: boolean;
-  days: VisitDay[];
+  days: Timeslot[];
   center: Moment;
-  onChangeCenter: any;
-  onSelectDay: (day: any) => void;
+  onChangeCenter: (date: Moment) => void;
+  onUpdate: (day: Timeslot) => void;
 }
 
 export default class GoodsTicketsDatepicker extends Component<GoodsTicketsDatepickerArgs> {}
