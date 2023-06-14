@@ -17,6 +17,7 @@ import Goods from './goods';
 import Sku from 'ember-goods/models/sku';
 import Payment from 'ember-goods/models/payment';
 import OrderPaymentMethod from 'ember-goods/models/order-payment-method';
+import { all } from 'rsvp';
 
 export default class GoodsCommerce extends Service {
   /**
@@ -226,6 +227,19 @@ export default class GoodsCommerce extends Service {
     let basketItem = this.store.createRecord('basket-item', attrs);
     basketItem.setProperties(attrs);
     return basketItem;
+  }
+
+  /**
+   *
+   * @param basketItems
+   */
+  async addToBasket(basketItems: BasketItem[]) {
+    return all(
+      basketItems.map((basketItem) => {
+        basketItem.set('basket', this.basket);
+        return basketItem.save();
+      })
+    );
   }
 
   /**
