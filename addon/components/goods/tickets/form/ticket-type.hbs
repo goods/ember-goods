@@ -1,0 +1,93 @@
+{{#if this.isLoading}}
+{{else}}
+  
+  <div local-class="ticket-type-form" ...attributes>
+    
+    <section local-class="form-section ticket-group">
+      <h4 local-class="form-section-heading">
+        Visitors
+      </h4>
+
+      <div local-class="fieldset">
+        {{#each this.ticketType.ticketGroups as |ticketGroup|}}
+          <Goods::Tickets::Input::TicketGroup
+            local-class="ticket-group"
+            @ticketGroup={{ticketGroup}}
+            @quantity={{get this.selection.ticketGroups ticketGroup.id}}
+            @canIncrement={{this.canIncrement}}
+            @canDecrement={{this.canDecrement}}
+            @onUpdate={{fn this.onUpdateTicketGroupSelection ticketGroup}}
+          />
+        {{/each}}
+      </div>
+    </section>
+
+    <section local-class="form-section date">
+      <h4 local-class="form-section-heading">
+        Date of visit
+      </h4>
+
+      <div local-class="fieldset">
+        <Goods::Tickets::Input::Days
+          @days={{this.daysData.records}}
+          @selection={{this.selection.day}}
+          @onUpdate={{fn this.onUpdateSelection "day"}}
+          @onShowMoreDates={{fn (mut this.isShowingDatepicker) true}}
+        />
+
+        {{#if this.isShowingDatepicker}}
+          <Ui::ModalScreen
+            @containerClass={{local-class "datepicker-modal"}}
+            @title="Choose date"
+            @isActive={{this.isShowingDatepicker}}  
+            @hasOverlay={{true}}
+            @attachTo="bottom"
+            @onClose={{fn (mut this.isShowingDatepicker) false}}
+          >
+            {{#if this.isShowingDatepicker}}
+              <Goods::Tickets::Input::Datepicker 
+                @isLoading={{this.isLoadingMonthDays}}
+                @days={{this.monthDaysData.records}}
+                @center={{this.calendarCenter}}
+                @onChangeCenter={{fn (mut this.calendarCenter)}}
+                @onUpdate={{fn this.onUpdateSelection "day"}}
+              />
+            {{/if}}
+          </Ui::ModalScreen>
+        {{/if}}
+
+      </div>
+    </section>
+
+    {{#if this.showTimeslotsField}}
+      <section local-class="form-section session">
+        <h4 local-class="form-section-heading">
+          Entry time
+        </h4>
+
+        <div local-class="fieldset">
+          <Goods::Tickets::Input::Timeslots
+            @timeslots={{this.timeslotsData.records}}
+            @selection={{this.selection.timeslot}}
+            @onUpdate={{fn this.onUpdateSelection "timeslot"}}
+          />
+        </div>
+      </section>
+    {{/if}}
+
+    <section local-class="add-to-basket-section">
+      <Asm::Ui::Button 
+        local-class="add-to-basket-btn"
+        @isDisabled={{this.isInvalid}}
+        @isLoading={{this.isAddingToBasket}}
+        @size="large"
+        @appearance="strong"
+        @onClick={{this.onAddToBasket}}
+      >
+        Add to basket {{#if this.isValid}}- {{goods-format-currency this.totalPrice}}{{/if}}
+      </Asm::Ui::Button>
+    </section>
+
+  </div>
+  
+{{/if}}

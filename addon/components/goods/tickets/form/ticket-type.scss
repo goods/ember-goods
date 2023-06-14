@@ -1,0 +1,43 @@
+.form-section .fieldset {
+  padding: scl(4);
+}
+
+.form-section-heading {
+  border-bottom: 1px dotted var(--fdc-grey-300);
+  color: var(--fdc-text-default);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: scl(4);
+  margin: 0;
+  padding: 0 scl(4) scl(2);
+}
+
+.ticket-group {
+  border: none;
+  margin: 0;
+  padding: scl(2) 0;
+}
+
+.ticket-group :global(.goods--tickets--input--ticket-group--name) {
+  color: var(--fdc-text-default);
+  font-weight: 500;
+  line-height: scl(4);
+}
+
+.ticket-group :global(.goods--tickets--input--ticket-group--price-label) {
+  color: var(--fdc-text-muted);
+  font-weight: 400;
+  line-height: scl(4);
+}
+
+.ticket-group :global(.goods--tickets--input--ticket-group--description) {
+  color: var(--fdc-text-muted);
+}
+
+.add-to-basket-section {
+  padding: scl(4);
+}
+
+.add-to-basket-btn {
+  width: 100%;
+}
