@@ -8,14 +8,35 @@ import { Visitor } from 'tickets';
 import TicketType from 'ember-goods/models/ticket-type';
 import { TicketTypeOption } from 'ember-goods/components/goods/tickets/input/visitor';
 import { set } from '@ember/object';
+import { all } from 'rsvp';
+import TicketLine from 'ember-goods/models/ticket-line';
 
 const DEFAULT_SKU_QUANTITY_MAX = 32;
+
+export interface TicketGroupSelection {
+  [ticketGroupId: string]: number;
+  quantity: number;
+}
 
 export default class GoodsTickets extends Service {
   /**
    *
    */
   @inject('goods-commerce') declare commerce: GoodsCommerce;
+
+  /**
+   *
+   */
+  async addToBasket(ticketLines: TicketLine[]) {
+    let basketItems = ticketLines.map((ticketLine: TicketLine) => {
+      return this.commerce.createBasketItem({
+        sku: ticketLine.get('ticket').get('sku'),
+        quantity: ticketLine.get('quantity'),
+      });
+    });
+
+    return await this.commerce.addToBasket(basketItems);
+  }
 
   /**
    *
