@@ -1,20 +1,47 @@
-.ticket-group-input {
-  border: 1px solid var(--gd-border--default);
-  display: flex;
-  padding: scl(1);
+:root {
+  --gd-tickets-input-ticket-group--name--color: var(--gd-text--default);
+  --gd-tickets-input-ticket-group--price-label--color: var(--gd-text--muted);
+  --gd-tickets-input-ticket-group--description--color: var(--gd-text--muted);
 }
 
-.ticket-group {
+.ticket-group-input {
+  border: 0;
+  border-bottom: 1px dotted var(--gd-form--field--border-color);
+  display: flex;
+  padding: scl(2) 0;
+}
+
+.ticket-group-input:last-child {
+  border: 0;
+}
+
+.ticket-group-info {
   display: flex;
   flex: 1;
   flex-direction: column;
+}
+
+.name {
+  color: var(--gd-tickets-input-ticket-group--name--color);
+  font-weight: 500;
+  line-height: scl(4);
+}
+
+.price-label {
+  color: var(--gd-tickets-input-ticket-group--price-label--color);
+  font-weight: 400;
+  line-height: scl(4);
+}
+
+.description {
+  color: var(--gd-tickets-input-ticket-group--description--color);
 }
 
 .quantity {
   align-items: center;
   display: flex;
   flex: 0;
-  gap: scl(1);
+  gap: scl(2);
 }
 
 .decrement-btn,
@@ -27,8 +54,8 @@
   cursor: pointer;
   display: flex;
   justify-content: center;
-  height: scl(6);
-  width: scl(6);
+  height: scl(7);
+  width: scl(7);
 }
 
 .decrement-btn:disabled,
@@ -49,6 +76,7 @@
 
 .quantity-value {
   color: var(--gd-text--default);
+  font-size: 16px;
   font-weight: 500;
   line-height: scl(3);
   text-align: center;

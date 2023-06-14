@@ -1,24 +1,25 @@
 <div class="goods--tickets--input--ticket-group" local-class="ticket-group-input" ...attributes>
-  <div local-class="ticket-group">
-    <div local-class="name">
+  <div class="goods--tickets--input--ticket-group--info" local-class="ticket-group-info">
+    <div class="goods--tickets--input--ticket-group--name" local-class="name">
       {{@ticketGroup.name}}
     </div>
-    <div local-class="price">
+    <div class="goods--tickets--input--ticket-group--price-label" local-class="price-label">
       {{#if @ticketGroup.priceLabel}}
         {{@ticketGroup.priceLabel}}
       {{/if}}
     </div>
     {{#if @ticketGroup.description}}
-      <div local-class="description">
+      <div class="goods--tickets--input--ticket-group--description" local-class="description">
         {{@ticketGroup.description}}
       </div>
     {{/if}}
   </div>
 
-  <div local-class="quantity">
+  <div class="goods--tickets--input--ticket-group--quantity" local-class="quantity">
     <button 
-      disabled={{this.cannotDecrement}} 
+      class="goods--tickets--input--ticket-group--decrement-button"
       local-class="decrement-btn"
+      disabled={{this.cannotDecrement}} 
       type="button"
       {{on "click" this.onDecrement}} 
     >
@@ -26,12 +27,14 @@
     </button>
     
     <div 
+      class="goods--tickets--input--ticket-group--quantity-value"
       local-class="quantity-value {{if (eq @quantity 0) "is-zero"}}"
     >
       {{@quantity}}
     </div>
     
     <button 
+      class="goods--tickets--input--ticket-group--increment-button"
       disabled={{this.cannotIncrement}} 
       local-class="increment-btn"
       type="button"
