@@ -1,0 +1,60 @@
+
+<div local-class="days-input">
+  {{#if @selection}} 
+    <button local-class="selection" {{on "click" (fn @onUpdate null)}} type="button">
+      <div local-class="selection-info">
+        {{moment-format @selection.start "dddd, MMMM D"}}
+        <span local-class="price">
+          {{goods-format-currency @selection.price}} 
+        </span>
+      </div>
+      <div local-class="change-selection">
+        Change
+      </div>
+    </button>
+  {{else}}
+    <div local-class="days">
+      {{#each @days as |day|}}
+        <button
+          local-class="day {{if day.isSelected "is-selected"}}"
+          type="button"
+          disabled={{not (eq day.status "available")}}
+          {{on "click" (fn @onUpdate day)}}
+        >
+          <span local-class="day-of-week">
+            {{moment-format day.start "ddd"}}
+          </span>
+          <span local-class="date">
+            {{#if (is-same day.start (now) precision="day")}}
+              Today
+            {{else if (is-same day.start (moment-add (now) 1 precision="day") precision="day")}}
+              Tomorrow
+            {{else}}
+              {{moment-format day.start "MMM D"}}
+            {{/if}}
+          </span>
+          {{#if (eq day.status "available")}}
+            <span local-class="price">
+              {{goods-format-currency day.price}} 
+            </span>
+          {{else}}
+            <span local-class="unavailable">
+              Unavailable
+            </span>
+          {{/if}}
+        </button>
+      {{/each}}
+
+      <button
+        local-class="day"
+        type="button"
+        {{on "click" @onShowMoreDates}}
+      >
+        <span local-class="more-dates">
+          More dates
+        </span>
+      </button>
+    
+    </div>
+  {{/if}}
+</div>
