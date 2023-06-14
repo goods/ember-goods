@@ -6,6 +6,7 @@ const DEFAULT_MIN = 0;
 export default class TicketType extends DS.Model {
   @DS.attr('string') declare name: string;
   @DS.attr('string') declare slug: string;
+  @DS.attr('string') declare summary: string;
   @DS.attr('number', { defaultValue: DEFAULT_MAX }) declare maxQuantity: number;
   @DS.attr('number', { defaultValue: DEFAULT_MIN }) declare minQuantity: number;
   @DS.attr() declare attrs: any;
