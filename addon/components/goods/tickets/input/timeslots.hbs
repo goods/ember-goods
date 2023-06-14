@@ -1,0 +1,12 @@
+<div local-class="timeslots">
+  {{#each @timeslots as |timeslot|}}
+    <button 
+      type="button"
+      local-class="timeslot {{if (eq @selection.id timeslot.id) "is-selected"}}"
+      disabled={{if (not (eq timeslot.status "available")) true}}
+      {{on "click" (fn @onUpdate timeslot)}}
+    >
+      {{moment-format timeslot.start "HH:mm"}}
+    </button>
+  {{/each}}
+</div>

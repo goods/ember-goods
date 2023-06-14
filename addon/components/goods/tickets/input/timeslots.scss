@@ -1,0 +1,32 @@
+.timeslots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  flex-wrap: wrap;
+  gap: scl(2);
+  margin: 0;
+}
+
+.timeslot {
+  align-items: center;
+  background: transparent;
+  box-shadow: var(--gd-input--box-shadow);
+  border: 1px solid var(--gd-mid-grey-300);
+  border-radius: scl(1);
+  display: flex;
+  font-family: var(--gd-typography-ui);
+  flex-direction: column;
+  gap: scl(1);
+  justify-content: center;
+  padding: scl(2);
+  width: 100%;
+}
+
+.timeslot.is-selected {
+  border: 1px solid var(--gd-primary);
+}
+
+.timeslot:disabled {
+  background: var(--gd-pale-grey-400);
+  border: 1px solid var(--gd-pale-grey-400);
+  box-shadow: none;
+}
