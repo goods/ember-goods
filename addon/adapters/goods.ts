@@ -44,7 +44,7 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(
   coalesceFindRequests = true;
   host = config.APP.goods.host;
 
-  ticketModels = ['ticket-group', 'ticket-type'];
+  ticketModels = ['ticket-group', 'ticket-type', 'timeslot', 'timeslot-option'];
 
   modelWhitelist = [
     'basket',
