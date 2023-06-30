@@ -5981,10 +5981,10 @@ ember-animated@^1.0.4:
     assert-never "^1.2.1"
     ember-element-helper "^0.5.0 || ^0.6.0"
 
-ember-assembly@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ember-assembly/-/ember-assembly-1.1.0.tgz#e1abb58bc58e4236ee723241949746f7b1e30108"
-  integrity sha512-5mcQVSCJBVmayVmKzhEu4g1DhWU0xwSJpbKppIp1+dt6uCMi4Mk1Re0zMwQZW8vw/v8kSGUIm0/5dosz+58gtQ==
+ember-assembly@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/ember-assembly/-/ember-assembly-1.2.1.tgz#050304200e6eda30050068fb37b7cecb705419a6"
+  integrity sha512-dTjbc4DbZGeaHuz6dSlxk4SJ1zRIHO6xpTzQ2HAi4N2FEDaFy8+5SJPPyWULnPzoOTBNkYWiRwEx8n1O4f6R7Q==
   dependencies:
     ember-animated "^1.0.4"
     ember-auto-import "^2.4.2"
