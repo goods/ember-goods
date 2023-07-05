@@ -1,0 +1,13 @@
+<Asm::Ui::Button 
+  local-class="payment-option {{if (eq @selected.id @orderPaymentMethod.id) "is-selected"}}"
+  @onClick={{fn @onSelectOrderPaymentMethod @orderPaymentMethod}}
+  ...attributes
+>
+  <div local-class="payment-method">
+    {{#if this.isCardPayment}}
+      Credit / Debit Card
+    {{else}}
+      {{this.paymentMethodName}}
+    {{/if}}
+  </div>
+</Asm::Ui::Button>

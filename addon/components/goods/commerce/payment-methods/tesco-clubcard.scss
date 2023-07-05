@@ -1,0 +1,14 @@
+.heading {
+  color: var(--gd-text--default);
+  font-size: 32px;
+  line-height: scl(3.5);
+  margin: 0 0 scl(1);
+  text-transform: uppercase;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: scl(2);
+  margin: scl(2) 0 scl(1);
+}

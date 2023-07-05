@@ -1,0 +1,37 @@
+<div local-class="error-message" ...attributes>
+  {{#each @errors as |error|}}
+    {{#if this.isTescoClubcard}}
+      {{#if (eq error.title "not_found")}}
+        Sorry, that doesn't appear to be a valid Clubcard voucher.
+      {{else if (eq error.title "redeemed")}}
+        Sorry, that Clubcard voucher has already been redeemed.
+      {{else if (eq error.title "cancelled")}}
+        Sorry, that Clubcard voucher has been cancelled.
+      {{else if (eq error.title "expired")}}
+        Sorry, that Clubcard voucher has expired.
+      {{else}}
+        Sorry, looks like there was a problem. Please try again, or if this keeps happening please contact customer services.
+      {{/if}}
+    {{else}}
+      {{#if (eq error.title "not_authed")}}
+        Sorry, your card was not authorised. Please try again or use another card.
+      {{else if (eq error.title "rejected")}}
+        Sorry, the 3D secure check by your bank failed. Please try again or use another card.
+      {{else if (eq error.title "rejected")}}
+        Sorry, your card was rejected. Please try again or use another card.
+      {{else if (eq error.title "unsupported")}}
+        Sorry, there appears to have been an error with your payment. Please try again or use another card.
+      {{else if (eq error.title "malformed")}}
+        Sorry, there appears to have been an error with your payment. Please try again or use another card.
+      {{else if (eq error.title "invalid")}}
+        Sorry, that card information does not appear to be valid. Please try again or use another card.
+      {{else if (eq error.title "overpayment_not_allowed")}}
+        This order appears to have already been paid. Please check your email for confirmation.
+      {{else if (eq error.title "order_invalid")}}
+        Sorry, it looks like this order has expired. This can happen if you take a very long time to enter your payment details.
+      {{else}}
+        {{error.title}}
+      {{/if}}
+    {{/if}}
+  {{/each}}
+</div>

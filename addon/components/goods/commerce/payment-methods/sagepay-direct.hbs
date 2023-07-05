@@ -1,0 +1,73 @@
+<PaymentChallengeForm @payment={{this.payment}} />
+
+<Asm::Ui::Pane
+  local-class="payment-method"
+>
+  <h1 local-class="heading">Card payment</h1>
+
+  {{#if (eq this.error "challenge_failed")}}
+    <div local-class="error-message">
+      {{component @paymentErrorComponent
+        errors=(array (hash title="challenge_failed"))
+        orderPaymentMethod=@orderPaymentMethod
+      }}
+    </div>
+  {{/if}}
+
+  {{#if this.errors.length}}
+    <div local-class="error-message">
+      {{component @paymentErrorComponent
+        errors=this.errors
+        orderPaymentMethod=@orderPaymentMethod
+      }}
+    </div>
+  {{/if}}
+
+  <form local-class="form">
+    <fieldset local-class="fieldset">
+      <InputCreditCardNumber
+        data-test-payment-card-number-input
+        class="textfield-input"
+        @placeholder="Card number*"
+        @number={{mut this.payment.cardNumber}}
+      />
+
+      <Asm::Ui::TextInput
+        local-class="wide-details"
+        @placeholder="Name*"
+        @type="text"
+        @onUpdate={{fn (mut this.payment.cardholder)}}
+        @value={{this.payment.cardholder}}
+      />
+    </fieldset>
+    <fieldset local-class="fieldset">
+      <InputCreditCardExpiration
+        data-test-payment-expiration-input
+        class="textfield-input"
+        @placeholder="Expiry date*"
+        @month={{mut this.expiryMonth}}
+        @year={{mut this.expiryYear}}
+      />
+
+      <InputCreditCardCvc
+        data-test-payment-cvv-input
+        class="textfield-input"
+        @placeholder="CVV (Last 3 digits)*"
+        @cvc={{mut this.payment.cvv}}
+      />
+    </fieldset>
+
+    <div local-class="actions">
+      <Asm::Ui::Button
+        data-test-payment-btn
+        local-class="submit-button"
+        @appearance="strong"
+        @isDisabled={{this.isInvalid}}
+        @onClick={{fn this.onSubmit this.payment}}
+        @isLoading={{this.isCreatingPayment}}
+      >
+        Complete payment
+      </Asm::Ui::Button>
+    </div>
+  </form>
+</Asm::Ui::Pane>

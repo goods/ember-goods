@@ -1,0 +1,33 @@
+.payment-success {
+  display: flex;
+  gap: scl(2);
+  align-items: center;
+  padding: scl(3);
+}
+
+.icon {
+  align-items: center;
+  background: var(--gd-success--icon-bg-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  height: scl(4);
+  width: scl(4);
+  flex: 0 0 auto;
+}
+
+.icon svg {
+  fill: var(--gd-success--icon-color);
+  height: scl(2);
+  width: scl(2);
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: scl(1);
+}
+
+.heading {
+  font-weight: 500;
+}

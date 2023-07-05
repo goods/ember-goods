@@ -1,0 +1,29 @@
+<Asm::Ui::Pane local-class="payment-success" ...attributes>
+  <div local-class="icon">
+    {{svg-jar "checkmark-1"}}
+  </div>
+
+  {{#if this.isTescoClubcard}}
+    <div local-class="message">
+      <div local-class="heading">
+        Tesco Clubcard payment for {{goods-format-currency @payment.amount}} was successful.
+      </div>  
+
+      {{#if this.hasDifferentTescoBalance}}
+        <div local-class="detail">
+          You can pay a further {{goods-format-currency this.tescoBalance}} with another Tesco Clubcard voucher or the remaining balance with a different payment method.
+        </div>
+      {{else}}
+        <div local-class="detail">
+          You can pay the remaining {{goods-format-currency this.balance}} with another Tesco Clubcard voucher or payment method.
+        </div>
+      {{/if}}
+    </div>
+  {{else}}
+    <div local-class="message">
+      <div local-class="heading">
+        Payment for {{goods-format-currency @payment.amount}} was successful.
+      </div>  
+    </div>
+  {{/if}}
+</Asm::Ui::Pane>  

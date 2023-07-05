@@ -1,0 +1,15 @@
+.payment-option {
+  background: #ffffff;
+  padding: scl(1) !important;
+}
+
+.payment-option.is-selected {
+  border: 1px solid var(--gd-primary);
+}
+
+.payment-method {
+  font-size: 16px;
+  line-height: scl(2.5);
+  text-transform: none;
+  white-space: normal;
+}

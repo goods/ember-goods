@@ -1,0 +1,41 @@
+<div local-class="payment-options" ...attributes>
+
+  {{#if this.lastSuccessfulPayment}}
+    <Goods::Commerce::PaymentMethods::PaymentSuccess
+      local-class="last-successful-payment"
+      @order={{@order}}
+      @payment={{this.lastSuccessfulPayment}}
+      @orderPaymentMethods={{this.orderPaymentMethods}}
+    />
+  {{/if}}
+
+  {{#if this.hasMultiplePaymentOptions}}
+    <div local-class="options-heading">
+      Select payment method
+    </div>
+    <div local-class="options">
+      {{#each this.orderPaymentMethods as |orderPaymentMethod|}}
+        <Goods::Commerce::PaymentOptions::PaymentOption
+          local-class="option"
+          @orderPaymentMethod={{orderPaymentMethod}}
+          @selected={{this.selected}}
+          @onSelectOrderPaymentMethod={{this.onSelectOrderPaymentMethod}}
+        />
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <div local-class="payment-method">
+    {{#if this.selectedPaymentMethodComponent}}
+      {{component this.selectedPaymentMethodComponent
+        order=@order
+        orderPaymentMethod=this.selected
+        challengeSuccessUrl=@challengeSuccessUrl
+        challengeFailedUrl=@challengeFailedUrl
+        onPaymentSuccess=this.onPaymentSuccess
+        paymentErrorComponent=this.paymentErrorComponent
+      }}
+    {{/if}}  
+  </div>
+
+</div>
