@@ -364,6 +364,17 @@ export default class GoodsCommerce extends Service {
    * @param order
    * @returns
    */
+  preparePayment(order: Order) {
+    return this.store.createRecord('payment', {
+      order: order,
+    });
+  }
+
+  /**
+   *
+   * @param order
+   * @returns
+   */
   async loadOrderPaymentMethods(order: Order): Promise<OrderPaymentMethod[]> {
     return await this.store.query('order-payment-method', {
       filter: { order: order.get('id') },
