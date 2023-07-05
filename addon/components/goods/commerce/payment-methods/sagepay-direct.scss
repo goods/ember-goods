@@ -1,0 +1,67 @@
+.heading {
+  color: var(--gd-text--default);
+  font-size: 32px;
+  line-height: scl(3.5);
+  margin: 0 0 scl(1);
+  text-transform: uppercase;
+}
+
+.btn-submit {
+  width: 100%;
+
+  // @media (min-width: breakpoint-small) {
+  //   width: auto;
+  // }
+}
+
+.error-message {
+  margin-top: scl(2);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: scl(2);
+  margin: scl(2) 0 scl(1);
+}
+
+.fieldset {
+  border: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: scl(1);
+  padding: 0;
+}
+
+.form input[type='text'],
+.form input[type='tel'] {
+  border: 1px solid var(--ea-text-input--border-color);
+  border-radius: var(--ea-text-input--border-radius);
+  box-shadow: var(--ea-text-input--box-shadow);
+  color: var(--ea-text-input--color);
+  font-family: var(--ea-text-input--font-family);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: var(--ea-text-input--line-height);
+  height: var(--ea-text-input--height);
+  padding: var(--ea-text-input--padding);
+}
+
+.form input[type='text']:focus,
+.form input[type='tel']:focus {
+  border-color: var(--ea-text-input--focus--border-color);
+  box-shadow: var(--ea-text-input--focus--box-shadow);
+  outline: 0;
+}
+
+.form input[type='text'].has-error,
+.form input[type='tel'].has-error {
+  border-color: var(--ea-colour-border-error);
+}
+
+.form input[type='text']:disabled,
+.form input[type='tel']:disabled {
+  background: var(--ea-colour-neutral-n2);
+  cursor: not-allowed;
+}

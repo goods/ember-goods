@@ -1,0 +1,39 @@
+<Asm::Ui::Pane
+  local-class="payment-method"
+>
+  <h1 local-class="heading">
+    Tesco Clubcard Payment
+  </h1>
+
+  {{#if this.errors.length}}
+    <div local-class="error-message">
+      {{component @paymentErrorComponent
+        errors=this.errors
+        orderPaymentMethod=@orderPaymentMethod
+      }}
+    </div>
+  {{/if}}
+
+  <form local-class="form">
+    <Asm::Ui::TextInput
+      @placeholder="Tesco clubcard voucher*"
+      @type="text"
+      @onUpdate={{fn (mut this.payment.token)}}
+      @value={{this.payment.token}}
+    />
+
+    <div local-class="actions">
+      <Asm::Ui::Button
+        data-test-tesco-payment-btn
+        local-class="submit-button"
+        @appearance="strong"
+        @isDisabled={{this.isInvalid}}
+        @onClick={{fn this.onSubmit this.payment}}
+        @isLoading={{this.isCreatingPayment}}
+      >
+        Redeem voucher
+      </Asm::Ui::Button>
+    </div>
+  </form>
+
+</Asm::Ui::Pane>

@@ -1,0 +1,18 @@
+.options-heading {
+  margin-bottom: scl(2);
+  font-weight: 600;
+}
+
+.options {
+  display: flex;
+  gap: scl(2);
+  margin-bottom: scl(3);
+}
+
+.option {
+  flex: 1 1 0;
+}
+
+.last-successful-payment {
+  margin-bottom: scl(2);
+}
