@@ -2,6 +2,7 @@
 $blue: #3369cc;
 $yellow: #fdb813;
 $red: #f4422e;
+$green: #23a16e;
 
 // Neutrals
 $black: #231f20;
@@ -39,6 +40,12 @@ $white: #ffffff;
   // Error messages
   --gd-error--border-color: var(--gd-red-700);
   --gd-error--color: var(--gd-red-900);
+  --gd-error--bg-color: var(--gd-red-100);
+
+  // Success messages
+  --gd-success--bg-color: var(--gd-green-100);
+  --gd-success--icon-color: var(--gd-white);
+  --gd-success--icon-bg-color: var(--gd-green-900);
 
   // Base colours
 
@@ -120,4 +127,15 @@ $white: #ffffff;
   --gd-red-700: #{mix($red, white, 70%)};
   --gd-red-800: #{mix($red, white, 80%)};
   --gd-red-900: #{mix($red, white, 90%)};
+
+  --gd-green: #{$green};
+  --gd-green-100: #{mix($green, white, 10%)};
+  --gd-green-200: #{mix($green, white, 20%)};
+  --gd-green-300: #{mix($green, white, 30%)};
+  --gd-green-400: #{mix($green, white, 40%)};
+  --gd-green-500: #{mix($green, white, 50%)};
+  --gd-green-600: #{mix($green, white, 60%)};
+  --gd-green-700: #{mix($green, white, 70%)};
+  --gd-green-800: #{mix($green, white, 80%)};
+  --gd-green-900: #{mix($green, white, 90%)};
 }
