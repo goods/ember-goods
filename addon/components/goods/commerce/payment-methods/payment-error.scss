@@ -1,5 +1,15 @@
 .error-message {
   background: var(--gd-error--bg-color);
+  border-radius: scl(0.5);
   color: var(--gd-error--color);
   padding: scl(2);
+}
+
+.heading {
+  font-weight: 500;
+}
+
+.errors {
+  margin: scl(1) 0;
+  padding: 0 0 0 scl(2);
 }

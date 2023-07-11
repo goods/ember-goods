@@ -5,15 +5,6 @@
 >
   <h1 local-class="heading">Card payment</h1>
 
-  {{#if (eq this.error "challenge_failed")}}
-    <div local-class="error-message">
-      {{component @paymentErrorComponent
-        errors=(array (hash title="challenge_failed"))
-        orderPaymentMethod=@orderPaymentMethod
-      }}
-    </div>
-  {{/if}}
-
   {{#if this.errors.length}}
     <div local-class="error-message">
       {{component @paymentErrorComponent

@@ -1,37 +1,50 @@
 <div local-class="error-message" ...attributes>
-  {{#each @errors as |error|}}
-    {{#if this.isTescoClubcard}}
-      {{#if (eq error.title "not_found")}}
-        Sorry, that doesn't appear to be a valid Clubcard voucher.
-      {{else if (eq error.title "redeemed")}}
-        Sorry, that Clubcard voucher has already been redeemed.
-      {{else if (eq error.title "cancelled")}}
-        Sorry, that Clubcard voucher has been cancelled.
-      {{else if (eq error.title "expired")}}
-        Sorry, that Clubcard voucher has expired.
+  <div local-class="heading">
+    Sorry, there was a problem with your payment.
+  </div>
+  <ul local-class="errors">
+    {{#each @errors as |error|}}
+      {{#if this.isTescoClubcard}}
+        {{#if (eq error.title "not_found")}}
+          <li local-class="error">That doesn't appear to be a valid Clubcard voucher.</li>
+        {{else if (eq error.title "redeemed")}}
+          <li local-class="error">That Clubcard voucher has already been redeemed.</li>
+        {{else if (eq error.title "cancelled")}}
+          <li local-class="error">That Clubcard voucher has been cancelled.</li>
+        {{else if (eq error.title "expired")}}
+          <li local-class="error">That Clubcard voucher has expired.</li>
+        {{else}}
+          <li local-class="error">Please try again, or if this keeps happening please contact customer services.</li>
+        {{/if}}
+      {{else if this.isClearpay}}
+        {{#if (eq error.title "declined")}}
+          <li local-class="error">The Clearpay payment was declined. Please try again, try a different card with Clearpay or pay in full.</li>
+        {{else}}
+          <li local-class="error">Please try again, or if this keeps happening please contact customer services.</li>
+        {{/if}}
       {{else}}
-        Sorry, looks like there was a problem. Please try again, or if this keeps happening please contact customer services.
+        {{#if (eq error.title "not_authed")}}
+          <li local-class="error">Your card was not authorised. Please try again or use another card.</li>
+        {{else if (eq error.title "rejected")}}
+          <li local-class="error">The 3D secure check by your bank failed. Please try again or use another card.</li>
+        {{else if (eq error.title "rejected")}}
+          <li local-class="error">Your card was rejected. Please try again or use another card.</li>
+        {{else if (eq error.title "unsupported")}}
+          <li local-class="error">There appears to have been an error with your payment. Please try again or use another card.</li>
+        {{else if (eq error.title "malformed")}}
+          <li local-class="error">There appears to have been an error with your payment. Please try again or use another card.</li>
+        {{else if (eq error.title "invalid")}}
+          <li local-class="error">That card information does not appear to be valid. Please try again or use another card.</li>
+        {{else if (eq error.title "overpayment_not_allowed")}}
+          <li local-class="error">This order appears to have already been paid. Please check your email for confirmation.</li>
+        {{else if (eq error.title "order_invalid")}}
+          <li local-class="error">This order has expired. This can happen if you take a very long time to enter your payment details.</li>
+        {{else if (eq error.title "challenge_failed")}}
+          <li local-class="error">The 3D secure check by your bank failed. Please try again or use another card.</li>
+        {{else}}
+          {{error.title}}
+        {{/if}}
       {{/if}}
-    {{else}}
-      {{#if (eq error.title "not_authed")}}
-        Sorry, your card was not authorised. Please try again or use another card.
-      {{else if (eq error.title "rejected")}}
-        Sorry, the 3D secure check by your bank failed. Please try again or use another card.
-      {{else if (eq error.title "rejected")}}
-        Sorry, your card was rejected. Please try again or use another card.
-      {{else if (eq error.title "unsupported")}}
-        Sorry, there appears to have been an error with your payment. Please try again or use another card.
-      {{else if (eq error.title "malformed")}}
-        Sorry, there appears to have been an error with your payment. Please try again or use another card.
-      {{else if (eq error.title "invalid")}}
-        Sorry, that card information does not appear to be valid. Please try again or use another card.
-      {{else if (eq error.title "overpayment_not_allowed")}}
-        This order appears to have already been paid. Please check your email for confirmation.
-      {{else if (eq error.title "order_invalid")}}
-        Sorry, it looks like this order has expired. This can happen if you take a very long time to enter your payment details.
-      {{else}}
-        {{error.title}}
-      {{/if}}
-    {{/if}}
-  {{/each}}
+    {{/each}}
+  </ul>
 </div>

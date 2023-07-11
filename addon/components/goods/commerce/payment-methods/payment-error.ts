@@ -10,12 +10,24 @@ export default class GoodsCommercePaymentMethodsPaymentError extends Component<G
   /**
    *
    */
+  get paymentMethodName(): string {
+    return this.args.orderPaymentMethod
+      .get('shopPaymentMethod')
+      .get('paymentMethod')
+      .get('name');
+  }
+
+  /**
+   *
+   */
   get isTescoClubcard(): boolean {
-    return (
-      this.args.orderPaymentMethod
-        .get('shopPaymentMethod')
-        .get('paymentMethod')
-        .get('name') === 'Tesco Clubcard'
-    );
+    return this.paymentMethodName === 'Tesco Clubcard';
+  }
+
+  /**
+   *
+   */
+  get isClearpay(): boolean {
+    return this.paymentMethodName === 'Clearpay';
   }
 }
