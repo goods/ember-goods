@@ -1,0 +1,26 @@
+<Asm::Ui::Pane
+  local-class="payment-method"
+>
+  {{#if this.errors.length}}
+    <div local-class="error-message">
+      {{component @paymentErrorComponent
+        errors=this.errors
+        orderPaymentMethod=@orderPaymentMethod
+      }}
+    </div>
+  {{/if}}
+
+  <Clearpay::CheckoutWidget
+    @amount={{this.amount}}
+  />
+
+  <Asm::Ui::Button
+    data-test-clearpay-payment-btn
+    local-class="clearpay-button"
+    @appearance="strong"
+    @onClick={{this.onPayWithClearpay}}
+  >
+    Pay with Clearpay
+  </Asm::Ui::Button>
+
+</Asm::Ui::Pane>
