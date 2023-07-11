@@ -17,6 +17,7 @@ interface GoodsCommercePaymentMethodsSagepayDirectArgs {
   challengeSuccessUrl: string;
   challengeFailedUrl: string;
   paymentErrorComponent: string;
+  queryParamError: string;
   onPaymentSuccess: (payment: Payment) => void;
 }
 
@@ -44,7 +45,19 @@ export default class GoodsCommercePaymentMethodsSagepayDirect extends Component<
   /**
    *
    */
-  @tracked errors: any[] = [];
+  @tracked responseErrors: any[] = [];
+
+  /**
+   *
+   */
+  get errors(): any[] {
+    if (this.responseErrors.length > 0) {
+      return this.responseErrors;
+    } else if (!isEmpty(this.args.queryParamError)) {
+      return [{ title: this.args.queryParamError }];
+    }
+    return [];
+  }
 
   /**
    *
@@ -121,10 +134,10 @@ export default class GoodsCommercePaymentMethodsSagepayDirect extends Component<
       payment.set('expiryDate', this.expiryDate);
       payment.set('cardType', this.cardType);
       payment = yield payment.save();
-      this.errors = [];
+      this.responseErrors = [];
       onPaymentSuccess(payment);
     } catch (e) {
-      this.errors = e.errors;
+      this.responseErrors = e.errors;
     }
   }
 
