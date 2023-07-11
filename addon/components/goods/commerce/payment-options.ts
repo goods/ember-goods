@@ -7,11 +7,33 @@ import OrderPaymentMethod from 'ember-goods/models/order-payment-method';
 import Payment from 'ember-goods/models/payment';
 
 interface GoodsCommercePaymentOptionsArgs {
+  /* The order to pay for */
   order: Order;
+
+  /* If the payment is challenged (e.g. 3D secure) the user will be redirected
+  to this URL if they pass the challenge */
   challengeSuccessUrl: string;
+
+  /* If the payment is challenged (e.g. 3D secure) the user will be redirected
+  to this URL if they fail the challenge */
   challengeFailedUrl: string;
+
+  /* If the payment is completed externally (e.g. a modal popup or iframe) the
+  user will be redirected to this URL if they confirm the payment */
+  redirectConfirmUrl: string;
+
+  /* If the payment is completed externally (e.g. a modal popup or iframe) the
+  user will be redirected to this URL if they cancel the payment */
+  redirectCancelUrl: string;
+
+  /* Custom component to show the error messages */
   paymentErrorComponent: string;
+
+  /* Callback when the order is successfully fully paid */
   onOrderFullyPaid: (order: Order) => void;
+
+  /* Error from the payment provider that are passed via query params */
+  queryParamError: string;
 }
 
 export default class GoodsCommercePaymentOptions extends Component<GoodsCommercePaymentOptionsArgs> {
@@ -73,6 +95,9 @@ export default class GoodsCommercePaymentOptions extends Component<GoodsCommerce
     }
     if (name == 'Tesco Clubcard') {
       return 'goods/commerce/payment-methods/tesco-clubcard';
+    }
+    if (name == 'Clearpay') {
+      return 'goods/commerce/payment-methods/clearpay';
     }
 
     return 'goods/commerce/payment-methods/unsupported';
