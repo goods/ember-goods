@@ -15,7 +15,7 @@ export default class Payment extends DS.Model {
   @DS.attr('string') cvv!: string;
   @DS.attr('string') challengeUrl!: string;
   @DS.attr() metadata!: any;
-  @DS.attr('string', { defaultValue: 'intent' }) status!: string;
+  @DS.attr('string') status!: string;
   @DS.attr() challengeRequest!: any;
   @DS.attr() challengeResponse!: any;
   @DS.attr('string') challengeSuccessUrl!: string;
