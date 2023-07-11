@@ -55,6 +55,7 @@ export default class GoodsCommercePaymentMethodsClearpay extends Component<Goods
       this.args.orderPaymentMethod,
       {
         status: 'intent',
+        capture: false,
         metadata: {
           clearpay: {
             redirectConfirmUrl: this.args.redirectConfirmUrl,
