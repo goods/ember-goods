@@ -281,22 +281,11 @@ export default class GoodsCommerce extends Service {
    * @param attrs
    * @returns
    */
-  createPaymentForPaymentMethod(
+  async createPaymentForOrderPaymentMethod(
     order: Order,
-    paymentMethodName: string,
+    orderPaymentMethod: OrderPaymentMethod,
     attrs: any = {}
   ) {
-    if (isEmpty(order.get('orderPaymentMethods'))) {
-      throw new Error(
-        'No order payment methods in order. Please make sure that order_payment_methods.shop_payment_method.payment_method is included when loading the order and check that an payment method has been set up and added to each product in the Goods UI'
-      );
-    }
-
-    let orderPaymentMethod = order
-      .get('orderPaymentMethods')
-      //@ts-ignore
-      .findBy('shopPaymentMethod.paymentMethod.name', paymentMethodName);
-
     const browserDate = new Date();
     let browserTimezone = browserDate.getTimezoneOffset();
 
@@ -320,6 +309,8 @@ export default class GoodsCommerce extends Service {
 
     let payment = this.store.createRecord('payment');
     payment.setProperties(paymentAttrs);
+
+    await payment.save();
 
     return payment;
   }
