@@ -34,6 +34,9 @@ interface GoodsCommercePaymentOptionsArgs {
 
   /* Error from the payment provider that are passed via query params */
   queryParamError: string;
+
+  /* The sort of the payment methods */
+  paymentMethodSort?: string[];
 }
 
 export default class GoodsCommercePaymentOptions extends Component<GoodsCommercePaymentOptionsArgs> {
@@ -50,6 +53,13 @@ export default class GoodsCommercePaymentOptions extends Component<GoodsCommerce
   /**
    *
    */
+  get paymentMethodSort(): string[] {
+    return this.args.paymentMethodSort ?? [];
+  }
+
+  /**
+   *
+   */
   get paymentErrorComponent(): string {
     return (
       this.args.paymentErrorComponent ??
@@ -61,13 +71,42 @@ export default class GoodsCommercePaymentOptions extends Component<GoodsCommerce
    *
    */
   get orderPaymentMethods(): OrderPaymentMethod[] {
-    return this.args.order
+    let orderPaymentMethods = this.args.order
       .get('orderPaymentMethods')
       .filter((orderPaymentMethod: OrderPaymentMethod) => {
         return orderPaymentMethod.get('maxPayableAmount') > 0;
-      })
-      .sortBy('shopPaymentMethod.isDefault')
-      .reverse();
+      });
+
+    if (this.paymentMethodSort.length > 0) {
+      let paymentMethodSort = this.paymentMethodSort;
+
+      return orderPaymentMethods.sort(
+        (a: OrderPaymentMethod, b: OrderPaymentMethod) => {
+          let nameA = a
+            .get('shopPaymentMethod')
+            .get('paymentMethod')
+            .get('name');
+          let nameB = b
+            .get('shopPaymentMethod')
+            .get('paymentMethod')
+            .get('name');
+          let indexA = paymentMethodSort.indexOf(nameA);
+          let indexB = paymentMethodSort.indexOf(nameB);
+
+          if (indexA === -1 && indexB === -1) {
+            return 0; // both elements are not in paymentMethodSort, retain existing order
+          } else if (indexA === -1) {
+            return 1; // only a is not in paymentMethodSort, b comes first
+          } else if (indexB === -1) {
+            return -1; // only b is not in paymentMethodSort, a comes first
+          } else {
+            return indexA - indexB; // both elements are in paymentMethodSort, sort them
+          }
+        }
+      );
+    }
+
+    return orderPaymentMethods.sortBy('shopPaymentMethod.isDefault').reverse();
   }
 
   /**
