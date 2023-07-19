@@ -68,18 +68,16 @@ export default class GoodsCommercePaymentMethodsTescoClubcard extends Component<
       payment = yield payment.save();
       this.errors = [];
       onPaymentSuccess(payment);
+      this.setupPayment();
     } catch (e) {
       this.errors = e.errors;
     }
   }
+
   /**
    *
-   * @param owner
-   * @param args
    */
-  constructor(owner: any, args: GoodsCommercePaymentMethodsTescoClubcard) {
-    super(owner, args);
-
+  setupPayment() {
     let payment = this.goods.commerce.preparePayment(this.args.order);
 
     payment.setProperties({
@@ -90,5 +88,15 @@ export default class GoodsCommercePaymentMethodsTescoClubcard extends Component<
     });
 
     this.payment = payment;
+  }
+
+  /**
+   *
+   * @param owner
+   * @param args
+   */
+  constructor(owner: any, args: GoodsCommercePaymentMethodsTescoClubcard) {
+    super(owner, args);
+    this.setupPayment();
   }
 }
