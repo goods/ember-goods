@@ -106,7 +106,8 @@ export default class GoodsCommercePaymentOptions extends Component<GoodsCommerce
       );
     }
 
-    return orderPaymentMethods.sortBy('shopPaymentMethod.isDefault').reverse();
+    //@ts-ignore
+    return orderPaymentMethods.sortBy('shopPaymentMethod.priority');
   }
 
   /**
@@ -146,10 +147,10 @@ export default class GoodsCommercePaymentOptions extends Component<GoodsCommerce
    *
    */
   resetSelected() {
-    const orderPaymentMethod = this.orderPaymentMethods.find(
-      (orderPaymentMethod) =>
-        orderPaymentMethod.get('shopPaymentMethod').get('isDefault')
-    );
+    const orderPaymentMethod = this.orderPaymentMethods
+      //@ts-ignore
+      .sortBy('shopPaymentMethod.priority')
+      .get('firstObject');
 
     if (orderPaymentMethod) {
       this.selected = orderPaymentMethod;
