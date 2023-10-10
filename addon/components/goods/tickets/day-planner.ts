@@ -13,6 +13,7 @@ import GoodsTickets from 'ember-goods/services/goods-tickets';
 import { inject } from '@ember/service';
 import { isNone } from '@ember/utils';
 import { TicketPackage } from './input/price-calendar';
+import { generateCombinations, listToString } from 'ember-goods/utils/utils';
 
 interface GoodsTicketsDayPlannerArgs {
   dayPlanner: DayPlanner;
@@ -156,37 +157,59 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
    */
   get ticketPackages(): TicketPackage[] {
     let ticketPackages: any = [];
-    if (get(this, 'selection.experienceTickets.length') > 0) {
-      ticketPackages.push({
-        id: 'all-tickets',
-        ticketOptions: get(this, 'selection.entryTickets').concat(
-          get(this, 'selection.experienceTickets')
-        ),
-        cssClasses: ['all-tickets'],
-        startTime: this.entryTime,
-        keyLabel: this.args.dayPlanner.get('entireSelectionCalendarKeyLabel'),
-      });
-      ticketPackages.push({
-        id: 'entry-tickets',
-        ticketOptions: get(this, 'selection.entryTickets'),
-        cssClasses: ['entry-tickets'],
-        keyLabel: this.args.dayPlanner.get('onlyEntryTicketsCalendarKeyLabel'),
-        confirmationHeading: this.args.dayPlanner.get(
-          'onlyEntryTicketsConfirmationHeading'
-        ),
-        confirmationMessage: this.args.dayPlanner.get(
-          'onlyEntryTicketsConfirmationMessage'
-        ),
-      });
-    } else {
-      ticketPackages.push({
-        id: 'all-tickets',
-        ticketOptions: get(this, 'selection.entryTickets').concat(
-          get(this, 'selection.experienceTickets')
-        ),
-        cssClasses: ['all-tickets'],
-      });
-    }
+    let entryTickets: any = get(this, 'selection.entryTickets');
+    let experienceTickets: any = get(this, 'selection.experienceTickets');
+    let selectionCount = entryTickets.length + experienceTickets.length;
+
+    let combos = generateCombinations(experienceTickets, entryTickets);
+
+    ticketPackages = combos
+      .map((ticketOptions: any, index: number) => {
+        let onlyEntryTicketsAvailable =
+          entryTickets.length == ticketOptions.length;
+        let allTicketsAvailable = selectionCount == ticketOptions.length;
+
+        let unavailableTicketNames = experienceTickets
+          .filter((ticket: any) => !ticketOptions.includes(ticket))
+          .map(
+            (ticket: any) =>
+              ticket.product.get('attrs.shortName') ||
+              ticket.product.get('name')
+          );
+        let unavailableString = listToString(unavailableTicketNames);
+
+        let packageId = `ticket-package-${index}`;
+        let order = index;
+        if (onlyEntryTicketsAvailable) {
+          packageId = 'entry-tickets';
+          order = combos.length;
+        }
+        if (allTicketsAvailable) {
+          packageId = 'all-tickets';
+          order = -1;
+        }
+
+        let ticketPackage: any = {
+          ticketOptions,
+          id: packageId,
+          order,
+          startTime: this.entryTime,
+          cssClasses: [packageId],
+        };
+
+        if (allTicketsAvailable) {
+          ticketPackage.keyLabel = 'Available';
+        } else {
+          ticketPackage.keyLabel = unavailableString + ' sold out';
+          ticketPackage.confirmationHeading =
+            'Some of the chosen experiences are not available for this date.';
+          ticketPackage.confirmationMessage = `Are you sure want to continue? This will remove the ${unavailableString} from your purchase.`;
+        }
+
+        return ticketPackage;
+      })
+      .sort((a: any, b: any) => a.order - b.order);
+
     return ticketPackages;
   }
 
@@ -388,9 +411,16 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
    */
   @action
   onSelectDate(day: any): void {
-    if (day.metadata.ticketPackage.id == 'entry-tickets') {
-      this.selection.experienceTickets = [];
-    }
+    let selectedExperienceIds =
+      day.metadata.ticketPackage.ticketOptions.mapBy('product.id');
+
+    let experienceTickets = this.selection.experienceTickets.filter(
+      (ticketOption) =>
+        selectedExperienceIds.includes(ticketOption.product.get('id'))
+    );
+
+    this.selection.experienceTickets = experienceTickets;
+
     this.selection.date = day.date;
     this.selectionState = SelectionState.Customization;
     this.scrollTo('day-planner');
