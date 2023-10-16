@@ -338,11 +338,20 @@ export default class GoodsMetrics extends Service {
         let sku = orderLine.get('sku');
         let product = sku.get('product');
 
+        let coupon = null;
+        if (orderLine.get('promotion') != null) {
+          coupon = orderLine.get('promotion').get('code');
+        }
+
         return {
           item_name: product.get('name'),
           item_id: product.get('id'),
           item_brand: product.get('brand').get('name'),
           price: this.commerce.formatCurrency(orderLine.get('price')),
+          price_without_tax: this.commerce.formatCurrency(
+            orderLine.get('priceWithoutTax')
+          ),
+          coupon: coupon,
           item_variant: this.commerce.getSkuName(
             sku.get('attrs'),
             product.get('skuName')
