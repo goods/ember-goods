@@ -375,6 +375,44 @@ export default class GoodsMetrics extends Service {
     }
   }
 
+  /**
+   *
+   * @param order
+   * @returns
+   */
+  trackUserCreated(
+    email: string,
+    phoneNumber: string,
+    name: string,
+    gdprOptin: boolean,
+    emailOptin: boolean
+  ) {
+    if (this.goods.metricsConfig.enabled == false) {
+      if (this.isTest == false) {
+        console.error(ERROR_DISABLED);
+      }
+      return;
+    }
+
+    try {
+      this.resetDataLayer();
+
+      this.dataLayer.push({
+        event: 'user_created',
+        user: {
+          id: email,
+          email: email,
+          phoneNumber: phoneNumber,
+          name: name,
+          gdprOptin: gdprOptin,
+          emailOptin: emailOptin,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   resetDataLayer() {
     this.dataLayer.push(function () {
       //@ts-ignore
