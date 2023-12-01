@@ -17,6 +17,7 @@ import Goods from './goods';
 import Sku from 'ember-goods/models/sku';
 import Payment from 'ember-goods/models/payment';
 import OrderPaymentMethod from 'ember-goods/models/order-payment-method';
+import Product from 'ember-goods/models/product';
 
 export default class GoodsCommerce extends Service {
   /**
@@ -138,6 +139,31 @@ export default class GoodsCommerce extends Service {
     }, skuName);
 
     return skuName;
+  }
+
+  /**
+   * Builds a product text string by interpolating the product attibutes
+   *
+   * @param attributes
+   * @param template
+   * @returns
+   */
+  generateProductText(text: string, product: Product): string {
+    let productAttrs = product.get('attrs');
+
+    let idRegex = new RegExp(`{{product.id}}`, 'gi');
+    text = text.replace(idRegex, product.get('id'));
+    let slugRegex = new RegExp(`{{product.slug}}`, 'gi');
+    text = text.replace(slugRegex, product.get('slug'));
+
+    // Replace product attrs
+    text = Object.keys(productAttrs).reduce((title, key) => {
+      let regex = new RegExp(`{{product.${key}}}`, 'gi');
+      let value = productAttrs[key];
+      return title.replace(regex, value);
+    }, text);
+
+    return text;
   }
 
   /**
