@@ -480,12 +480,10 @@ export default class GoodsMetrics extends Service {
     });
 
     return {
-      ecommerce: {
-        transaction_id: order.get('id'),
-        value: this.commerce.formatCurrency(order.get('total')),
-        currency: 'GBP',
-        items,
-      },
+      transaction_id: order.get('id'),
+      value: this.commerce.formatCurrency(order.get('total')),
+      currency: 'GBP',
+      items,
     };
   }
 
