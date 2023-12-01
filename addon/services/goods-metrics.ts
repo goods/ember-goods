@@ -1,11 +1,14 @@
 import Service, { inject } from '@ember/service';
 import { getOwner } from '@ember/application';
+import { isPresent } from '@ember/utils';
 import BasketItem from 'ember-goods/models/basket-item';
 import Product from 'ember-goods/models/product';
 import Goods from './goods';
 import GoodsCommerce from './goods-commerce';
 import Basket from 'ember-goods/models/basket';
 import Order from 'ember-goods/models/order';
+//@ts-ignore
+import config from 'ember-get-config';
 
 interface ProductListParams {
   listName: string;
@@ -19,6 +22,21 @@ const ERROR_DISABLED =
 export default class GoodsMetrics extends Service {
   @inject declare goods: Goods;
   @inject('goods-commerce') declare commerce: GoodsCommerce;
+
+  /**
+   *
+   */
+  get config(): any {
+    return Object.assign(
+      {},
+      {
+        enabled: false,
+        productUrl: '/products/{{product.slug}}',
+        productImage: 'image',
+      },
+      config.APP.goods.metrics
+    );
+  }
 
   /*
    *
@@ -334,27 +352,62 @@ export default class GoodsMetrics extends Service {
     try {
       this.resetDataLayer();
 
+      let payments = order.get('payments').map((payment) => ({
+        amount: this.commerce.formatCurrency(payment.get('amount')),
+        currency: 'GBP',
+        type: payment.get('shopPaymentMethod').get('paymentMethod').get('name'),
+        billing_address_1: order.get('billingAddress1'),
+        billing_address_2: order.get('billingAddress2'),
+        billing_city: order.get('billingCity'),
+        billing_region: order.get('billingRegion'),
+        billing_postcode: order.get('billingPostcode'),
+        billing_country: order.get('billingCountry'),
+      }));
+
       let items = order.get('orderLines').map((orderLine) => {
         let sku = orderLine.get('sku');
         let product = sku.get('product');
+        let productAttrs = product.get('attrs');
 
         let coupon = null;
         if (orderLine.get('promotion') != null) {
           coupon = orderLine.get('promotion').get('code');
         }
 
+        let productUrl =
+          window.location.origin +
+          this.commerce.generateProductText(
+            this.config.productUrl,
+            sku.get('product')
+          );
+
+        let productImageAttr = productAttrs[this.config.productImageField];
+        let productImageUrl = '';
+        if (isPresent(productImageAttr)) {
+          productImageUrl = productImageAttr.originalUrl;
+        }
+
         return {
-          item_name: product.get('name'),
-          item_id: product.get('id'),
-          item_brand: product.get('brand').get('name'),
-          price: this.commerce.formatCurrency(orderLine.get('price')),
-          price_without_tax: this.commerce.formatCurrency(
-            orderLine.get('priceWithoutTax')
-          ),
-          coupon: coupon,
-          item_variant: this.commerce.getSkuName(
+          id: product.get('id'),
+          product_name: product.get('name'),
+          sku_name: this.commerce.getSkuName(
             sku.get('attrs'),
             product.get('skuName')
+          ),
+          attrs: sku.get('attrs'),
+          url: productUrl,
+          image_url: productImageUrl,
+          taxonomy: product.get('taxonomy'),
+          price: {
+            amount: this.commerce.formatCurrency(orderLine.get('price')),
+            amount_without_tax: this.commerce.formatCurrency(
+              orderLine.get('priceWithoutTax')
+            ),
+            currency: 'GBP',
+          },
+          coupon: coupon,
+          subtotal: this.commerce.formatCurrency(
+            orderLine.get('price') * orderLine.get('quantity')
           ),
           quantity: orderLine.get('quantity'),
         };
@@ -362,17 +415,78 @@ export default class GoodsMetrics extends Service {
 
       //Push this purchase event
       this.dataLayer.push({
-        event: 'purchase',
-        ecommerce: {
-          transaction_id: order.get('id'),
-          value: this.commerce.formatCurrency(order.get('total')),
+        event: 'goods-purchase',
+        order: {
+          id: order.get('id'),
           currency: 'GBP',
+          total: this.commerce.formatCurrency(order.get('total')),
+          shipping_cost: 0,
+          shipping_address: {
+            name: order.get('name'),
+            address_1: order.get('shippingAddress1'),
+            address_2: order.get('shippingAddress2'),
+            city: order.get('shippingCity'),
+            region: order.get('shippingRegion'),
+            postcode: order.get('shippingPostcode'),
+            country: order.get('shippingCountry'),
+          },
+          payments,
           items,
         },
+      });
+
+      // Push the deprecated GA event
+      this.dataLayer.push({
+        event: 'purchase',
+        ecommerce: this.getDeprecatedEcommerceObject(order),
       });
     } catch (e) {
       console.error(e);
     }
+  }
+
+  /**
+   * This returns the ecommerce object directly in Google Analytics format.
+   * Needs to be replaced in GTM by using the custom data structure.
+   *
+   * @deprecated
+   * @param order
+   * @returns
+   */
+  getDeprecatedEcommerceObject(order: Order) {
+    let items = order.get('orderLines').map((orderLine) => {
+      let sku = orderLine.get('sku');
+      let product = sku.get('product');
+
+      let coupon = null;
+      if (orderLine.get('promotion') != null) {
+        coupon = orderLine.get('promotion').get('code');
+      }
+
+      return {
+        item_name: product.get('name'),
+        item_id: product.get('id'),
+        price: this.commerce.formatCurrency(orderLine.get('price')),
+        price_without_tax: this.commerce.formatCurrency(
+          orderLine.get('priceWithoutTax')
+        ),
+        coupon: coupon,
+        item_variant: this.commerce.getSkuName(
+          sku.get('attrs'),
+          product.get('skuName')
+        ),
+        quantity: orderLine.get('quantity'),
+      };
+    });
+
+    return {
+      ecommerce: {
+        transaction_id: order.get('id'),
+        value: this.commerce.formatCurrency(order.get('total')),
+        currency: 'GBP',
+        items,
+      },
+    };
   }
 
   /**
