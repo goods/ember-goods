@@ -356,12 +356,6 @@ export default class GoodsMetrics extends Service {
         amount: this.commerce.formatCurrency(payment.get('amount')),
         currency: 'GBP',
         type: payment.get('shopPaymentMethod').get('paymentMethod').get('name'),
-        billing_address_1: order.get('billingAddress1'),
-        billing_address_2: order.get('billingAddress2'),
-        billing_city: order.get('billingCity'),
-        billing_region: order.get('billingRegion'),
-        billing_postcode: order.get('billingPostcode'),
-        billing_country: order.get('billingCountry'),
       }));
 
       let items = order.get('orderLines').map((orderLine) => {
@@ -429,6 +423,14 @@ export default class GoodsMetrics extends Service {
             region: order.get('shippingRegion'),
             postcode: order.get('shippingPostcode'),
             country: order.get('shippingCountry'),
+          },
+          billing_address: {
+            address_1: order.get('billingAddress1'),
+            address_2: order.get('billingAddress2'),
+            city: order.get('billingCity'),
+            region: order.get('billingRegion'),
+            postcode: order.get('billingPostcode'),
+            country: order.get('billingCountry'),
           },
           payments,
           items,
