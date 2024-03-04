@@ -121,6 +121,48 @@ export default class GoodsMetrics extends Service {
       return;
     }
 
+    try {
+      let productUrl =
+        window.location.origin +
+        this.commerce.generateProductText(this.config.productUrl, product);
+
+      let productAttrs = product.get('attrs');
+      let productImageAttr = productAttrs[this.config.productImageField];
+      let productImageUrl = '';
+      if (isPresent(productImageAttr)) {
+        productImageUrl = productImageAttr.originalUrl;
+      }
+
+      this.dataLayer.push({
+        event: 'goods-product-view',
+        product: {
+          id: product.get('id'),
+          name: product.get('name'),
+          taxonomy: product.get('taxonomy'),
+          url: productUrl,
+          image_url: productImageUrl,
+        },
+      });
+
+      //Send the deprecated GA event
+      this.dataLayer.push({
+        event: 'view_item',
+        ecommerce: this.getDeprecatedProductView(product),
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  /**
+   * This returns the product view object directly in Google Analytics format.
+   * Needs to be replaced in GTM by using the custom data structure.
+   *
+   * @deprecated
+   * @param product
+   * @returns
+   */
+  getDeprecatedProductView(product: Product) {
     let items = [
       {
         item_name: product.get('name'),
@@ -128,13 +170,7 @@ export default class GoodsMetrics extends Service {
         item_brand: product.get('brand').get('name'),
       },
     ];
-
-    this.dataLayer.push({
-      event: 'view_item',
-      ecommerce: {
-        items,
-      },
-    });
+    return { items };
   }
 
   /**
@@ -276,6 +312,86 @@ export default class GoodsMetrics extends Service {
           items,
         },
       });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  /**
+   *
+   * @param basketItems
+   * @returns
+   */
+  trackBasketView(basket: Basket) {
+    if (this.goods.metricsConfig.enabled == false) {
+      if (this.isTest == false) {
+        console.error(ERROR_DISABLED);
+      }
+      return;
+    }
+
+    let items = basket.get('basketItems').map((basketItem) => {
+      let sku = basketItem.get('sku');
+      let product = sku.get('product');
+      let productAttrs = product.get('attrs');
+
+      let coupon = null;
+      if (basketItem.get('promotion') != null) {
+        coupon = basketItem.get('promotion').get('code');
+      }
+
+      let productUrl =
+        window.location.origin +
+        this.commerce.generateProductText(
+          this.config.productUrl,
+          sku.get('product')
+        );
+
+      console.log(product.get('skuName'));
+
+      let productImageAttr = productAttrs[this.config.productImageField];
+      let productImageUrl = '';
+      if (isPresent(productImageAttr)) {
+        productImageUrl = productImageAttr.originalUrl;
+      }
+
+      return {
+        product_id: product.get('id'),
+        product_name: product.get('name'),
+        sku_name: this.commerce.getSkuName(
+          sku.get('attrs'),
+          product.get('skuName')
+        ),
+        attrs: sku.get('attrs'),
+        url: productUrl,
+        image_url: productImageUrl,
+        taxonomy: product.get('taxonomy'),
+        price: {
+          amount: this.commerce.formatCurrency(basketItem.get('price')),
+          currency: 'GBP',
+        },
+        coupon: coupon,
+        subtotal: this.commerce.formatCurrency(
+          basketItem.get('price') * basketItem.get('quantity')
+        ),
+        quantity: basketItem.get('quantity'),
+      };
+    });
+
+    //Push this purchase event
+    this.dataLayer.push({
+      event: 'goods-basket-view',
+      basket: {
+        id: basket.get('id'),
+        currency: 'GBP',
+        total: this.commerce.formatCurrency(basket.get('total')),
+        shipping_cost: 0,
+        items,
+      },
+    });
+
+    try {
+      this.resetDataLayer();
     } catch (e) {
       console.error(e);
     }
