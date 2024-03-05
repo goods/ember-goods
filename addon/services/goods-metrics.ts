@@ -347,8 +347,6 @@ export default class GoodsMetrics extends Service {
           sku.get('product')
         );
 
-      console.log(product.get('skuName'));
-
       let productImageAttr = productAttrs[this.config.productImageField];
       let productImageUrl = '';
       if (isPresent(productImageAttr)) {
