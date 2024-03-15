@@ -95,7 +95,7 @@ export default class GoodsCommerce extends Service {
     return Object.keys(attributes).reduce((title, key) => {
       let regex = new RegExp(`{{${key}}}`, 'gi');
       let value = attributes[key];
-      if (key === 'sessionStartTime') {
+      if (key === 'sessionStartTime' && !isNone(value)) {
         value = attributes[key][0];
         value = value.substring(0, value.length - 3);
       }
