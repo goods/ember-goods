@@ -1,6 +1,6 @@
 {
   "name": "ember-goods",
-  "version": "1.18.1",
+  "version": "1.19.0",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
