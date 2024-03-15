@@ -133,8 +133,6 @@ export default class Goods extends Service {
     //@ts-ignore
     let baskets = targetBasketItems.mapBy('basket.content').uniq();
 
-    this.metrics.trackRemoveFromBasket(targetBasketItems);
-
     await all(
       targetBasketItems.map((basketItem) => {
         basketItem.deleteRecord();
@@ -143,6 +141,11 @@ export default class Goods extends Service {
     );
 
     await RSVP.all(baskets.invoke('reload'));
+
+    if (this.metricsConfig.enabled) {
+      this.metrics.trackRemoveFromBasket(targetBasketItems);
+      this.metrics.trackBasketView(baskets.get('firstObject'));
+    }
   }
 
   public async removePromotion(
@@ -164,7 +167,7 @@ export default class Goods extends Service {
   public async addToBasket(
     basketItems: BasketItem[],
     basket: Basket
-  ): Promise<void> {
+  ): Promise<Basket> {
     let unsavedBasketItems = basketItems
       //@ts-ignore
       .filterBy('isNew')
@@ -179,11 +182,14 @@ export default class Goods extends Service {
     },
     RSVP.resolve());
 
+    let updatedBasket = await basket.reload();
+
     if (this.metricsConfig.enabled) {
       this.metrics.trackAddToBasket(unsavedBasketItems);
+      this.metrics.trackBasketView(updatedBasket);
     }
 
-    await basket.reload();
+    return updatedBasket;
   }
 
   public async createOrder(order: Order): Promise<Order> {
