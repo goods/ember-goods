@@ -9,6 +9,7 @@ import Basket from 'ember-goods/models/basket';
 import Order from 'ember-goods/models/order';
 //@ts-ignore
 import config from 'ember-get-config';
+import Sku from 'ember-goods/models/sku';
 
 interface ProductListParams {
   listName: string;
@@ -112,7 +113,7 @@ export default class GoodsMetrics extends Service {
    * Track a product detail view
    * @param product
    */
-  trackProductView(product: Product) {
+  trackProductView(product: Product, priceSku?: Sku) {
     this.resetDataLayer();
     if (this.goods.metricsConfig.enabled == false) {
       if (this.isTest == false) {
@@ -133,6 +134,13 @@ export default class GoodsMetrics extends Service {
         productImageUrl = productImageAttr.originalUrl;
       }
 
+      let price: number = 0;
+      let salePrice: number = 0;
+      if (isPresent(priceSku)) {
+        //@ts-ignore
+        price = salePrice = this.commerce.formatCurrency(priceSku.get('price'));
+      }
+
       this.dataLayer.push({
         event: 'goods-product-view',
         product: {
@@ -141,6 +149,8 @@ export default class GoodsMetrics extends Service {
           taxonomy: product.get('taxonomy'),
           url: productUrl,
           image_url: productImageUrl,
+          price,
+          sale_price: salePrice,
         },
       });
 
