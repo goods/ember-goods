@@ -330,65 +330,65 @@ export default class GoodsMetrics extends Service {
       return;
     }
 
-    let items = basket.get('basketItems').map((basketItem) => {
-      let sku = basketItem.get('sku');
-      let product = sku.get('product');
-      let productAttrs = product.get('attrs');
-
-      let coupon = null;
-      if (basketItem.get('promotion') != null) {
-        coupon = basketItem.get('promotion').get('code');
-      }
-
-      let productUrl =
-        window.location.origin +
-        this.commerce.generateProductText(
-          this.config.productUrl,
-          sku.get('product')
-        );
-
-      let productImageAttr = productAttrs[this.config.productImageField];
-      let productImageUrl = '';
-      if (isPresent(productImageAttr)) {
-        productImageUrl = productImageAttr.originalUrl;
-      }
-
-      return {
-        product_id: product.get('id'),
-        product_name: product.get('name'),
-        sku_name: this.commerce.getSkuName(
-          sku.get('attrs'),
-          product.get('skuName')
-        ),
-        attrs: sku.get('attrs'),
-        url: productUrl,
-        image_url: productImageUrl,
-        taxonomy: product.get('taxonomy'),
-        price: {
-          amount: this.commerce.formatCurrency(basketItem.get('price')),
-          currency: 'GBP',
-        },
-        coupon: coupon,
-        subtotal: this.commerce.formatCurrency(
-          basketItem.get('price') * basketItem.get('quantity')
-        ),
-        quantity: basketItem.get('quantity'),
-      };
-    });
-
-    //Push this purchase event
-    this.dataLayer.push({
-      event: 'goods-basket-view',
-      basket: {
-        id: basket.get('id'),
-        currency: 'GBP',
-        total: this.commerce.formatCurrency(basket.get('total')),
-        shipping_cost: 0,
-        items,
-      },
-    });
-
     try {
+      let items = basket.get('basketItems').map((basketItem) => {
+        let sku = basketItem.get('sku');
+        let product = sku.get('product');
+        let productAttrs = product.get('attrs');
+
+        let coupon = null;
+        if (basketItem.get('promotion') != null) {
+          coupon = basketItem.get('promotion').get('code');
+        }
+
+        let productUrl =
+          window.location.origin +
+          this.commerce.generateProductText(
+            this.config.productUrl,
+            sku.get('product')
+          );
+
+        let productImageAttr = productAttrs[this.config.productImageField];
+        let productImageUrl = '';
+        if (isPresent(productImageAttr)) {
+          productImageUrl = productImageAttr.originalUrl;
+        }
+
+        return {
+          product_id: product.get('id'),
+          product_name: product.get('name'),
+          sku_name: this.commerce.getSkuName(
+            sku.get('attrs'),
+            product.get('skuName')
+          ),
+          attrs: sku.get('attrs'),
+          url: productUrl,
+          image_url: productImageUrl,
+          taxonomy: product.get('taxonomy'),
+          price: {
+            amount: this.commerce.formatCurrency(basketItem.get('price')),
+            currency: 'GBP',
+          },
+          coupon: coupon,
+          subtotal: this.commerce.formatCurrency(
+            basketItem.get('price') * basketItem.get('quantity')
+          ),
+          quantity: basketItem.get('quantity'),
+        };
+      });
+
+      //Push this purchase event
+      this.dataLayer.push({
+        event: 'goods-basket-view',
+        basket: {
+          id: basket.get('id'),
+          currency: 'GBP',
+          total: this.commerce.formatCurrency(basket.get('total')),
+          shipping_cost: 0,
+          items,
+        },
+      });
+
       this.resetDataLayer();
     } catch (e) {
       console.error(e);
