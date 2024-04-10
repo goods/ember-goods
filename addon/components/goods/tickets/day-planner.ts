@@ -266,6 +266,17 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
 
   /**
    *
+   */
+  @action
+  onRestart() {
+    this.selectionState = SelectionState.Visitors;
+    set(this.selection, 'entryTickets', []);
+    set(this.selection, 'experienceTickets', []);
+    set(this.selection, 'date', null);
+  }
+
+  /**
+   *
    * @param ticketTypeOption
    */
   @action

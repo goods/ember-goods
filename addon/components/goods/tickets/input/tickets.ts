@@ -4,7 +4,6 @@ import Product from 'ember-goods/models/product';
 import { query } from 'ember-data-resources';
 import { TicketTypeOption } from './visitor';
 import { TicketOption } from './ticket';
-import { isEmpty } from '@ember/utils';
 
 export type SelectionMode = 'single' | 'multiple';
 

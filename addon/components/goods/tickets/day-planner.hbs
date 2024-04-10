@@ -15,7 +15,7 @@
 
   <div local-class="selections">
     {{#if (includes this.selectionState (w "tickets" "date" "customization"))}}
-      <button class="goods--tickets--day-planner--selection-pane" local-class="selection-pane" type="button" {{on "click" (fn (mut this.selectionState) "visitors")}}>
+      <button class="goods--tickets--day-planner--selection-pane" local-class="selection-pane" type="button" {{on "click" this.onRestart}}>
         <div local-class="selection-pane-info">
           <div local-class="selection-pane-label">
             Visitors
