@@ -41,7 +41,7 @@
         <Goods::Tickets::Input::Visitors
           @options={{this.ticketOption.ticketTypeOptions}}
           @maxQuantity={{this.totalTicketTypes}}
-          @minQuantity=0
+          @minQuantity={{0}}
           @onIncrement={{fn @onIncrementType this.ticketOption}}
           @onDecrement={{fn @onDecrementType this.ticketOption}}
         />

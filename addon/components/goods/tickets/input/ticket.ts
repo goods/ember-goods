@@ -84,7 +84,20 @@ export default class GoodsTicketsInputTicket extends Component<GoodsTicketsInput
    *
    */
   get ticketTypes(): TicketType[] {
-    return this.ticketTypesData.records?.toArray() ?? [];
+    let ticketTypes: TicketType[] = [];
+    let unsortedTicketTypes = this.ticketTypesData.records?.toArray() ?? [];
+
+    if (!isEmpty(unsortedTicketTypes)) {
+      ticketTypes = this.args.product
+        .get('attrs')
+        .ticketTypes.map((ticketTypeId: string) => {
+          return unsortedTicketTypes.find(
+            (ticketType) => ticketType.get('id') == ticketTypeId
+          );
+        });
+    }
+
+    return ticketTypes;
   }
 
   /**
