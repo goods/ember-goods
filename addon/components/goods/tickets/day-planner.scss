@@ -121,6 +121,12 @@
   padding: scl(2) scl(1);
 }
 
+.experience-ticket-customisations {
+  display: flex;
+  flex-direction: column;
+  gap: scl(2);
+}
+
 .customization-pane {
   padding: scl(2) scl(1.5);
 }

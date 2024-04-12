@@ -196,17 +196,19 @@
         <h3 local-class="customization-heading">
           Extra information
         </h3>
-        {{#each this.selection.experienceTickets as |ticket|}}
-          <Asm::Ui::Pane local-class="customization-pane">
-            <Goods::Tickets::DayPlanner::TicketCustomization
-              @entryTickets={{this.selection.entryTickets}}
-              @ticket={{ticket}}
-              @date={{this.selection.date}}
-              @selectedSession={{ticket.session}}
-              @onSelectSession={{this.onSelectSession}}
-            />
-          </Asm::Ui::Pane>
-        {{/each}}
+        <div local-class="experience-ticket-customisations">
+          {{#each this.selection.experienceTickets as |ticket|}}
+            <Asm::Ui::Pane local-class="customization-pane">
+              <Goods::Tickets::DayPlanner::TicketCustomization
+                @entryTickets={{this.selection.entryTickets}}
+                @ticket={{ticket}}
+                @date={{this.selection.date}}
+                @selectedSession={{ticket.session}}
+                @onSelectSession={{this.onSelectSession}}
+              />
+            </Asm::Ui::Pane>
+          {{/each}}
+        </div>
       </section>
     {{/if}}
   {{/if}}
