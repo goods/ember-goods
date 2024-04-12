@@ -25,3 +25,20 @@
   background: var(--gd-button--bg--disabled);
   color: var(--gd-button--color--disabled);
 }
+
+.warning {
+  background: var(--gd-label--bg--warning);
+  border-radius: 3px;
+  display: flex;
+  gap: scl(1);
+  align-items: center;
+  font-size: 14px;
+  padding: scl(1);
+  line-height: scl(2);
+}
+
+.warning-icon {
+  fill: var(--gd-label--icon-color--warning);
+  height: scl(2);
+  width: scl(2);
+}

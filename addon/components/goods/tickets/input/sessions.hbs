@@ -1,20 +1,27 @@
- <div 
-  class="goods--tickets--input--sessions"
-  local-class="sessions" 
-  ...attributes
->
-  {{#each this.sessions as |session|}}
-    <button 
-      class="goods--tickets--input--sessions--session"
-      local-class="session-btn {{if (eq @selected.startTime session.startTime) "is-selected"}}"
-      type="button"
-      disabled={{not session.selectable}}
-      {{on "click" (fn @onSelect session)}}
-    >
-      {{format-session-time session.startTime}}
-      {{#if this.showFinishTime}}
-        - {{format-session-time session.finishTime}}
-      {{/if}}
-    </button>
-  {{/each}}
-</div>
+{{#if this.sessions}}
+  <div 
+    class="goods--tickets--input--sessions"
+    local-class="sessions" 
+    ...attributes
+  >
+    {{#each this.sessions as |session|}}
+      <button 
+        class="goods--tickets--input--sessions--session"
+        local-class="session-btn {{if (eq @selected.startTime session.startTime) "is-selected"}}"
+        type="button"
+        disabled={{not session.selectable}}
+        {{on "click" (fn @onSelect session)}}
+      >
+        {{format-session-time session.startTime}}
+        {{#if this.showFinishTime}}
+          - {{format-session-time session.finishTime}}
+        {{/if}}
+      </button>
+    {{/each}}
+  </div>
+{{else}}
+  <div local-class="no-sessions warning">
+    {{svg-jar "exclamation-point-2" local-class="warning-icon"}}
+    <span local-class="warning-label">No sessions available for your selected entry ticket.</span>
+  </div>
+{{/if}}
