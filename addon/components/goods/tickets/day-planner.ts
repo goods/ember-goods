@@ -90,6 +90,7 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
           priceLabel: ticketType.get('price'),
           max: ticketType.get('max') ?? 32,
           min: ticketType.get('min') ?? 0,
+          isFree: ticketType.get('isFree'),
           quantity: 0,
         };
 
@@ -122,11 +123,13 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
    * Total quantity selected
    */
   get totalTicketTypeQuantity(): number {
-    return this.selection.ticketTypeOptions.reduce(
-      (total: number, ticketTypeOption: TicketTypeOption) =>
-        total + ticketTypeOption.quantity,
-      0
-    );
+    return this.selection.ticketTypeOptions
+      .filter((ticketTypeOption) => ticketTypeOption.isFree != true)
+      .reduce(
+        (total: number, ticketTypeOption: TicketTypeOption) =>
+          total + ticketTypeOption.quantity,
+        0
+      );
   }
 
   /**

@@ -18,11 +18,15 @@ export default class GoodsTicketsInputVisitors extends Component<GoodsTicketsInp
    * Total quantity selected
    */
   get totalQuantity(): number {
-    return this.args.options.reduce(
-      (total: number, ticketTypeOption: TicketTypeOption) =>
-        total + get(ticketTypeOption, 'quantity'),
-      0
-    );
+    return this.args.options
+      .filter(
+        (ticketTypeOption: TicketTypeOption) => ticketTypeOption.isFree != true
+      )
+      .reduce(
+        (total: number, ticketTypeOption: TicketTypeOption) =>
+          total + get(ticketTypeOption, 'quantity'),
+        0
+      );
   }
 
   /**

@@ -9,6 +9,7 @@ export default class TicketType extends ContentEntry {
   @attr('string') declare priceLabel: string;
   @attr('number', { defaultValue: 32 }) declare max: number;
   @attr('number', { defaultValue: 0 }) declare min: number;
+  @attr('boolean', { defaultValue: false }) declare isFree: boolean;
   @belongsTo('variant-metadata', { async: false })
   declare metadata: VariantMetadata;
   @belongsTo('product', { async: false }) declare product: Product;
