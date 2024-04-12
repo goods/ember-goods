@@ -142,14 +142,23 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
    *
    */
   get entryTime(): string {
-    return get(this, 'selection.entryTickets')
-      .mapBy('product.attrs.entryTime')
-      .reduce((a: string, b: string) => {
-        if (a > b) {
-          return a;
-        }
-        return b;
-      }, '00:00:00');
+    return (
+      //@ts-ignore
+      get(this, 'selection.entryTickets')
+        .map((ticket: TicketOption) => {
+          return (
+            ticket.product.attrs.experienceEntryTime ??
+            ticket.product.attrs.entryTime ??
+            '00:00:00'
+          );
+        })
+        .reduce((a: string, b: string) => {
+          if (a > b) {
+            return a;
+          }
+          return b;
+        }, '00:00:00')
+    );
   }
 
   /**

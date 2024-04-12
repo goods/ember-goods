@@ -210,7 +210,7 @@ export default class GoodsTicketsInputPriceCalendar extends Component<GoodsTicke
               }
 
               return this.goods.tickets.hasCapacity(
-                productGroup.skus,
+                productGroup,
                 ticketOption.ticketTypeOptions,
                 ticketPackage.startTime
               );

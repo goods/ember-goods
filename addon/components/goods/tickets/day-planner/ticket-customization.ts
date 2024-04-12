@@ -28,7 +28,13 @@ export default class GoodsTicketsDayPlannerTicketCustomization extends Component
    */
   get rangeStartTime(): string {
     let entryTime = this.args.entryTickets
-      .mapBy('product.attrs.entryTime')
+      .map((ticket: TicketOption) => {
+        return (
+          ticket.product.attrs.experienceEntryTime ??
+          ticket.product.attrs.entryTime ??
+          '00:00:00'
+        );
+      })
       .reduce((a: string, b: string) => {
         if (a > b) {
           return a;
