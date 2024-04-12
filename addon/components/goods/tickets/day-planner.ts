@@ -200,7 +200,7 @@ export default class GoodsTicketsDayPlanner extends Component<GoodsTicketsDayPla
         if (allTicketsAvailable) {
           ticketPackage.keyLabel = 'Available';
         } else {
-          ticketPackage.keyLabel = unavailableString + ' sold out';
+          ticketPackage.keyLabel = unavailableString + ' not available';
           ticketPackage.confirmationHeading =
             'Some of the chosen experiences are not available for this date.';
           ticketPackage.confirmationMessage = `Are you sure want to continue? This will remove the ${unavailableString} from your purchase.`;
