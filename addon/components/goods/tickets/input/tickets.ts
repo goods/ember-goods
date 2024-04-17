@@ -4,6 +4,7 @@ import Product from 'ember-goods/models/product';
 import { query } from 'ember-data-resources';
 import { TicketTypeOption } from './visitor';
 import { TicketOption } from './ticket';
+import { isEmpty, isNone } from '@ember/utils';
 
 export type SelectionMode = 'single' | 'multiple';
 
@@ -66,8 +67,21 @@ export default class GoodsTicketsInputTickets extends Component<GoodsTicketsInpu
   /**
    *
    */
-  get products(): Product[] {
-    return this.productsData.records?.toArray() ?? [];
+  get products(): (Product | undefined)[] {
+    let products: Product[] = [];
+    let unsortedProducts = this.productsData.records?.toArray() ?? [];
+
+    if (isEmpty(unsortedProducts)) {
+      return products;
+    }
+
+    return this.args.productIdentifiers
+      .map((productIdentifier: string) => {
+        return unsortedProducts.find(
+          (product) => product.get('slug') == productIdentifier
+        );
+      })
+      .filter((product: Product) => !isNone(product));
   }
 
   /**
