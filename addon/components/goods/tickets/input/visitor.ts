@@ -29,11 +29,10 @@ export default class GoodsTicketsInputVisitor extends Component<GoodsTicketsInpu
    *
    */
   get canIncrement(): boolean {
-    if (this.args.ticketTypeOption.isFree) {
-      return true;
-    }
-
-    if (this.args.canIncrement(this.args.ticketTypeOption) == false) {
+    if (
+      this.args.ticketTypeOption.isFree == false &&
+      this.args.canIncrement(this.args.ticketTypeOption) == false
+    ) {
       return false;
     }
 
